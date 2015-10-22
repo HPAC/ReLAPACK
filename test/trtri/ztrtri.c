@@ -2,7 +2,6 @@
 #include "../../src/lapack.h"
 #include "../test_config.h"
 #include "../util.h"
-#include "LAPACK_ORIG_trtri.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -22,7 +21,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(ztrtri)("L", "N", &n, A1, &n, &info);
-        LAPACK_ORIG(ztrtri)("L", "N", &n, A2, &n, &info);
+        LAPACK(ztrti2)("L", "N", &n, A2, &n, &info);
 
         // check error
         double error = z2vecerr(n * n, A1, A2);
@@ -36,7 +35,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(ztrtri)("U", "N", &n, A1, &n, &info);
-        LAPACK_ORIG(ztrtri)("U", "N", &n, A2, &n, &info);
+        LAPACK(ztrti2)("U", "N", &n, A2, &n, &info);
 
         // check error
         double error = z2vecerr(n * n, A1, A2);

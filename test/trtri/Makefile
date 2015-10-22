@@ -11,7 +11,7 @@ test: $(TESTS)
 %.pass: %.x
 	@ $^
 
-%.x: %.o LAPACK_%.o ../../liblarpack.a
+%.x: %.o ../../liblarpack.a
 	@ $(CC) $(CFLAGS) $^ -o $@ -lgfortran ../../liblarpack.a $(UTIL) $(LINK_LAPACK) $(LINK_BLAS)
 
 %.o: %.c

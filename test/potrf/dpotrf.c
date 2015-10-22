@@ -1,7 +1,6 @@
 #include "../../config.h"
 #include "../../src/lapack.h"
 #include "../test_config.h"
-#include "LAPACK_ORIG_potrf.h"
 #include "../util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,7 +21,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(dpotrf)("L", &n, A1, &n, &info);
-        LAPACK_ORIG(dpotrf)("L", &n, A2, &n, &info);
+        LAPACK(dpotf2)("L", &n, A2, &n, &info);
 
         // check error
         double error = d2vecerr(n * n, A1, A2);
@@ -36,7 +35,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(dpotrf)("U", &n, A1, &n, &info);
-        LAPACK_ORIG(dpotrf)("U", &n, A2, &n, &info);
+        LAPACK(dpotf2)("U", &n, A2, &n, &info);
 
         // check error
         double error = d2vecerr(n * n, A1, A2);

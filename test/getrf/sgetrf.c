@@ -1,7 +1,6 @@
 #include "../../config.h"
 #include "../../src/lapack.h"
 #include "../test_config.h"
-#include "LAPACK_ORIG_getrf.h"
 #include "../util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -25,7 +24,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(sgetrf)(&n, &n, A1, &n, ipiv1, &info);
-        LAPACK_ORIG(sgetrf)(&n, &n, A2, &n, ipiv2, &info);
+        LAPACK(sgetf2)(&n, &n, A2, &n, ipiv2, &info);
 
         // check error
         float error = s2vecerr(n * n, A1, A2);
@@ -40,7 +39,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(sgetrf)(&n, &n2, A1, &n, ipiv1, &info);
-        LAPACK_ORIG(sgetrf)(&n, &n2, A2, &n, ipiv2, &info);
+        LAPACK(sgetf2)(&n, &n2, A2, &n, ipiv2, &info);
 
         // check error
         float error = s2vecerr(n * n2, A1, A2);
@@ -55,7 +54,7 @@ int main(int argc, char* argv[]) {
 
         // run
         LAPACK(sgetrf)(&n2, &n, A1, &n, ipiv1, &info);
-        LAPACK_ORIG(sgetrf)(&n2, &n, A2, &n, ipiv2, &info);
+        LAPACK(sgetf2)(&n2, &n, A2, &n, ipiv2, &info);
 
         // check error
         float error = s2vecerr(n2 * n, A1, A2);

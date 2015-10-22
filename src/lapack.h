@@ -11,14 +11,24 @@ extern void LAPACK(dlaswp)(const int *, double *, const int *, const int *, cons
 extern void LAPACK(claswp)(const int *, float *, const int *, const int *, const int *, const int *, const int *);
 extern void LAPACK(zlaswp)(const int *, double *, const int *, const int *, const int *, const int *, const int *);
 
-extern void LAPACK(ctrtri)(const char *, const char *, const int *, float *, const int *, int *);
-extern void LAPACK(dtrtri)(const char *, const char *, const int *, double *, const int *, int *);
+extern void LAPACK(slauum)(const char *, const int *, float *, const int *, int *);
+extern void LAPACK(dlauum)(const char *, const int *, double *, const int *, int *);
+extern void LAPACK(clauum)(const char *, const int *, float *, const int *, int *);
+extern void LAPACK(zlauum)(const char *, const int *, double *, const int *, int *);
+
+extern void LAPACK(slauu2)(const char *, const int *, float *, const int *, int *);
+extern void LAPACK(dlauu2)(const char *, const int *, double *, const int *, int *);
+extern void LAPACK(clauu2)(const char *, const int *, float *, const int *, int *);
+extern void LAPACK(zlauu2)(const char *, const int *, double *, const int *, int *);
+
 extern void LAPACK(strtri)(const char *, const char *, const int *, float *, const int *, int *);
+extern void LAPACK(dtrtri)(const char *, const char *, const int *, double *, const int *, int *);
+extern void LAPACK(ctrtri)(const char *, const char *, const int *, float *, const int *, int *);
 extern void LAPACK(ztrtri)(const char *, const char *, const int *, double *, const int *, int *);
 
-extern void LAPACK(ctrti2)(const char *, const char *, const int *, float *, const int *, int *);
-extern void LAPACK(dtrti2)(const char *, const char *, const int *, double *, const int *, int *);
 extern void LAPACK(strti2)(const char *, const char *, const int *, float *, const int *, int *);
+extern void LAPACK(dtrti2)(const char *, const char *, const int *, double *, const int *, int *);
+extern void LAPACK(ctrti2)(const char *, const char *, const int *, float *, const int *, int *);
 extern void LAPACK(ztrti2)(const char *, const char *, const int *, double *, const int *, int *);
 
 extern void LAPACK(spotrf)(const char *, const int *, float *, const int *, int *);
