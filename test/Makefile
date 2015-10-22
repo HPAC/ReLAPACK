@@ -4,6 +4,7 @@ test: util.o $(TESTS)
 	@ cd trtri; make
 	@ cd potrf; make
 	@ cd getrf; make
+	@ cd sygst; make
 
 clean:
 	rm *.o
@@ -11,3 +12,4 @@ clean:
 	cd trtri; make clean
 	cd potrf; make clean
 	cd getrf; make clean
+	cd sygst; make clean

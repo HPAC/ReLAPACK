@@ -24,4 +24,14 @@ extern void BLAS(dsyrk)(const char *, const char *, const int *, const int *, co
 extern void BLAS(cherk)(const char *, const char *, const int *, const int *, const float *, float *, const int *, const float *, float *, const int *);
 extern void BLAS(zherk)(const char *, const char *, const int *, const int *, const double *, double *, const int *, const double *, double *, const int *);
 
+extern void BLAS(ssymm)(const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+extern void BLAS(dsymm)(const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
+extern void BLAS(csymm)(const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+extern void BLAS(zsymm)(const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
+
+extern void BLAS(ssyr2k)(const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+extern void BLAS(dsyr2k)(const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
+extern void BLAS(csyr2k)(const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+extern void BLAS(zsyr2k)(const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
+
 #endif /* BLAS_H */

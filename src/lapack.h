@@ -51,4 +51,14 @@ extern void LAPACK(dgetf2)(const int *, const int *, double *, const int *, int 
 extern void LAPACK(cgetf2)(const int *, const int *, float *, const int *, int *, int *);
 extern void LAPACK(zgetf2)(const int *, const int *, double *, const int *, int *, int *);
 
+extern void LAPACK(ssygst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
+extern void LAPACK(dsygst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
+extern void LAPACK(csygst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
+extern void LAPACK(zsygst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
+
+extern void LAPACK(ssygs2)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
+extern void LAPACK(dsygs2)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
+extern void LAPACK(csygs2)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
+extern void LAPACK(zsygs2)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
+
 #endif /* LAPACK_H */
