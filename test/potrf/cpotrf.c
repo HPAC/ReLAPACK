@@ -2,11 +2,9 @@
 #include "../../src/lapack.h"
 #include "../test_config.h"
 #include "LAPACK_ORIG_potrf.h"
+#include "../util.h"
 #include <stdlib.h>
-#include <math.h>
-#include <time.h>
 #include <stdio.h>
-#include <assert.h>
 
 int main(int argc, char* argv[]) {
 
@@ -14,77 +12,39 @@ int main(int argc, char* argv[]) {
 		
 	float *A1 = malloc(2 * n * n * sizeof(float));
 	float *A2 = malloc(2 * n * n * sizeof(float));
-#define CLEANUP free(A1); free(A2);
 
-    srand(time(NULL));
-
-    int i, j, info;
+    int info;
 
     // Lower
     {
         // generate matrix
-        for (i = 0; i < n; i++) {
-            for (j = 0; j < n; j++) {
-                A1[2 * (i + n * j)] = A2[2 * (i + n * j)] = (float) rand() / RAND_MAX;
-                A1[2 * (i + n * j) + 1] = A2[2 * (i + n * j) + 1] = (float) rand() / RAND_MAX;
-            }
-            A1[2 * (i + n * i)] = A2[2 * (i + n * i)] = (float) rand() / RAND_MAX + n * n;
-            A1[2 * (i + n * i) + 1] = A2[2 * (i + n * i) + 1] = (float) rand() / RAND_MAX;
-        }
+        c2matgen(n, n, A1, A2);
 
         // run
         LAPACK(cpotrf)("L", &n, A1, &n, &info);
         LAPACK_ORIG(cpotrf)("L", &n, A2, &n, &info);
 
         // check error
-        float error = 0;
-        for (i = 0; i < n; i++)
-            for (j = 0; j < n; j++) {
-                error += (A1[2 * (i + n * j)] - A2[2 * (i + n * j)]) * (A1[2 * (i + n * j)] - A2[2 * (i + n * j)]);
-                error += (A1[2 * (i + n * j) + 1] - A2[2 * (i + n * j) + 1]) * (A1[2 * (i + n * j) + 1] - A2[2 * (i + n * j) + 1]);
-            }
-        error = sqrt(error);
-
+        float error = c2vecerr(n * n, A1, A2);
         printf("cpotrf Lower:\t%g\n", error);
-        if (error > TEST_TOL_FLOAT) {
-            CLEANUP
-            return 1;
-        }
     }
 
     // Upper
     {
         // generate matrix
-        for (i = 0; i < n; i++) {
-            for (j = 0; j < n; j++) {
-                A1[2 * (i + n * j)] = A2[2 * (i + n * j)] = (float) rand() / RAND_MAX;
-                A1[2 * (i + n * j) + 1] = A2[2 * (i + n * j) + 1] = (float) rand() / RAND_MAX;
-            }
-            A1[2 * (i + n * i)] = A2[2 * (i + n * i)] = (float) rand() / RAND_MAX + n * n;
-            A1[2 * (i + n * i) + 1] = A2[2 * (i + n * i) + 1] = (float) rand() / RAND_MAX;
-        }
+        c2matgen(n, n, A1, A2);
 
         // run
         LAPACK(cpotrf)("U", &n, A1, &n, &info);
         LAPACK_ORIG(cpotrf)("U", &n, A2, &n, &info);
 
         // check error
-        float error = 0;
-        for (i = 0; i < n; i++)
-            for (j = 0; j < n; j++) {
-                error += (A1[2 * (i + n * j)] - A2[2 * (i + n * j)]) * (A1[2 * (i + n * j)] - A2[2 * (i + n * j)]);
-                error += (A1[2 * (i + n * j) + 1] - A2[2 * (i + n * j) + 1]) * (A1[2 * (i + n * j) + 1] - A2[2 * (i + n * j) + 1]);
-            }
-        error = sqrtf(error);
-
+        float error = c2vecerr(n * n, A1, A2);
         printf("cpotrf Upper:\t%g\n", error);
-        if (error > TEST_TOL_FLOAT) {
-            CLEANUP
-            return 1;
-        }
     }
 
-    CLEANUP
+    free(A1);
+    free(A2);
 
 	return 0;
 }

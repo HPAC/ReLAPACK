@@ -4,15 +4,15 @@ include ../../make.inc
 
 SRC = $(wildcard *.c)
 TESTS = $(SRC:%.c=%.pass)
+UTIL = ../util.o
 
 test: $(TESTS)
 
 %.pass: %.x
 	@ $^
-	@ touch  $@
 
 %.x: %.o LAPACK_%.o ../../liblarpack.a
-	@ $(CC) $(CFLAGS) $^ -o $@ -lgfortran ../../liblarpack.a $(LINK_LAPACK) $(LINK_BLAS)
+	@ $(CC) $(CFLAGS) $^ -o $@ -lgfortran ../../liblarpack.a $(UTIL) $(LINK_LAPACK) $(LINK_BLAS)
 
 %.o: %.c
 	@ $(CC) $(CFLAGS) -c $^ -o $@
