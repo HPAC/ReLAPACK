@@ -16,9 +16,9 @@ void clauum_ru(const int *n, float *A, const int *ldA) {
 
     // A_TL A_TR
     //      A_BR
-#define A_TL (A)
-#define A_TR (A + 2 * *ldA * n1)
-#define A_BR (A + 2 * *ldA * n1 + 2 * n1)
+    float *A_TL = A;
+    float *A_TR = A + 2 * *ldA * n1;
+    float *A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // A_TL = A_TL' * A_TL
     clauum_ru(&n1, A_TL, ldA);

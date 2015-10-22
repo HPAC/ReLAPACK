@@ -16,9 +16,9 @@ void dlauum_ru(const int *n, double *A, const int *ldA) {
 
     // A_TL A_TR
     //      A_BR
-#define A_TL (A)
-#define A_TR (A + *ldA * n1)
-#define A_BR (A + *ldA * n1 + n1)
+    double *A_TL = A;
+    double *A_TR = A + *ldA * n1;
+    double *A_BR = A + *ldA * n1 + n1;
 
     // A_TL = A_TL' * A_TL
     dlauum_ru(&n1, A_TL, ldA);

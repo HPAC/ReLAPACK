@@ -16,9 +16,9 @@ void zlauum_ru(const int *n, double *A, const int *ldA) {
 
     // A_TL A_TR
     //      A_BR
-#define A_TL (A)
-#define A_TR (A + 2 * *ldA * n1)
-#define A_BR (A + 2 * *ldA * n1 + 2 * n1)
+    double *A_TL = A;
+    double *A_TR = A + 2 * *ldA * n1;
+    double *A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // A_TL = A_TL' * A_TL
     zlauum_ru(&n1, A_TL, ldA);

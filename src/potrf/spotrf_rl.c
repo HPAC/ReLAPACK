@@ -15,9 +15,9 @@ void spotrf_rl(const int *n, float *A, const int *ldA, int *info) {
 
     // A_TL
     // A_BL A_BR
-#define A_TL (A)
-#define A_BL (A             + n1)
-#define A_BR (A + *ldA * n1 + n1)
+    float *A_TL = A;
+    float *A_BL = A             + n1;
+    float *A_BR = A + *ldA * n1 + n1;
 
     // A_TL = Chol(A_TL)
     spotrf_rl(&n1, A_TL, ldA, info);

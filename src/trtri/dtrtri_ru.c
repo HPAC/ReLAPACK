@@ -16,9 +16,9 @@ void dtrtri_ru(const char *diag, const int *n, double *A, const int *ldA) {
 
     // A_TL A_TR
     //      A_BR
-#define A_TL (A)
-#define A_TR (A + *ldA * n1)
-#define A_BR (A + *ldA * n1 + n1)
+    double *A_TL = A;
+    double *A_TR = A + *ldA * n1;
+    double *A_BR = A + *ldA * n1 + n1;
 
     // A_TL = 1 / A_TL
     dtrtri_ru(diag, &n1, A_TL, ldA);

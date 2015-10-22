@@ -15,9 +15,9 @@ void zpotrf_rl(const int *n, double *A, const int *ldA, int *info) {
 
     // A_TL
     // A_BL A_BR
-#define A_TL (A)
-#define A_BL (A                 + 2 * n1)
-#define A_BR (A + 2 * *ldA * n1 + 2 * n1)
+    double *A_TL = A;
+    double *A_BL = A                 + 2 * n1;
+    double *A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // A_TL = Chol(A_TL)
     zpotrf_rl(&n1, A_TL, ldA, info);

@@ -16,9 +16,9 @@ void strtri_ru(const char *diag, const int *n, float *A, const int *ldA) {
 
     // A_TL A_TR
     //      A_BR
-#define A_TL (A)
-#define A_TR (A + *ldA * n1)
-#define A_BR (A + *ldA * n1 + n1)
+    float *A_TL = A;
+    float *A_TR = A + *ldA * n1;
+    float *A_BR = A + *ldA * n1 + n1;
 
     // A_TL = 1 / A_TL
     strtri_ru(diag, &n1, A_TL, ldA);

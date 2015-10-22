@@ -19,15 +19,15 @@ void cgetrf_r(const int *m, const int *n, float *A, const int *ldA, int *ipiv, i
 
     // A_TL A_TR
     // A_BL A_BR
-#define A_TL (A)
-#define A_TR (A + 2 * *ldA * n1)
-#define A_BL (A                 + 2 * n1)
-#define A_BR (A + 2 * *ldA * n1 + 2 * n1)
+    float *A_TL = A;
+    float *A_TR = A + 2 * *ldA * n1;
+    float *A_BL = A                 + 2 * n1;
+    float *A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // ipiv_T
     // ipiv_B
-#define ipiv_T (ipiv)
-#define ipiv_B (ipiv + n1)
+    int *ipiv_T = ipiv;
+    int *ipiv_B = ipiv + n1;
 
     // A_TL = LU(A_TL)
     cgetrf_r(m, &n1, A_TL, ldA, ipiv_T, info);
@@ -58,8 +58,8 @@ void cgetrf_r(const int *m, const int *n, float *A, const int *ldA, int *ipiv, i
         return;
 
     // A_S A_R
-#define A_S (A)
-#define A_R (A + 2 * *ldA * mn)
+    float *A_S = A;
+    float *A_R = A + 2 * *ldA * mn;
 
     // A_R = apply(ipiv, A_R)
     LAPACK(claswp)(&rn, A_R, ldA, i1, &mn, ipiv, i1);

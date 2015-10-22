@@ -16,9 +16,9 @@ void slauum_rl(const int *n, float *A, const int *ldA) {
 
     // A_TL
     // A_BL A_BR
-#define A_TL (A)
-#define A_BL (A             + n1)
-#define A_BR (A + *ldA * n1 + n1)
+    float *A_TL = A;
+    float *A_BL = A             + n1;
+    float *A_BR = A + *ldA * n1 + n1;
 
     // A_TL = A_TL' * A_TL
     slauum_rl(&n1, A_TL, ldA);
