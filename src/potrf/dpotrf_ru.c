@@ -15,9 +15,9 @@ void dpotrf_ru(const int *n, double *A, const int *ldA, int *info) {
 
     // A_TL A_TR
     //      A_BR
-    double *A_TL = A;
-    double *A_TR = A + *ldA * n1;
-    double *A_BR = A + *ldA * n1 + n1;
+    double *const A_TL = A;
+    double *const A_TR = A + *ldA * n1;
+    double *const A_BR = A + *ldA * n1 + n1;
 
     // A_TL = Chol(A_TL)
     dpotrf_ru(&n1, A_TL, ldA, info);

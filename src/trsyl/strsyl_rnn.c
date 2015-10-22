@@ -17,14 +17,14 @@ void strsyl_rnn(const int *isgn, const int *m, const int *n, const float *A, con
 
         // A_TL A_TR
         //      A_BR
-    float *A_TL = A;
-    float *A_TR = A + *ldA * m2;
-    float *A_BR = A + *ldA * m2 + m2;
+    float *const A_TL = A;
+    float *const A_TR = A + *ldA * m2;
+    float *const A_BR = A + *ldA * m2 + m2;
 
         // C_T
         // C_B
-    float *C_T = C; 
-    float *C_B = C + m2;
+    float *const C_T = C; 
+    float *const C_B = C + m2;
 
         // C_B = sylv(A_BR, B, C_B)
         strsyl_rnn(isgn, &m1, n, A_BR, ldA, B, ldB, C_B, ldC, scale);
@@ -38,13 +38,13 @@ void strsyl_rnn(const int *isgn, const int *m, const int *n, const float *A, con
 
         // B_TL B_TR
         //      B_BR
-    float *B_TL = B;
-    float *B_TR = B + *ldB * n1;
-    float *B_BR = B + *ldB * n1 + n1;
+    float *const B_TL = B;
+    float *const B_TR = B + *ldB * n1;
+    float *const B_BR = B + *ldB * n1 + n1;
 
         // C_L C_R
-    float *C_L = C;
-    float *C_R = C + *ldC * n1;
+    float *const C_L = C;
+    float *const C_R = C + *ldC * n1;
 
         // C_L = sylv(A, B_TL, C_L)
         strsyl_rnn(isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale);

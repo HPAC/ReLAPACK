@@ -16,9 +16,9 @@ void ctrtri_rl(const char *diag, const int *n, float *A, const int *ldA) {
 
     // A_TL
     // A_BL A_BR
-    float *A_TL = A; 
-    float *A_BL = A                 + 2 * n1; 
-    float *A_BR = A + 2 * *ldA * n1 + 2 * n1; 
+    float *const A_TL = A; 
+    float *const A_BL = A                 + 2 * n1; 
+    float *const A_BR = A + 2 * *ldA * n1 + 2 * n1; 
 
     // A_TL = 1 / A_TL
     ctrtri_rl(diag, &n1, A_TL, ldA);

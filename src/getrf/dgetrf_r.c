@@ -19,15 +19,15 @@ void dgetrf_r(const int *m, const int *n, double *A, const int *ldA, int *ipiv, 
 
     // A_TL A_TR
     // A_BL A_BR
-    double *A_TL = A;
-    double *A_TR = A + *ldA * n1;
-    double *A_BL = A             + n1;
-    double *A_BR = A + *ldA * n1 + n1;
+    double *const A_TL = A;
+    double *const A_TR = A + *ldA * n1;
+    double *const A_BL = A             + n1;
+    double *const A_BR = A + *ldA * n1 + n1;
 
     // ipiv_T
     // ipiv_B
-    int *ipiv_T = ipiv;
-    int *ipiv_B = ipiv + n1;
+    int *const ipiv_T = ipiv;
+    int *const ipiv_B = ipiv + n1;
 
     // A_TL = LU(A_TL)
     dgetrf_r(m, &n1, A_TL, ldA, ipiv_T, info);
@@ -58,8 +58,8 @@ void dgetrf_r(const int *m, const int *n, double *A, const int *ldA, int *ipiv, 
         return;
 
     // A_S A_R
-    double *A_S = A;
-    double *A_R = A + *ldA * mn;
+    double *const A_S = A;
+    double *const A_R = A + *ldA * mn;
 
     // A_R = apply(ipiv, A_R)
     LAPACK(dlaswp)(&rn, A_R, ldA, i1, &mn, ipiv, i1);

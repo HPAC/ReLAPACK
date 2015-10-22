@@ -16,9 +16,9 @@ void ztrtri_rl(const char *diag, const int *n, double *A, const int *ldA) {
 
     // A_TL
     // A_BL A_BR
-    double *A_TL = A;
-    double *A_BL = A                 + 2 * n1;
-    double *A_BR = A + 2 * *ldA * n1 + 2 * n1;
+    double *const A_TL = A;
+    double *const A_BL = A                 + 2 * n1;
+    double *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // A_TL = 1 / A_TL
     ztrtri_rl(diag, &n1, A_TL, ldA);
