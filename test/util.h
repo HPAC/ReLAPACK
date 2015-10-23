@@ -1,5 +1,7 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef TEST_UTIL_H
+#define TEST_UTIL_H
+
+#include "../src/util.h"
 
 void s2matgen(int, int, float *, float *);
 void d2matgen(int, int, double *, double *);
@@ -12,4 +14,4 @@ double d2vecerr(int, const double *, const double *);
 float c2vecerr(int, const float *, const float *);
 double z2vecerr(int, const double *, const double *);
 
-#endif /* UTIL_H */
+#endif /* TEST_UTIL_H */

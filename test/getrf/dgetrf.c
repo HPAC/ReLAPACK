@@ -1,5 +1,4 @@
-#include "../../config.h"
-#include "../../src/lapack.h"
+#include "../../src/larpack.h"
 #include "../test_config.h"
 #include "../util.h"
 #include <stdlib.h>

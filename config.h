@@ -4,6 +4,6 @@
 #define BLAS_UNDERSCORE
 #define LAPACK_UNDERSCORE
 
-#define LARPACK_CROSSOVER 2
+#define LARPACK_CROSSOVER 8
 
 #endif /* CONFIG_H */

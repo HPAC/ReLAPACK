@@ -1,5 +1,4 @@
-#include "../../config.h"
-#include "../../src/lapack.h"
+#include "../../src/larpack.h"
 #include "../test_config.h"
 #include "../util.h"
 #include <stdlib.h>
@@ -16,23 +15,63 @@ int main(int argc, char* argv[]) {
 
     int info;
 
-    int i1[] = {1};
+    int i1[] = {1}, i2[] = {2};
 
-    // Lower
-    {
+    { // 1 L
         // generate matrix
         s2matgen(n, n, A1, A2);
         s2matgen(n, n, B1, B2);
 
         // run
         LAPACK(ssygst)(i1, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(ssygs2)(i1, "L", &n, A2, &n, B1, &n, &info);
+        LAPACK(ssygs2)(i1, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         float error = s2vecerr(n * n, A1, A2);
         printf("ssygst 1 L:\t%g\n", error);
     }
 
+    { // 1 U
+        // generate matrix
+        s2matgen(n, n, A1, A2);
+        s2matgen(n, n, B1, B2);
+
+        // run
+        LAPACK(ssygst)(i1, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(i1, "U", &n, A2, &n, B2, &n, &info);
+
+        // check error
+        float error = s2vecerr(n * n, A1, A2);
+        printf("ssygst 1 U:\t%g\n", error);
+    }
+
+    { // 2 L
+        // generate matrix
+        s2matgen(n, n, A1, A2);
+        s2matgen(n, n, B1, B2);
+
+        // run
+        LAPACK(ssygst)(i2, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(i2, "L", &n, A2, &n, B2, &n, &info);
+
+        // check error
+        float error = s2vecerr(n * n, A1, A2);
+        printf("ssygst 2 L:\t%g\n", error);
+    }
+
+    { // 2 U
+        // generate matrix
+        s2matgen(n, n, A1, A2);
+        s2matgen(n, n, B1, B2);
+
+        // run
+        LAPACK(ssygst)(i2, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(i2, "U", &n, A2, &n, B2, &n, &info);
+
+        // check error
+        float error = s2vecerr(n * n, A1, A2);
+        printf("ssygst 2 U:\t%g\n", error);
+    }
 
     free(A1); 
     free(A2);

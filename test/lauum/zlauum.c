@@ -1,5 +1,4 @@
-#include "../../config.h"
-#include "../../src/lapack.h"
+#include "../../src/larpack.h"
 #include "../test_config.h"
 #include "../util.h"
 #include <stdlib.h>
@@ -9,12 +8,12 @@ int main(int argc, char* argv[]) {
 
 	const int n = TEST_N;
 		
-	double *A1 = malloc(n * n * sizeof(double));
-	double *A2 = malloc(n * n * sizeof(double));
+	double *A1 = malloc(2 * n * n * sizeof(double));
+	double *A2 = malloc(2 * n * n * sizeof(double));
 
     int info;
 
-    // Lower
+    // L
     {
         // generate matrix
         z2matgen(n, n, A1, A2);
@@ -25,10 +24,10 @@ int main(int argc, char* argv[]) {
 
         // check error
         double error = z2vecerr(n * n, A1, A2);
-        printf("zlauum Lower:\t%g\n", error);
+        printf("zlauum L:\t%g\n", error);
     }
 
-    // Upper
+    // U
     {
         // generate matrix
         z2matgen(n, n, A1, A2);
@@ -39,7 +38,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         double error = z2vecerr(n * n, A1, A2);
-        printf("zlauum Upper:\t%g\n", error);
+        printf("zlauum U:\t%g\n", error);
     }
 
     free(A1); 

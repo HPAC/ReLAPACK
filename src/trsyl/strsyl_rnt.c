@@ -17,14 +17,14 @@ void strsyl_rnt(const int *isgn, const int *m, const int *n, const float *A, con
 
         // A_TL A_TR
         //      A_BR
-    float *const A_TL = A;
-    float *const A_TR = A + *ldA * m2;
-    float *const A_BR = A + *ldA * m2 + m2;
+        float *const A_TL = A;
+        float *const A_TR = A + *ldA * m2;
+        float *const A_BR = A + *ldA * m2 + m2;
 
         // C_T
         // C_B
-    float *const C_T = C;
-    float *const C_B = C + m2;
+        float *const C_T = C;
+        float *const C_B = C + m2;
 
         // C_B = sylv(A_BR, B', C_B)
         strsyl_rnt(isgn, &m1, n, A_BR, ldA, B, ldB, C_B, ldC, scale);
@@ -38,13 +38,13 @@ void strsyl_rnt(const int *isgn, const int *m, const int *n, const float *A, con
 
         // B_TL B_TR
         //      B_BR
-    float *const B_TL = B;
-    float *const B_TR = B + *ldB * n2;
-    float *const B_BR = B + *ldB * n2 + n2;
+        float *const B_TL = B;
+        float *const B_TR = B + *ldB * n2;
+        float *const B_BR = B + *ldB * n2 + n2;
 
         // C_L C_R
-    float *const C_L = C;
-    float *const C_R = C + *ldC * n2;
+        float *const C_L = C;
+        float *const C_R = C + *ldC * n2;
 
         // C_R = sylv(A, B_BR', C_R)
         strsyl_rnt(isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale);

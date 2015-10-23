@@ -1,5 +1,4 @@
-#include "../../config.h"
-#include "../../src/lapack.h"
+#include "../../src/larpack.h"
 #include "../test_config.h"
 #include "../util.h"
 #include <stdlib.h>
@@ -14,7 +13,7 @@ int main(int argc, char* argv[]) {
 
     int info;
 
-    // Lower
+    // L
     {
         // generate matrix
         c2matgen(n, n, A1, A2);
@@ -25,10 +24,10 @@ int main(int argc, char* argv[]) {
 
         // check error
         float error = c2vecerr(n * n, A1, A2);
-        printf("ctrtri Lower:\t%g\n", error);
+        printf("ctrtri L:\t%g\n", error);
     }
 
-    // Upper
+    // U
     {
         // generate matrix
         c2matgen(n, n, A1, A2);
@@ -39,7 +38,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         float error = c2vecerr(n * n, A1, A2);
-        printf("ctrtri Upper:\t%g\n", error);
+        printf("ctrtri U:\t%g\n", error);
     }
 
     free(A1); 
