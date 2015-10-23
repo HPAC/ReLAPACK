@@ -40,8 +40,9 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n, float *A,
     }
 
     // Call recursive code
-    if (lower)
-        strtri_rl(diag, n, A, ldA);
-    else
-        strtri_ru(diag, n, A, ldA);
+    strtri_r(uplo, diag, n, A, ldA);
+    // if (lower)
+    //     strtri_rl(diag, n, A, ldA);
+    // else
+    //     strtri_ru(diag, n, A, ldA);
 }
