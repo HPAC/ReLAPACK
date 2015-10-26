@@ -1,6 +1,9 @@
 #include "larpack.h"
 
-void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn, const int *m, const int *n, const float *A, const int *ldA, const float *B, const int *ldB, float *C, const int *ldC, float *scale, int *info) {
+void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn,
+        const int *m, const int *n,
+        const float *A, const int *ldA, const float *B, const int *ldB,
+        float *C, const int *ldC, float *scale, int *info) {
     *info = 0;
 
     // Check arguments
@@ -32,17 +35,17 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn, cons
 
     *scale = 1;
 
-    if (*m == 1 && *n == 1) { 
+    if (*m == 1 && *n == 1) {
         // Single element (fully recursive)
         *C /= (*A + *isgn * *B);
         return;
     }
 
     // Recursive
-    
+
     // 1, -1, -isgn
    	const float s1[] = {1}, sm1[] = {-1}, smisgn[] = {-*isgn};
-   
+
     if (*m > *n) {
         const int m1 = (*m >= 16) ? ((*m + 8) / 16) * 8 : *m / 2;
         const int m2 = *m - m1;

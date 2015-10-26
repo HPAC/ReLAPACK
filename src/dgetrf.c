@@ -16,7 +16,7 @@ void LARPACK(dgetrf)(const int *m, const int *n, double *A, const int *ldA, int 
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(dgetf2)(m, n, A, ldA, ipiv, info);
         return;

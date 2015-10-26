@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(sgetrf)(const int *m, const int *n, float *A, const int *ldA, int *ipiv, int *info) {
+void LARPACK(sgetrf)(const int *m, const int *n,
+        float *A, const int *ldA, int *ipiv, int *info) {
     *info = 0;
 
     // Check arguments
@@ -16,7 +17,7 @@ void LARPACK(sgetrf)(const int *m, const int *n, float *A, const int *ldA, int *
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(sgetf2)(m, n, A, ldA, ipiv, info);
         return;

@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(clauu2)("L", &n, A2, &n, &info);
 
         // check error
-        float error = c2vecerr(n * n, A1, A2);
+        const float error = c2vecerr(n * n, A1, A2);
         printf("clauum L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(clauu2)("U", &n, A2, &n, &info);
 
         // check error
-        float error = c2vecerr(n * n, A1, A2);
+        const float error = c2vecerr(n * n, A1, A2);
         printf("clauum U:\t%g\n", error);
     }
 

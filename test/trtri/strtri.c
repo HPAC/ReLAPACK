@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(strti2)("L", "N", &n, A2, &n, &info);
 
         // check error
-        float error = s2vecerr(n * n, A1, A2);
+        const float error = s2vecerr(n * n, A1, A2);
         printf("strtri L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(strti2)("U", "N", &n, A2, &n, &info);
 
         // check error
-        float error = s2vecerr(n * n, A1, A2);
+        const float error = s2vecerr(n * n, A1, A2);
         printf("strtri U:\t%g\n", error);
     }
 

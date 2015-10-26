@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n, float *A, const int *ldA, const float *B, const int *ldB, int *info) {
+void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n,
+        float *A, const int *ldA, const float *B, const int *ldB, int *info) {
     *info = 0;
 
     // Check arguments
@@ -22,7 +23,7 @@ void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n, float *A,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(ssygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
@@ -94,7 +95,7 @@ void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n, float *A,
             BLAS(ssymm)("R", "U", &n1, &n2, sp5, A_BR, ldA, B_TR, ldB, s1, A_TR, ldA);
             // A_TL = A_TL + A_TR * B_TR' + B_TR * A_TR'
             BLAS(ssyr2k)("U", "N", &n1, &n2, s1, A_TR, ldA, B_TR, ldB, s1, A_TL, ldA);
-            // A_TR = A_TR + 1/2 B_TR * A_BR 
+            // A_TR = A_TR + 1/2 B_TR * A_BR
             BLAS(ssymm)("R", "U", &n1, &n2, sp5, A_BR, ldA, B_TR, ldB, s1, A_TR, ldA);
             // A_TR = A_TR * B_BR
             BLAS(strmm)("R", "U", "T", "N", &n1, &n2, s1, B_BR, ldB, A_TR, ldA);

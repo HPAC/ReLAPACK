@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zhegs2)(i1, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("zhegst 1 L:\t%g\n", error);
     }
 
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zhegs2)(i1, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("zhegst 1 U:\t%g\n", error);
     }
 
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zhegs2)(i2, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("zhegst 2 L:\t%g\n", error);
     }
 
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zhegs2)(i2, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("zhegst 2 U:\t%g\n", error);
     }
 

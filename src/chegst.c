@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(chegst)(const int *itype, const char *uplo, const int *n, float *A, const int *ldA, const float *B, const int *ldB, int *info) {
+void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
+        float *A, const int *ldA, const float *B, const int *ldB, int *info) {
     *info = 0;
 
     // Check arguments
@@ -22,7 +23,7 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n, float *A,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(chegs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
@@ -93,7 +94,7 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n, float *A,
             BLAS(chemm)("R", "U", &n1, &n2, cp5, A_BR, ldA, B_TR, ldB, c1, A_TR, ldA);
             // A_TL = A_TL + A_TR * B_TR' + B_TR * A_TR'
             BLAS(cher2k)("U", "N", &n1, &n2, c1, A_TR, ldA, B_TR, ldB, c1, A_TL, ldA);
-            // A_TR = A_TR + 1/2 B_TR * A_BR 
+            // A_TR = A_TR + 1/2 B_TR * A_BR
             BLAS(chemm)("R", "U", &n1, &n2, cp5, A_BR, ldA, B_TR, ldB, c1, A_TR, ldA);
             // A_TR = A_TR * B_BR
             BLAS(ctrmm)("R", "U", "C", "N", &n1, &n2, c1, B_BR, ldB, A_TR, ldA);

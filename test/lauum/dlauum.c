@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlauu2)("L", &n, A2, &n, &info);
 
         // check error
-        double error = d2vecerr(n * n, A1, A2);
+        const double error = d2vecerr(n * n, A1, A2);
         printf("dlauum L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlauu2)("U", &n, A2, &n, &info);
 
         // check error
-        double error = d2vecerr(n * n, A1, A2);
+        const double error = d2vecerr(n * n, A1, A2);
         printf("dlauum U:\t%g\n", error);
     }
 

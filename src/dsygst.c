@@ -22,7 +22,7 @@ void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n, double *A
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(dsygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
@@ -96,7 +96,7 @@ void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n, double *A
             BLAS(dsymm)("R", "U", &n1, &n2, dp5, A_BR, ldA, B_TR, ldB, d1, A_TR, ldA);
             // A_TL = A_TL + A_TR * B_TR' + B_TR * A_TR'
             BLAS(dsyr2k)("U", "N", &n1, &n2, d1, A_TR, ldA, B_TR, ldB, d1, A_TL, ldA);
-            // A_TR = A_TR + 1/2 B_TR * A_BR 
+            // A_TR = A_TR + 1/2 B_TR * A_BR
             BLAS(dsymm)("R", "U", &n1, &n2, dp5, A_BR, ldA, B_TR, ldB, d1, A_TR, ldA);
             // A_TR = A_TR * B_BR
             BLAS(dtrmm)("R", "U", "T", "N", &n1, &n2, d1, B_BR, ldB, A_TR, ldA);

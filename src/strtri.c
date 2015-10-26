@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(strtri)(const char *uplo, const char *diag, const int *n, float *A, const int *ldA, int *info) {
+void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
+        float *A, const int *ldA, int *info) {
     *info = 0;
 
     // Check arguments
@@ -22,8 +23,8 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n, float *A,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
-        // Unblocked 
+    if (*n <= LARPACK_CROSSOVER) {
+        // Unblocked
         LAPACK(strti2)(uplo, diag, n, A, ldA, info);
         return;
     }

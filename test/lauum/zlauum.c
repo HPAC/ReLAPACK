@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlauu2)("L", &n, A2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("zlauum L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlauu2)("U", &n, A2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("zlauum U:\t%g\n", error);
     }
 

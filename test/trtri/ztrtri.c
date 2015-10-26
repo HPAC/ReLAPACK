@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(ztrti2)("L", "N", &n, A2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("ztrtri L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(ztrti2)("U", "N", &n, A2, &n, &info);
 
         // check error
-        double error = z2vecerr(n * n, A1, A2);
+        const double error = z2vecerr(n * n, A1, A2);
         printf("ztrtri U:\t%g\n", error);
     }
 

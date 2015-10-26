@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dtrti2)("L", "N", &n, A2, &n, &info);
 
         // check error
-        double error = d2vecerr(n * n, A1, A2);
+        const double error = d2vecerr(n * n, A1, A2);
         printf("dtrtri L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dtrti2)("U", "N", &n, A2, &n, &info);
 
         // check error
-        double error = d2vecerr(n * n, A1, A2);
+        const double error = d2vecerr(n * n, A1, A2);
         printf("dtrtri U:\t%g\n", error);
     }
 

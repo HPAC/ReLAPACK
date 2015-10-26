@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         LAPACK(spotf2)("L", &n, A2, &n, &info);
 
         // check error
-        float error = s2vecerr(n * n, A1, A2);
+        const float error = s2vecerr(n * n, A1, A2);
         printf("spotrf L:\t%g\n", error);
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         LAPACK(spotf2)("U", &n, A2, &n, &info);
 
         // check error
-        float error = s2vecerr(n * n, A1, A2);
+        const float error = s2vecerr(n * n, A1, A2);
         printf("spotrf U:\t%g\n", error);
     }
 

@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n, double *A, const int *ldA, const double *B, const int *ldB, int *info) {
+void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
+        double *A, const int *ldA, const double *B, const int *ldB, int *info) {
     *info = 0;
 
     // Check arguments
@@ -22,7 +23,7 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n, double *A
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(zhegs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
@@ -93,7 +94,7 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n, double *A
             BLAS(zhemm)("R", "U", &n1, &n2, zp5, A_BR, ldA, B_TR, ldB, z1, A_TR, ldA);
             // A_TL = A_TL + A_TR * B_TR' + B_TR * A_TR'
             BLAS(zher2k)("U", "N", &n1, &n2, z1, A_TR, ldA, B_TR, ldB, z1, A_TL, ldA);
-            // A_TR = A_TR + 1/2 B_TR * A_BR 
+            // A_TR = A_TR + 1/2 B_TR * A_BR
             BLAS(zhemm)("R", "U", &n1, &n2, zp5, A_BR, ldA, B_TR, ldB, z1, A_TR, ldA);
             // A_TR = A_TR * B_BR
             BLAS(ztrmm)("R", "U", "C", "N", &n1, &n2, z1, B_BR, ldB, A_TR, ldA);

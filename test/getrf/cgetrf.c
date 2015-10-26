@@ -26,8 +26,7 @@ int main(int argc, char* argv[]) {
         LAPACK(cgetf2)(&n, &n, A2, &n, ipiv2, &info);
 
         // check error
-        float error = c2vecerr(n * n, A1, A2);
-        error += i2vecerr(n, ipiv1, ipiv2);
+        const float error = c2vecerr(n * n, A1, A2) + i2vecerr(n, ipiv1, ipiv2);
         printf("cgetrf m = n:\t%g\n", error);
     }
 
@@ -41,8 +40,7 @@ int main(int argc, char* argv[]) {
         LAPACK(cgetf2)(&n, &n2, A2, &n, ipiv2, &info);
 
         // check error
-        float error = c2vecerr(n * n2, A1, A2);
-        error += i2vecerr(n2, ipiv1, ipiv2);
+        const float error = c2vecerr(n * n2, A1, A2) + i2vecerr(n2, ipiv1, ipiv2);
         printf("cgetrf m > n:\t%g\n", error);
     }
 
@@ -56,8 +54,7 @@ int main(int argc, char* argv[]) {
         LAPACK(cgetf2)(&n2, &n, A2, &n, ipiv2, &info);
 
         // check error
-        float error = c2vecerr(n2 * n, A1, A2);
-        error += i2vecerr(n2, ipiv1, ipiv2);
+        const float error = c2vecerr(n2 * n, A1, A2) + i2vecerr(n2, ipiv1, ipiv2);
         printf("cgetrf m < n:\t%g\n", error);
     }
 

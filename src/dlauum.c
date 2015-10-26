@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(dlauum)(const char *uplo, const int *n, double *A, const int *ldA, int *info) {
+void LARPACK(dlauum)(const char *uplo, const int *n,
+        double *A, const int *ldA, int *info) {
     *info = 0;
 
     // Check arguments
@@ -18,7 +19,7 @@ void LARPACK(dlauum)(const char *uplo, const int *n, double *A, const int *ldA, 
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(dlauu2)(uplo, n, A, ldA, info);
         return;

@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(zpotrf)(const char *uplo, const int *n, double *A, const int *ldA, int *info) {
+void LARPACK(zpotrf)(const char *uplo, const int *n,
+        double *A, const int *ldA, int *info) {
     *info = 0;
 
     // Check arguments
@@ -18,7 +19,7 @@ void LARPACK(zpotrf)(const char *uplo, const int *n, double *A, const int *ldA, 
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(zpotf2)(uplo, n, A, ldA, info);
         return;
@@ -54,7 +55,7 @@ void LARPACK(zpotrf)(const char *uplo, const int *n, double *A, const int *ldA, 
         // A_BR = A_BR - A_TR' * A_TR
         BLAS(zherk)("U", "C", &n2, &n1, zm1, A_TR, ldA, z1, A_BR, ldA);
     }
-    
+
     // recursion(A_BR)
     LARPACK(zpotrf)(uplo, &n2, A_BR, ldA, info);
     if (*info)

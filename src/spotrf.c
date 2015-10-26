@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(spotrf)(const char *uplo, const int *n, float *A, const int *ldA, int *info) {
+void LARPACK(spotrf)(const char *uplo, const int *n,
+        float *A, const int *ldA, int *info) {
     *info = 0;
 
     // Check arguments
@@ -18,7 +19,7 @@ void LARPACK(spotrf)(const char *uplo, const int *n, float *A, const int *ldA, i
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(spotf2)(uplo, n, A, ldA, info);
         return;
@@ -54,7 +55,7 @@ void LARPACK(spotrf)(const char *uplo, const int *n, float *A, const int *ldA, i
         // A_BR = A_BR - A_TR' * A_TR
         BLAS(ssyrk)("U", "T", &n2, &n1, sm1, A_TR, ldA, s1, A_BR, ldA);
     }
-    
+
     // recursion(A_BR)
     LARPACK(spotrf)(uplo, &n2, A_BR, ldA, info);
     if (*info)

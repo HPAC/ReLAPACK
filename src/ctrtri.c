@@ -1,6 +1,7 @@
 #include "larpack.h"
 
-void LARPACK(ctrtri)(const char *uplo, const char *diag, const int *n, float *A, const int *ldA, int *info) {
+void LARPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
+        float *A, const int *ldA, int *info) {
     *info = 0;
 
     // Check arguments
@@ -22,7 +23,7 @@ void LARPACK(ctrtri)(const char *uplo, const char *diag, const int *n, float *A,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) { 
+    if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
         LAPACK(ctrti2)(uplo, diag, n, A, ldA, info);
         return;
@@ -34,10 +35,10 @@ void LARPACK(ctrtri)(const char *uplo, const char *diag, const int *n, float *A,
 
     // A_TL A_TR
     // A_BL A_BR
-    float *const A_TL = A; 
+    float *const A_TL = A;
     float *const A_TR = A + 2 * *ldA * n1;
-    float *const A_BL = A                 + 2 * n1; 
-    float *const A_BR = A + 2 * *ldA * n1 + 2 * n1; 
+    float *const A_BL = A                 + 2 * n1;
+    float *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // 1, -1
     const float c1[] = {1, 0}, cm1[] = {-1, 0};
