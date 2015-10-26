@@ -30,10 +30,11 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn, cons
         return;
     }
 
-    if (*m <= LARPACK_CROSSOVER && *n <= LARPACK_CROSSOVER) { 
-        // Unblocked
-        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-        LAPACK(strsy2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
+    *scale = 1;
+
+    if (*m == 1 && *n == 1) { 
+        // Single element (fully recursive)
+        *C /= (*A + *isgn * *B);
         return;
     }
 
@@ -58,18 +59,18 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn, cons
         float *const C_B = C + m1;
 
         if (notransA) {
-            // C_B = sylv(A_BR, B, C_B)
+            // recusion(A_BR, B, C_B)
             LARPACK(strsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale, info);
             // C_T = C_T - A_TR * C_B
             BLAS(sgemm)("N", "N", &m1, n, &m2, sm1, A_TR, ldA, C_B, ldC, s1, C_T, ldC);
-            // C_T = sylv(A_TL, B, C_T)
+            // recusion(A_TL, B, C_T)
             LARPACK(strsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale, info);
         } else {
-            // C_T = sylv(A_TL', B, C_T)
+            // recusion(A_TL, B, C_T)
             LARPACK(strsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale, info);
             // C_B = C_B - A_TR' * C_T
             BLAS(sgemm)("T", "N", &m2, n, &m1, sm1, A_TR, ldA, C_T, ldC, s1, C_B, ldC);
-            // C_B = sylv(A_BR', B, C_B)
+            // recusion(A_BR, B, C_B)
             LARPACK(strsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale, info);
         }
     } else {
@@ -87,18 +88,18 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn, cons
         float *const C_R = C + *ldC * n1;
 
         if (notransB) {
-            // C_L = sylv(A, B_TL, C_L)
+            // recusion(A, B_TL, C_L)
             LARPACK(strsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale, info);
             // C_R = C_R -/+ C_L * B_TR
             BLAS(sgemm)("N", "N", m, &n2, &n1, smisgn, C_L, ldC, B_TR, ldB, s1, C_R, ldC);
-            // C_R = sylv(A, B_BR, C_R)
+            // recusion(A, B_BR, C_R)
             LARPACK(strsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale, info);
         } else {
-            // C_R = sylv(A, B_BR', C_R)
+            // recusion(A, B_BR, C_R)
             LARPACK(strsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale, info);
             // C_L = C_L -/+ C_R * B_TR'
             BLAS(sgemm)("N", "T", m, &n1, &n2, smisgn, C_R, ldC, B_TR, ldB, s1, C_L, ldC);
-            // C_L = sylv(A, B_TL', C_L)
+            // recusion(A, B_TL, C_L)
             LARPACK(strsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale, info);
         }
     }
