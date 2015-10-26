@@ -4,15 +4,10 @@ include make.inc
 
 LIB = liblarpack.a
 
-SRC = $(wildcard src/*.c)
-# LAUUM_SRC = $(wildcard src/lauum/*.c)
-# TRTRI_SRC = $(wildcard src/trtri/*.c)
-# POTRF_SRC = $(wildcard src/potrf/*.c)
-# GETRF_SRC = $(wildcard src/getrf/*.c)
-# TRSYL_SRC = $(wildcard src/trsyl/*.c)
-# SYGST_SRC = $(wildcard src/sygst/*.c)
+SRC = $(wildcard src/*.c) $(wildcard src/*.f)
 
-OBJS = $(SRC:%.c=%.o)
+TMP = $(SRC:%.c=%.o)
+OBJS = $(TMP:%.f=%.o)
 
 $(LIB): $(OBJS)
 	$(AR) -r $@ $^

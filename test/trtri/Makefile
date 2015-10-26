@@ -14,11 +14,8 @@ test: $(TESTS)
 %.x: %.o ../../liblarpack.a
 	@ $(CC) $(CFLAGS) $^ -o $@ $(UTIL) $(LINK_LAPACK) $(LINK_BLAS)
 
-%.o: %.c
-	@ $(CC) $(CFLAGS) -c $^ -o $@
-
-%.o: %.f
-	@ $(FC) $(FFLAGS) -c $^ -o $@
+%.o: %.c ../test_config.h
+	@ $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f *.pass *.o *.x

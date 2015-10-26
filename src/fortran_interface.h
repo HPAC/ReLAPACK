@@ -13,6 +13,4 @@
 #define LAPACK(routine) routine
 #endif
 
-#define LARPACK(routine) LAPACK(routine)
-
 #endif /* FORTRAN_INTERFACE_H */
