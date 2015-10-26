@@ -47,8 +47,6 @@ void LARPACK(sgetrf)(const int *m, const int *n, float *A, const int *ldA, int *
 
     // recursion(A_TL, ipiv_T)
     LARPACK(sgetrf)(m, &n1, A_TL, ldA, ipiv_T, info);
-    if (*info)
-        return;
     // apply pivots to A_TR
     LAPACK(slaswp)(&n2, A_TR, ldA, i1, &n1, ipiv_T, i1);
 
@@ -59,10 +57,8 @@ void LARPACK(sgetrf)(const int *m, const int *n, float *A, const int *ldA, int *
 
     // recursion(A_BR, ipiv_B)
     LARPACK(sgetrf)(&rm, &n2, A_BR, ldA, ipiv_B, info);
-    if (*info) {
+    if (*info)
         *info += n1;
-        return;
-    }
     // apply pivots to A_BL
     LAPACK(slaswp)(&n1, A_BL, ldA, i1, &n2, ipiv_B, i1);
     // shift pivots
@@ -72,7 +68,6 @@ void LARPACK(sgetrf)(const int *m, const int *n, float *A, const int *ldA, int *
 
     if (*n == mn)
         return;
-
 
     // Right remainder
     const int rn = *n - mn;

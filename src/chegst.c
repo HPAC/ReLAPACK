@@ -51,8 +51,6 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n, float *A,
 
     // recursion(A_TL, B_TL)
     LARPACK(chegst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
-    if (*info)
-        return;
 
     if (*itype == 1)
         if (lower) {
@@ -103,6 +101,4 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n, float *A,
 
     // recursion(A_BR, B_BR)
     LARPACK(chegst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
-    if (*info)
-        *info += n1;
 }

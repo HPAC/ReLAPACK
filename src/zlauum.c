@@ -40,8 +40,6 @@ void LARPACK(zlauum)(const char *uplo, const int *n, double *A, const int *ldA, 
 
     // recursion(A_TL)
     LARPACK(zlauum)(uplo, &n1, A_TL, ldA, info);
-    if (*info)
-        return;
 
     if (lower) {
         // A_TL = A_TL + A_BL' * A_BL
@@ -57,6 +55,4 @@ void LARPACK(zlauum)(const char *uplo, const int *n, double *A, const int *ldA, 
 
     // recursion(A_BR)
     LARPACK(zlauum)(uplo, &n2, A_BR, ldA, info);
-    if (*info)
-        *info += n1;
 }
