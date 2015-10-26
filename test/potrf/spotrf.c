@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         s2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(spotrf)("L", &n, A1, &n, &info);
+        LARPACK(spotrf)("L", &n, A1, &n, &info);
         LAPACK(spotf2)("L", &n, A2, &n, &info);
 
         // check error
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         s2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(spotrf)("U", &n, A1, &n, &info);
+        LARPACK(spotrf)("U", &n, A1, &n, &info);
         LAPACK(spotf2)("U", &n, A2, &n, &info);
 
         // check error

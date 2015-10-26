@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(dpotrf)("L", &n, A1, &n, &info);
+        LARPACK(dpotrf)("L", &n, A1, &n, &info);
         LAPACK(dpotf2)("L", &n, A2, &n, &info);
 
         // check error
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(dpotrf)("U", &n, A1, &n, &info);
+        LARPACK(dpotrf)("U", &n, A1, &n, &info);
         LAPACK(dpotf2)("U", &n, A2, &n, &info);
 
         // check error

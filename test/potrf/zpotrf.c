@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(zpotrf)("L", &n, A1, &n, &info);
+        LARPACK(zpotrf)("L", &n, A1, &n, &info);
         LAPACK(zpotf2)("L", &n, A2, &n, &info);
 
         // check error
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(zpotrf)("U", &n, A1, &n, &info);
+        LARPACK(zpotrf)("U", &n, A1, &n, &info);
         LAPACK(zpotf2)("U", &n, A2, &n, &info);
 
         // check error

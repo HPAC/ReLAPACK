@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        LAPACK(chegst)(i1, "L", &n, A1, &n, B1, &n, &info);
+        LARPACK(chegst)(i1, "L", &n, A1, &n, B1, &n, &info);
         LAPACK(chegs2)(i1, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        LAPACK(chegst)(i1, "U", &n, A1, &n, B1, &n, &info);
+        LARPACK(chegst)(i1, "U", &n, A1, &n, B1, &n, &info);
         LAPACK(chegs2)(i1, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        LAPACK(chegst)(i2, "L", &n, A1, &n, B1, &n, &info);
+        LARPACK(chegst)(i2, "L", &n, A1, &n, B1, &n, &info);
         LAPACK(chegs2)(i2, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        LAPACK(chegst)(i2, "U", &n, A1, &n, B1, &n, &info);
+        LARPACK(chegst)(i2, "U", &n, A1, &n, B1, &n, &info);
         LAPACK(chegs2)(i2, "U", &n, A2, &n, B2, &n, &info);
 
         // check error

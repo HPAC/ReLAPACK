@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(zlauum)("L", &n, A1, &n, &info);
+        LARPACK(zlauum)("L", &n, A1, &n, &info);
         LAPACK(zlauu2)("L", &n, A2, &n, &info);
 
         // check error
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(zlauum)("U", &n, A1, &n, &info);
+        LARPACK(zlauum)("U", &n, A1, &n, &info);
         LAPACK(zlauu2)("U", &n, A2, &n, &info);
 
         // check error

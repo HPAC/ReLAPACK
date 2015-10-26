@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(cgetrf)(&n, &n, A1, &n, ipiv1, &info);
+        LARPACK(cgetrf)(&n, &n, A1, &n, ipiv1, &info);
         LAPACK(cgetf2)(&n, &n, A2, &n, ipiv2, &info);
 
         // check error
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n2, A1, A2);
 
         // run
-        LAPACK(cgetrf)(&n, &n2, A1, &n, ipiv1, &info);
+        LARPACK(cgetrf)(&n, &n2, A1, &n, ipiv1, &info);
         LAPACK(cgetf2)(&n, &n2, A2, &n, ipiv2, &info);
 
         // check error
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n2, n, A1, A2);
 
         // run
-        LAPACK(cgetrf)(&n2, &n, A1, &n, ipiv1, &info);
+        LARPACK(cgetrf)(&n2, &n, A1, &n, ipiv1, &info);
         LAPACK(cgetf2)(&n2, &n, A2, &n, ipiv2, &info);
 
         // check error

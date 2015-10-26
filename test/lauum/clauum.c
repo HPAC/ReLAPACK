@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(clauum)("L", &n, A1, &n, &info);
+        LARPACK(clauum)("L", &n, A1, &n, &info);
         LAPACK(clauu2)("L", &n, A2, &n, &info);
 
         // check error
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LAPACK(clauum)("U", &n, A1, &n, &info);
+        LARPACK(clauum)("U", &n, A1, &n, &info);
         LAPACK(clauu2)("U", &n, A2, &n, &info);
 
         // check error
