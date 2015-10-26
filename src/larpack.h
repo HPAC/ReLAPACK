@@ -32,10 +32,10 @@ void LARPACK(dsygst)(const int *, const char *, const int *, double *, const int
 void LARPACK(chegst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 void LARPACK(zhegst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 
-void LARPACK(strsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void LARPACK(dtrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-void LARPACK(ctrsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void LARPACK(ztrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+void LAPACK(strsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void LAPACK(dtrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+void LAPACK(ctrsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void LAPACK(ztrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 
 void LARPACK(strsyl)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
 void LARPACK(dtrsyl)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);

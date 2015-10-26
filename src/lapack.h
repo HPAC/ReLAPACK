@@ -11,6 +11,11 @@ extern void LAPACK(dlaswp)(const int *, double *, const int *, const int *, cons
 extern void LAPACK(claswp)(const int *, float *, const int *, const int *, const int *, const int *, const int *);
 extern void LAPACK(zlaswp)(const int *, double *, const int *, const int *, const int *, const int *, const int *);
 
+extern void LAPACK(slascl)(const char *, const int *, const int *, const float *, const float *, const int *, const int *, float *, const int *, int *);
+extern void LAPACK(dlascl)(const char *, const int *, const int *, const double *, const double *, const int *, const int *, double *, const int *, int *);
+extern void LAPACK(clascl)(const char *, const int *, const int *, const float *, const float *, const int *, const int *, float *, const int *, int *);
+extern void LAPACK(zlascl)(const char *, const int *, const int *, const double *, const double *, const int *, const int *, double *, const int *, int *);
+
 extern void LAPACK(slauu2)(const char *, const int *, float *, const int *, int *);
 extern void LAPACK(dlauu2)(const char *, const int *, double *, const int *, int *);
 extern void LAPACK(clauu2)(const char *, const int *, float *, const int *, int *);
