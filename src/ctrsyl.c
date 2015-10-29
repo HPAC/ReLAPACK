@@ -4,13 +4,13 @@ void LARPACK(ctrsyl)(const char *tranA, const char *tranB, const int *isgn,
         const int *m, const int *n,
         const float *A, const int *ldA, const float *B, const int *ldB,
         float *C, const int *ldC, float *scale, int *info) {
-    *info = 0;
 
     // Check arguments
     int notransA = LAPACK(lsame)(tranA, "N");
-    int transA = LAPACK(lsame)(tranA, "T") || LAPACK(lsame)(tranA, "C");
+    int transA = LAPACK(lsame)(tranA, "C");
     int notransB = LAPACK(lsame)(tranB, "N");
-    int transB = LAPACK(lsame)(tranB, "T") || LAPACK(lsame)(tranB, "C");
+    int transB = LAPACK(lsame)(tranB, "C");
+    *info = 0;
     if (!transA && !notransA)
         *info = -1;
     else if (!transB && !notransB)
@@ -44,7 +44,7 @@ void LARPACK(ctrsyl)(const char *tranA, const char *tranB, const int *isgn,
     // 1, -1, -isgn
    	const float c1[] = {1, 0}, cm1[] = {-1, 0}, cmisgn[] = {-*isgn, 0};
     // 0
-    int i0[] = {0};
+    const int i0[] = {0};
 
     float scale1[] = {1, 0}, scale2[] = {1, 0};
     int info1[] = {0}, info2[] = {0};

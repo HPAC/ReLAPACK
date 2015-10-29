@@ -2,9 +2,9 @@
 
 void LARPACK(cgetrf)(const int *m, const int *n,
         float *A, const int *ldA, int *ipiv, int *info) {
-    *info = 0;
 
     // Check arguments
+    *info = 0;
     if (*m < 0)
         *info = -1;
     else if (*n < 0)

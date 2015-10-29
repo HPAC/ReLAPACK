@@ -2,9 +2,9 @@
 
 void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
         float *A, const int *ldA, const float *B, const int *ldB, int *info) {
-    *info = 0;
 
     // Check arguments
+    *info = 0;
     int lower = LAPACK(lsame)(uplo, "L");
     int upper = LAPACK(lsame)(uplo, "U");
     if (*itype < 1 || *itype > 3)
@@ -79,6 +79,7 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
         }
     else
         if (lower) {
+            // A_BL = A_BL * B_TL
             BLAS(ctrmm)("R", "L", "N", "N", &n2, &n1, c1, B_TL, ldB, A_BL, ldA);
             // A_BL = A_BL + 1/2 A_BR * B_BL
             BLAS(chemm)("L", "L", &n2, &n1, cp5, A_BR, ldA, B_BL, ldB, c1, A_BL, ldA);
@@ -89,6 +90,7 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
             // A_BL = B_BR * A_BL
             BLAS(ctrmm)("L", "L", "C", "N", &n2, &n1, c1, B_BR, ldB, A_BL, ldA);
         } else {
+            // A_TR = B_TL * A_TR
             BLAS(ctrmm)("L", "U", "N", "N", &n1, &n2, c1, B_TL, ldB, A_TR, ldA);
             // A_TR = A_TR + 1/2 B_TR A_BR
             BLAS(chemm)("R", "U", &n1, &n2, cp5, A_BR, ldA, B_TR, ldB, c1, A_TR, ldA);

@@ -4,13 +4,13 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn,
         const int *m, const int *n,
         const float *A, const int *ldA, const float *B, const int *ldB,
         float *C, const int *ldC, float *scale, int *info) {
-    *info = 0;
 
     // Check arguments
     int notransA = LAPACK(lsame)(tranA, "N");
     int transA = LAPACK(lsame)(tranA, "T") || LAPACK(lsame)(tranA, "C");
     int notransB = LAPACK(lsame)(tranB, "N");
     int transB = LAPACK(lsame)(tranB, "T") || LAPACK(lsame)(tranB, "C");
+    *info = 0;
     if (!transA && !notransA)
         *info = -1;
     else if (!transB && !notransB)
@@ -65,19 +65,19 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn,
     if (*n > LARPACK_CROSSOVER) {
         // try ideal split
         n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
-        if (A[n1 + *ldA * (n1 - 1)] == 0)
+        if (B[n1 + *ldB * (n1 - 1)] == 0)
             splitn = 1;
         else {
             // try to find a split close to n / 2
             int offset = 0;
             while (offset < *n / 2) {
                 n1 = *n / 2 - offset; // left
-                if (n1 > 0 && A[n1 + *ldA * (n1 - 1)] == 0) {
+                if (n1 > 0 && B[n1 + *ldB * (n1 - 1)] == 0) {
                     splitn = 1;
                     break;
                 }
                 n1 = *n / 2 + offset; // right
-                if (n1 < *n && A[n1 + *ldA * (n1 - 1)] == 0) {
+                if (n1 < *n && B[n1 + *ldB * (n1 - 1)] == 0) {
                     splitn = 1;
                     break;
                 }
@@ -97,7 +97,7 @@ void LARPACK(strsyl)(const char *tranA, const char *tranB, const int *isgn,
     // 1, -1, -isgn
    	const float s1[] = {1}, sm1[] = {-1}, smisgn[] = {-*isgn};
     // 0
-    int i0[] = {0};
+    const int i0[] = {0};
 
     float scale1[] = {1}, scale2[] = {1};
     int info1[] = {0}, info2[] = {0};

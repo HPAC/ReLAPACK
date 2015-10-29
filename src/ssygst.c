@@ -2,11 +2,11 @@
 
 void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n,
         float *A, const int *ldA, const float *B, const int *ldB, int *info) {
-    *info = 0;
 
     // Check arguments
     int lower = LAPACK(lsame)(uplo, "L");
     int upper = LAPACK(lsame)(uplo, "U");
+    *info = 0;
     if (*itype < 1 || *itype > 3)
         *info = -1;
     else if (!lower && !upper)
@@ -28,7 +28,6 @@ void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n,
         LAPACK(ssygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
     }
-
 
     // Recursive
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -80,6 +79,7 @@ void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n,
         }
     else
         if (lower) {
+            // A_BL = A_BL * B_TL
             BLAS(strmm)("R", "L", "N", "N", &n2, &n1, s1, B_TL, ldB, A_BL, ldA);
             // A_BL = A_BL + 1/2 A_BR * B_BL
             BLAS(ssymm)("L", "L", &n2, &n1, sp5, A_BR, ldA, B_BL, ldB, s1, A_BL, ldA);
@@ -90,6 +90,7 @@ void LARPACK(ssygst)(const int *itype, const char *uplo, const int *n,
             // A_BL = B_BR * A_BL
             BLAS(strmm)("L", "L", "T", "N", &n2, &n1, s1, B_BR, ldB, A_BL, ldA);
         } else {
+            // A_TR = B_TL * A_TR
             BLAS(strmm)("L", "U", "N", "N", &n1, &n2, s1, B_TL, ldB, A_TR, ldA);
             // A_TR = A_TR + 1/2 B_TR A_BR
             BLAS(ssymm)("R", "U", &n1, &n2, sp5, A_BR, ldA, B_TR, ldB, s1, A_TR, ldA);

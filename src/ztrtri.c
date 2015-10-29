@@ -2,13 +2,13 @@
 
 void LARPACK(ztrtri)(const char *uplo, const char *diag, const int *n,
         double *A, const int *ldA, int *info) {
-    *info = 0;
 
     // Check arguments
     int lower = LAPACK(lsame)(uplo, "L");
     int upper = LAPACK(lsame)(uplo, "U");
     int nounit = LAPACK(lsame)(diag, "N");
     int unit = LAPACK(lsame)(diag, "U");
+    *info = 0;
     if (!lower && !upper)
         *info = -1;
     else if (!nounit && !unit)

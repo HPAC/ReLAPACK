@@ -2,11 +2,11 @@
 
 void LARPACK(dlauum)(const char *uplo, const int *n,
         double *A, const int *ldA, int *info) {
-    *info = 0;
 
     // Check arguments
     int lower = LAPACK(lsame)(uplo, "L");
     int upper = LAPACK(lsame)(uplo, "U");
+    *info = 0;
     if (!lower && !upper)
         *info = -1;
     else if (*n < 0)

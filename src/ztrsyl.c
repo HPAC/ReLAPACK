@@ -4,13 +4,13 @@ void LARPACK(ztrsyl)(const char *tranA, const char *tranB, const int *isgn,
         const int *m, const int *n,
         const double *A, const int *ldA, const double *B, const int *ldB,
         double *C, const int *ldC, double *scale, int *info) {
-    *info = 0;
 
     // Check arguments
     int notransA = LAPACK(lsame)(tranA, "N");
-    int transA = LAPACK(lsame)(tranA, "T") || LAPACK(lsame)(tranA, "C");
+    int transA = LAPACK(lsame)(tranA, "C");
     int notransB = LAPACK(lsame)(tranB, "N");
-    int transB = LAPACK(lsame)(tranB, "T") || LAPACK(lsame)(tranB, "C");
+    int transB = LAPACK(lsame)(tranB, "C");
+    *info = 0;
     if (!transA && !notransA)
         *info = -1;
     else if (!transB && !notransB)
@@ -28,7 +28,7 @@ void LARPACK(ztrsyl)(const char *tranA, const char *tranB, const int *isgn,
     else if (*ldC < MAX(1, *m))
         *info = -11;
     if (*info) {
-        const const int minfo = -*info;
+        const int minfo = -*info;
         LAPACK(xerbla)("ZTRSYL", &minfo);
         return;
     }
@@ -44,7 +44,7 @@ void LARPACK(ztrsyl)(const char *tranA, const char *tranB, const int *isgn,
     // 1, -1, -isgn
    	const double z1[] = {1, 0}, zm1[] = {-1, 0}, zmisgn[] = {-*isgn, 0};
     // 0
-    int i0[] = {0};
+    const int i0[] = {0};
 
     double scale1[] = {1, 0}, scale2[] = {1, 0};
     int info1[] = {0}, info2[] = {0};

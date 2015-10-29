@@ -1,11 +1,12 @@
 #include "larpack.h"
 
-void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n, double *A, const int *ldA, const double *B, const int *ldB, int *info) {
-    *info = 0;
+void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n,
+        double *A, const int *ldA, const double *B, const int *ldB, int *info) {
 
     // Check arguments
     int lower = LAPACK(lsame)(uplo, "L");
     int upper = LAPACK(lsame)(uplo, "U");
+    *info = 0;
     if (*itype < 1 || *itype > 3)
         *info = -1;
     else if (!lower && !upper)
@@ -27,7 +28,6 @@ void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n, double *A
         LAPACK(dsygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
     }
-
 
     // Recursive
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;

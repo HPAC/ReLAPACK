@@ -1,9 +1,10 @@
 #include "larpack.h"
 
-void LARPACK(dgetrf)(const int *m, const int *n, double *A, const int *ldA, int *ipiv, int *info) {
-    *info = 0;
+void LARPACK(dgetrf)(const int *m, const int *n,
+        double *A, const int *ldA, int *ipiv, int *info) {
 
     // Check arguments
+    *info = 0;
     if (*m < 0)
         *info = -1;
     else if (*n < 0)
