@@ -5,6 +5,6 @@
 #define LAPACK_UNDERSCORE
 #define LARPACK(routine) LARPACK_ ## routine
 
-#define LARPACK_CROSSOVER 8
+#define LARPACK_CROSSOVER 4
 
 #endif /* CONFIG_H */

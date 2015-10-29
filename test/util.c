@@ -40,24 +40,24 @@ void z2matgen(int m, int n, double *A, double *B) {
         }
 }
 
-int i2vecerr(int n, const int *x, const int *y) {
+double i2vecerr(int n, const int *x, const int *y) {
     int i;
-    int error = 0;
+    double error = 0;
     for (i = 0; i < n; i++) {
-        int nom = abs(x[i] - y[i]);
-        int den = abs(y[i]);
-        error = MAX(error, MIN(nom, nom / (float) den));
+        double nom = abs(x[i] - y[i]);
+        double den = abs(y[i]);
+        error = MAX(error, (den > 0) ? MIN(nom, nom / den) : nom);
     }
     return error;
 }
 
-float s2vecerr(int n, const float *x, const float *y) {
+double s2vecerr(int n, const float *x, const float *y) {
     int i;
     float error = 0;
     for (i = 0; i < n; i++) {
-        float nom = fabsf(x[i] - y[i]);
-        float den = fabsf(y[i]);
-        error = MAX(error, MIN(nom, nom / den));
+        double nom = fabs((double) x[i] - y[i]);
+        double den = fabs(y[i]);
+        error = MAX(error, (den > 0) ? MIN(nom, nom / den) : nom);
     }
     return error;
 }
@@ -68,18 +68,18 @@ double d2vecerr(int n, const double *x, const double *y) {
     for (i = 0; i < n; i++) {
         double nom = fabs(x[i] - y[i]);
         double den = fabs(y[i]);
-        error = MAX(error, MIN(nom, nom / den));
+        error = MAX(error, (den > 0) ? MIN(nom, nom / den) : nom);
     }
     return error;
 }
 
-float c2vecerr(int n, const float *x, const float *y) {
+double c2vecerr(int n, const float *x, const float *y) {
     int i;
-    float error = 0;
+    double error = 0;
     for (i = 0; i < n; i++) {
-        float nom = sqrtf((x[2 * i] - y[2 * i]) * (x[2 * i] - y[2 * i]) + (x[2 * i + 1] - y[2 * i + 1]) * (x[2 * i + 1] - y[2 * i + 1]));
-        float den = sqrtf(y[2 * i] * y[2 * i] + y[2 * i + 1] * y[2 * i + 1]);
-        error = MAX(error, MIN(nom, nom / den));
+        double nom = sqrt(((double) x[2 * i] - y[2 * i]) * ((double) x[2 * i] - y[2 * i]) + ((double) x[2 * i + 1] - y[2 * i + 1]) * ((double) x[2 * i + 1] - y[2 * i + 1]));
+        double den = sqrt((double) y[2 * i] * y[2 * i] + (double) y[2 * i + 1] * y[2 * i + 1]);
+        error = MAX(error, (den > 0) ? MIN(nom, nom / den) : nom);
     }
     return error;
 }
@@ -90,7 +90,7 @@ double z2vecerr(int n, const double *x, const double *y) {
     for (i = 0; i < n; i++) {
         double nom = sqrt((x[2 * i] - y[2 * i]) * (x[2 * i] - y[2 * i]) + (x[2 * i + 1] - y[2 * i + 1]) * (x[2 * i + 1] - y[2 * i + 1]));
         double den = sqrt(y[2 * i] * y[2 * i] + y[2 * i + 1] * y[2 * i + 1]);
-        error = MAX(error, MIN(nom, nom / den));
+        error = MAX(error, (den > 0) ? MIN(nom, nom / den) : nom);
     }
     return error;
 }

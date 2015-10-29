@@ -38,7 +38,6 @@ extern void LAPACK(zgetf2)(const int *, const int *, double *, const int *, int 
 
 extern void LAPACK(ssygs2)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 extern void LAPACK(dsygs2)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
-
 extern void LAPACK(chegs2)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 extern void LAPACK(zhegs2)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 

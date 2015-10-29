@@ -10,8 +10,8 @@ void LARPACK(dgetrf)(const int *m, const int *n, double *A, const int *ldA, int 
         *info = -2;
     else if (*ldA < MAX(1, *n))
         *info = -4;
-    if (*info != 0) {
-        int minfo = -*info;
+    if (*info) {
+        const int minfo = -*info;
         LAPACK(xerbla)("DGETRF", &minfo);
         return;
     }

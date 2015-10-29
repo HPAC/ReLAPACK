@@ -21,6 +21,8 @@ int main(int argc, char* argv[]) {
     float scale1, scale2;
     // 0, 1, -1
     const int i0[] = {0}, i1[] = {1}, im1[] = {-1};
+    // 1
+    const float s1[] = {1};
 
     { // N N +1 m = n
         const int m = n_max, n = n_max;
@@ -32,12 +34,14 @@ int main(int argc, char* argv[]) {
         // run
         LARPACK(ctrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(ctrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
 
         // check error
-        const float error = c2vecerr(m * n, C1, C2);
+        const double error = c2vecerr(m * n, C1, C2);
         printf("ctrsyl N N +1 m = n:\t%g\n", error);
     }
 
@@ -51,12 +55,14 @@ int main(int argc, char* argv[]) {
         // run
         LARPACK(ctrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(ctrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
 
         // check error
-        const float error = c2vecerr(m * n, C1, C2);
+        const double error = c2vecerr(m * n, C1, C2);
         printf("ctrsyl N N +1 m < n:\t%g\n", error);
     }
 
@@ -70,13 +76,78 @@ int main(int argc, char* argv[]) {
         // run
         LARPACK(ctrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(ctrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
 
         // check error
-        const float error = c2vecerr(m * n, C1, C2);
+        const double error = c2vecerr(m * n, C1, C2);
         printf("ctrsyl N N +1 m > n:\t%g\n", error);
+    }
+
+    { // C N +1 m = n
+        const int m = n_max, n = n_max;
+        // generate matrix
+        c2matgen(m, m, A1, A2);
+        c2matgen(n, n, B1, B2);
+        c2matgen(m, n, C1, C2);
+
+        // run
+        LARPACK(ctrsyl)("C", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        LAPACK(ctrsy2)("C", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
+
+        // apply scales
+        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+
+        // check error
+        const double error = c2vecerr(m * n, C1, C2);
+        printf("ctrsyl C N +1 m = n:\t%g\n", error);
+    }
+
+    { // N C +1 m = n
+        const int m = n_max, n = n_max;
+        // generate matrix
+        c2matgen(m, m, A1, A2);
+        c2matgen(n, n, B1, B2);
+        c2matgen(m, n, C1, C2);
+
+        // run
+        LARPACK(ctrsyl)("N", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        LAPACK(ctrsy2)("N", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
+
+        // apply scales
+        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+
+        // check error
+        const double error = c2vecerr(m * n, C1, C2);
+        printf("ctrsyl N C +1 m = n:\t%g\n", error);
+    }
+
+    { // C C +1 m = n
+        const int m = n_max, n = n_max;
+        // generate matrix
+        c2matgen(m, m, A1, A2);
+        c2matgen(n, n, B1, B2);
+        c2matgen(m, n, C1, C2);
+
+        // run
+        LARPACK(ctrsyl)("C", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        LAPACK(ctrsy2)("C", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
+
+        // apply scales
+        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+
+        // check error
+        const double error = c2vecerr(m * n, C1, C2);
+        printf("ctrsyl C C +1 m = n:\t%g\n", error);
     }
 
     { // N N -1 m = n
@@ -97,72 +168,17 @@ int main(int argc, char* argv[]) {
         // run
         LARPACK(ctrsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(ctrsy2)("N", "N", im1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        if (scale1 != 1 || scale2 != 1)
+            printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        LAPACK(clascl)("G", i0, i0, s1, &scale1, &m, &n, C2, &m, &info);
+        LAPACK(clascl)("G", i0, i0, s1, &scale2, &m, &n, C2, &m, &info);
 
         // check error
-        const float error = c2vecerr(m * n, C1, C2);
+        const double error = c2vecerr(m * n, C1, C2);
         printf("ctrsyl N N -1 m = n:\t%g\n", error);
     }
-
-    { // C N +1 m = n
-        const int m = n_max, n = n_max;
-        // generate matrix
-        c2matgen(m, m, A1, A2);
-        c2matgen(n, n, B1, B2);
-        c2matgen(m, n, C1, C2);
-
-        // run
-        LARPACK(ctrsyl)("C", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(ctrsy2)("C", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
-
-        // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
-
-        // check error
-        const float error = c2vecerr(m * n, C1, C2);
-        printf("ctrsyl C N +1 m = n:\t%g\n", error);
-    }
-
-    { // N C +1 m = n
-        const int m = n_max, n = n_max;
-        // generate matrix
-        c2matgen(m, m, A1, A2);
-        c2matgen(n, n, B1, B2);
-        c2matgen(m, n, C1, C2);
-
-        // run
-        LARPACK(ctrsyl)("N", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(ctrsy2)("N", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
-
-        // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
-
-        // check error
-        const float error = c2vecerr(m * n, C1, C2);
-        printf("ctrsyl N C +1 m = n:\t%g\n", error);
-    }
-
-    { // C C +1 m = n
-        const int m = n_max, n = n_max;
-        // generate matrix
-        c2matgen(m, m, A1, A2);
-        c2matgen(n, n, B1, B2);
-        c2matgen(m, n, C1, C2);
-
-        // run
-        LARPACK(ctrsyl)("C", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(ctrsy2)("C", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
-
-        // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
-
-        // check error
-        const float error = c2vecerr(m * n, C1, C2);
-        printf("ctrsyl C C +1 m = n:\t%g\n", error);
-    }
-
 
     free(A1);
     free(A2);

@@ -7,14 +7,14 @@ void LARPACK(zpotrf)(const char *uplo, const int *n,
     // Check arguments
     int lower = LAPACK(lsame)(uplo, "L");
     int upper = LAPACK(lsame)(uplo, "U");
-    if (!upper && !lower)
+    if (!lower && !upper)
         *info = -1;
     else if (*n < 0)
         *info = -2;
     else if (*ldA < MAX(1, *n))
         *info = -4;
-    if (*info != 0) {
-        int minfo = -*info;
+    if (*info) {
+        const int minfo = -*info;
         LAPACK(xerbla)("CPOTRF", &minfo);
         return;
     }

@@ -11,8 +11,8 @@ void LARPACK(cgetrf)(const int *m, const int *n,
         *info = -2;
     else if (*ldA < MAX(1, *n))
         *info = -4;
-    if (*info != 0) {
-        int minfo = -*info;
+    if (*info) {
+        const int minfo = -*info;
         LAPACK(xerbla)("CGETRF", &minfo);
         return;
     }

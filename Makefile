@@ -15,8 +15,8 @@ $(LIB): $(OBJS)
 test: $(LIB) 
 	cd test; make
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@
+%.o: %.c config.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(LIB) $(OBJS)

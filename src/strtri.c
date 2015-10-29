@@ -9,7 +9,7 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
     int upper = LAPACK(lsame)(uplo, "U");
     int nounit = LAPACK(lsame)(diag, "N");
     int unit = LAPACK(lsame)(diag, "U");
-    if (!upper && !lower)
+    if (!lower && !upper)
         *info = -1;
     else if (!nounit && !unit)
         *info = -2;
@@ -17,8 +17,8 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
         *info = -3;
     else if (*ldA < MAX(1, *n))
         *info = -5;
-    if (*info != 0) {
-        int minfo = -*info;
+    if (*info) {
+        const int minfo = -*info;
         LAPACK(xerbla)("STRTRI", &minfo);
         return;
     }
