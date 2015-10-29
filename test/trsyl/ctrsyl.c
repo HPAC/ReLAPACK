@@ -21,8 +21,6 @@ int main(int argc, char* argv[]) {
     float scale1, scale2;
     // 0, 1, -1
     const int i0[] = {0}, i1[] = {1}, im1[] = {-1};
-    // 1
-    const float s1[] = {1};
 
     { // N N +1 m = n
         const int m = n_max, n = n_max;
@@ -38,7 +36,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
@@ -59,7 +58,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
@@ -80,7 +80,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
@@ -101,7 +102,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
@@ -122,7 +124,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
@@ -143,7 +146,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
@@ -159,11 +163,11 @@ int main(int argc, char* argv[]) {
 
         // scale diagonal of A and B
         const float smi = 1. / m, sni = 1. / n;
-        const int imp1 = m + 1, inp1 = n + 1;
-        BLAS(cscal)(&m, &smi, A1, &imp1);
-        BLAS(cscal)(&m, &smi, A2, &imp1);
-        BLAS(cscal)(&n, &sni, B1, &inp1);
-        BLAS(cscal)(&n, &sni, B2, &inp1);
+        const int mp1 = m + 1, np1 = n + 1;
+        BLAS(cscal)(&m, &smi, A1, &mp1);
+        BLAS(cscal)(&m, &smi, A2, &mp1);
+        BLAS(cscal)(&n, &sni, B1, &np1);
+        BLAS(cscal)(&n, &sni, B2, &np1);
 
         // run
         LARPACK(ctrsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
@@ -172,8 +176,8 @@ int main(int argc, char* argv[]) {
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
-        LAPACK(clascl)("G", i0, i0, s1, &scale1, &m, &n, C2, &m, &info);
-        LAPACK(clascl)("G", i0, i0, s1, &scale2, &m, &n, C2, &m, &info);
+        if (scale1)
+            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
 
         // check error
         const double error = c2vecerr(m * n, C1, C2);
