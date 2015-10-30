@@ -43,9 +43,9 @@ void LARPACK(ctrsyl)(const char *tranA, const char *tranB, const int *isgn,
 
     // Constants
     // 1, -1, -isgn
-   	const float c1[] = {1, 0}, cm1[] = {-1, 0}, cmsgn[] = {-*isgn, 0};
+   	const float ONE[] = {1, 0}, MONE[] = {-1, 0}, MSGN[] = {-*isgn, 0};
     // 0
-    const int i0 = 0;
+    const int iONE[] = {1};
 
     // Outputs
     float scale1[] = {1, 0}, scale2[] = {1, 0};
@@ -70,22 +70,22 @@ void LARPACK(ctrsyl)(const char *tranA, const char *tranB, const int *isgn,
             // recusion(A_BR, B, C_B)
             LARPACK(ctrsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale1, info1);
             // C_T = C_T - A_TR * C_B
-            BLAS(cgemm)("N", "N", &m1, n, &m2, cm1, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
+            BLAS(cgemm)("N", "N", &m1, n, &m2, MONE, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
             // recusion(A_TL, B, C_T)
             LARPACK(ctrsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
-                LAPACK(clascl)("G", &i0, &i0, c1, scale2, &m2, n, C_B, ldC, info);
+                LAPACK(clascl)("G", iONE, iONE, ONE, scale2, &m2, n, C_B, ldC, info);
         } else {
             // recusion(A_TL, B, C_T)
             LARPACK(ctrsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale1, info1);
             // C_B = C_B - A_TR' * C_T
-            BLAS(cgemm)("C", "N", &m2, n, &m1, cm1, A_TR, ldA, C_T, ldC, scale1, C_B, ldC);
+            BLAS(cgemm)("C", "N", &m2, n, &m1, MONE, A_TR, ldA, C_T, ldC, scale1, C_B, ldC);
             // recusion(A_BR, B, C_B)
             LARPACK(ctrsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
-                LAPACK(clascl)("G", &i0, &i0, c1, scale2, &m1, n, C_B, ldC, info);
+                LAPACK(clascl)("G", iONE, iONE, ONE, scale2, &m1, n, C_B, ldC, info);
         }
     } else {
         const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -105,22 +105,22 @@ void LARPACK(ctrsyl)(const char *tranA, const char *tranB, const int *isgn,
             // recusion(A, B_TL, C_L)
             LARPACK(ctrsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale1, info1);
             // C_R = C_R -/+ C_L * B_TR
-            BLAS(cgemm)("N", "N", m, &n2, &n1, cmsgn, C_L, ldC, B_TR, ldB, scale1, C_R, ldC);
+            BLAS(cgemm)("N", "N", m, &n2, &n1, MSGN, C_L, ldC, B_TR, ldB, scale1, C_R, ldC);
             // recusion(A, B_BR, C_R)
             LARPACK(ctrsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
-                LAPACK(clascl)("G", &i0, &i0, c1, scale2, m, &n1, C_L, ldC, info);
+                LAPACK(clascl)("G", iONE, iONE, ONE, scale2, m, &n1, C_L, ldC, info);
         } else {
             // recusion(A, B_BR, C_R)
             LARPACK(ctrsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale1, info1);
             // C_L = C_L -/+ C_R * B_TR'
-            BLAS(cgemm)("N", "C", m, &n1, &n2, cmsgn, C_R, ldC, B_TR, ldB, scale1, C_L, ldC);
+            BLAS(cgemm)("N", "C", m, &n1, &n2, MSGN, C_R, ldC, B_TR, ldB, scale1, C_L, ldC);
             // recusion(A, B_TL, C_L)
             LARPACK(ctrsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
-                LAPACK(clascl)("G", &i0, &i0, c1, scale2, m, &n2, C_R, ldC, info);
+                LAPACK(clascl)("G", iONE, iONE, ONE, scale2, m, &n2, C_R, ldC, info);
         }
     }
 

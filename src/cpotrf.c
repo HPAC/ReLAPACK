@@ -4,8 +4,8 @@ void LARPACK(cpotrf)(const char *uplo, const int *n,
         float *A, const int *ldA, int *info) {
 
     // Check arguments
-    int lower = LAPACK(lsame)(uplo, "L");
-    int upper = LAPACK(lsame)(uplo, "U");
+    const int lower = LAPACK(lsame)(uplo, "L");
+    const int upper = LAPACK(lsame)(uplo, "U");
     *info = 0;
     if (!lower && !upper)
         *info = -1;
@@ -29,7 +29,7 @@ void LARPACK(cpotrf)(const char *uplo, const int *n,
 
     // Constants
     // 1, -1
-   	const float c1[] = {1, 0}, cm1[] = {-1, 0};
+   	const float ONE[] = {1, 0}, MONE[] = {-1, 0};
 
     // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -49,14 +49,14 @@ void LARPACK(cpotrf)(const char *uplo, const int *n,
 
     if (lower) {
         // A_BL = A_BL / A_TL'
-        BLAS(ctrsm)("R", "L", "C", "N", &n2, &n1, c1, A_TL, ldA, A_BL, ldA);
+        BLAS(ctrsm)("R", "L", "C", "N", &n2, &n1, ONE, A_TL, ldA, A_BL, ldA);
         // A_BR = A_BR - A_BL * A_BL'
-        BLAS(cherk)("L", "N", &n2, &n1, cm1, A_BL, ldA, c1, A_BR, ldA);
+        BLAS(cherk)("L", "N", &n2, &n1, MONE, A_BL, ldA, ONE, A_BR, ldA);
     } else {
         // A_TR = A_TL' \ A_TR
-        BLAS(ctrsm)("L", "U", "C", "N", &n1, &n2, c1, A_TL, ldA, A_TR, ldA);
+        BLAS(ctrsm)("L", "U", "C", "N", &n1, &n2, ONE, A_TL, ldA, A_TR, ldA);
         // A_BR = A_BR - A_TR' * A_TR
-        BLAS(cherk)("U", "C", &n2, &n1, cm1, A_TR, ldA, c1, A_BR, ldA);
+        BLAS(cherk)("U", "C", &n2, &n1, MONE, A_TR, ldA, ONE, A_BR, ldA);
     }
 
     // recursion(A_BR)

@@ -4,10 +4,10 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
         float *A, const int *ldA, int *info) {
 
     // Check arguments
-    int lower = LAPACK(lsame)(uplo, "L");
-    int upper = LAPACK(lsame)(uplo, "U");
-    int nounit = LAPACK(lsame)(diag, "N");
-    int unit = LAPACK(lsame)(diag, "U");
+    const int lower = LAPACK(lsame)(uplo, "L");
+    const int upper = LAPACK(lsame)(uplo, "U");
+    const int nounit = LAPACK(lsame)(diag, "N");
+    const int unit = LAPACK(lsame)(diag, "U");
     *info = 0;
     if (!lower && !upper)
         *info = -1;
@@ -33,7 +33,7 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
 
     // Constants
     // 1, -1
-    const float s1 = 1, sm1 = -1;
+    const float ONE[] = {1}, MONE[] = {-1};
 
     // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -53,14 +53,14 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
 
     if (lower) {
         // A_BL = - A_BL * A_TL
-        BLAS(strmm)("R", "L", "N", diag, &n2, &n1, &sm1, A_TL, ldA, A_BL, ldA);
+        BLAS(strmm)("R", "L", "N", diag, &n2, &n1, MONE, A_TL, ldA, A_BL, ldA);
         // A_BL = A_BR \ A_BL
-        BLAS(strsm)("L", "L", "N", diag, &n2, &n1, &s1, A_BR, ldA, A_BL, ldA);
+        BLAS(strsm)("L", "L", "N", diag, &n2, &n1, ONE, A_BR, ldA, A_BL, ldA);
     } else {
         // A_TR = - A_TL * A_TR
-        BLAS(strmm)("L", "U", "N", diag, &n1, &n2, &sm1, A_TL, ldA, A_TR, ldA);
+        BLAS(strmm)("L", "U", "N", diag, &n1, &n2, MONE, A_TL, ldA, A_TR, ldA);
         // A_TR = A_TR / A_BR
-        BLAS(strsm)("R", "U", "N", diag, &n1, &n2, &s1, A_BR, ldA, A_TR, ldA);
+        BLAS(strsm)("R", "U", "N", diag, &n1, &n2, ONE, A_BR, ldA, A_TR, ldA);
     }
 
     // recursion(A_BR)

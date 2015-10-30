@@ -4,8 +4,8 @@ void LARPACK(dlauum)(const char *uplo, const int *n,
         double *A, const int *ldA, int *info) {
 
     // Check arguments
-    int lower = LAPACK(lsame)(uplo, "L");
-    int upper = LAPACK(lsame)(uplo, "U");
+    const int lower = LAPACK(lsame)(uplo, "L");
+    const int upper = LAPACK(lsame)(uplo, "U");
     *info = 0;
     if (!lower && !upper)
         *info = -1;
@@ -29,7 +29,7 @@ void LARPACK(dlauum)(const char *uplo, const int *n,
 
     // Constants
     // 1
-   	const double d1 = 1;
+   	const double ONE[] = {1};
 
     // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -47,14 +47,14 @@ void LARPACK(dlauum)(const char *uplo, const int *n,
 
     if (lower) {
         // A_TL = A_TL + A_BL' * A_BL
-        BLAS(dsyrk)("L", "T", &n1, &n2, &d1, A_BL, ldA, &d1, A_TL, ldA);
+        BLAS(dsyrk)("L", "T", &n1, &n2, ONE, A_BL, ldA, ONE, A_TL, ldA);
         // A_BL = A_BR' * A_BL
-        BLAS(dtrmm)("L", "L", "T", "N", &n2, &n1, &d1, A_BR, ldA, A_BL, ldA);
+        BLAS(dtrmm)("L", "L", "T", "N", &n2, &n1, ONE, A_BR, ldA, A_BL, ldA);
     } else {
         // A_TL = A_TL + A_TR * A_TR'
-        BLAS(dsyrk)("U", "N", &n1, &n2, &d1, A_TR, ldA, &d1, A_TL, ldA);
+        BLAS(dsyrk)("U", "N", &n1, &n2, ONE, A_TR, ldA, ONE, A_TL, ldA);
         // A_TR = A_TR * A_BR'
-        BLAS(dtrmm)("R", "U", "T", "N", &n1, &n2, &d1, A_BR, ldA, A_TR, ldA);
+        BLAS(dtrmm)("R", "U", "T", "N", &n1, &n2, ONE, A_BR, ldA, A_TR, ldA);
     }
 
     // recursion(A_BR)

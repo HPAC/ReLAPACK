@@ -33,7 +33,7 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
 
     // Constants
     // 1, -1, 1/2, -1/2
-   	const double z1[] = {1, 0}, zm1[] = {-1, 0}, zp5[] = {.5, 0}, zmp5[] = {-.5, 0};
+   	const double ONE[] = {1, 0}, MONE[] = {-1, 0}, HALF[] = {.5, 0}, MHALF[] = {-.5, 0};
 
     // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -59,50 +59,50 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
     if (*itype == 1)
         if (lower) {
             // A_BL = A_BL / B_TL'
-            BLAS(ztrsm)("R", "L", "C", "N", &n2, &n1, z1, B_TL, ldB, A_BL, ldA);
+            BLAS(ztrsm)("R", "L", "C", "N", &n2, &n1, ONE, B_TL, ldB, A_BL, ldA);
             // A_BL = A_BL - 1/2 B_BL * A_TL
-            BLAS(zhemm)("R", "L", &n2, &n1, zmp5, A_TL, ldA, B_BL, ldB, z1, A_BL, ldA);
+            BLAS(zhemm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ONE, A_BL, ldA);
             // A_BR = A_BR - A_BL * B_BL' - B_BL * A_BL'
-            BLAS(zher2k)("L", "N", &n2, &n1, zm1, A_BL, ldA, B_BL, ldB, z1, A_BR, ldA);
+            BLAS(zher2k)("L", "N", &n2, &n1, MONE, A_BL, ldA, B_BL, ldB, ONE, A_BR, ldA);
             // A_BL = A_BL - 1/2 B_BL * A_TL
-            BLAS(zhemm)("R", "L", &n2, &n1, zmp5, A_TL, ldA, B_BL, ldB, z1, A_BL, ldA);
+            BLAS(zhemm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ONE, A_BL, ldA);
             // A_BL = B_BR \ A_BL
-            BLAS(ztrsm)("L", "L", "N", "N", &n2, &n1, z1, B_BR, ldB, A_BL, ldA);
+            BLAS(ztrsm)("L", "L", "N", "N", &n2, &n1, ONE, B_BR, ldB, A_BL, ldA);
         } else {
             // A_TR = B_TL' \ A_TR
-            BLAS(ztrsm)("L", "U", "C", "N", &n1, &n2, z1, B_TL, ldB, A_TR, ldA);
+            BLAS(ztrsm)("L", "U", "C", "N", &n1, &n2, ONE, B_TL, ldB, A_TR, ldA);
             // A_TR = A_TR - 1/2 A_TL * B_TR
-            BLAS(zhemm)("L", "U", &n1, &n2, zmp5, A_TL, ldA, B_TR, ldB, z1, A_TR, ldA);
+            BLAS(zhemm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ONE, A_TR, ldA);
             // A_BR = A_BR - A_TR' * B_TR - B_TR' * A_TR
-            BLAS(zher2k)("U", "C", &n2, &n1, zm1, A_TR, ldA, B_TR, ldB, z1, A_BR, ldA);
+            BLAS(zher2k)("U", "C", &n2, &n1, MONE, A_TR, ldA, B_TR, ldB, ONE, A_BR, ldA);
             // A_TR = A_TR - 1/2 A_TL * B_TR
-            BLAS(zhemm)("L", "U", &n1, &n2, zmp5, A_TL, ldA, B_TR, ldB, z1, A_TR, ldA);
+            BLAS(zhemm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ONE, A_TR, ldA);
             // A_TR = A_TR / B_BR
-            BLAS(ztrsm)("R", "U", "N", "N", &n1, &n2, z1, B_BR, ldB, A_TR, ldA);
+            BLAS(ztrsm)("R", "U", "N", "N", &n1, &n2, ONE, B_BR, ldB, A_TR, ldA);
         }
     else
         if (lower) {
             // A_BL = A_BL * B_TL
-            BLAS(ztrmm)("R", "L", "N", "N", &n2, &n1, z1, B_TL, ldB, A_BL, ldA);
+            BLAS(ztrmm)("R", "L", "N", "N", &n2, &n1, ONE, B_TL, ldB, A_BL, ldA);
             // A_BL = A_BL + 1/2 A_BR * B_BL
-            BLAS(zhemm)("L", "L", &n2, &n1, zp5, A_BR, ldA, B_BL, ldB, z1, A_BL, ldA);
+            BLAS(zhemm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ONE, A_BL, ldA);
             // A_TL = A_TL + A_BL' * B_BL + B_BL' * A_BL
-            BLAS(zher2k)("L", "C", &n1, &n2, z1, A_BL, ldA, B_BL, ldB, z1, A_TL, ldA);
+            BLAS(zher2k)("L", "C", &n1, &n2, ONE, A_BL, ldA, B_BL, ldB, ONE, A_TL, ldA);
             // A_BL = A_BL + 1/2 A_BR * B_BL
-            BLAS(zhemm)("L", "L", &n2, &n1, zp5, A_BR, ldA, B_BL, ldB, z1, A_BL, ldA);
+            BLAS(zhemm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ONE, A_BL, ldA);
             // A_BL = B_BR * A_BL
-            BLAS(ztrmm)("L", "L", "C", "N", &n2, &n1, z1, B_BR, ldB, A_BL, ldA);
+            BLAS(ztrmm)("L", "L", "C", "N", &n2, &n1, ONE, B_BR, ldB, A_BL, ldA);
         } else {
             // A_TR = B_TL * A_TR
-            BLAS(ztrmm)("L", "U", "N", "N", &n1, &n2, z1, B_TL, ldB, A_TR, ldA);
+            BLAS(ztrmm)("L", "U", "N", "N", &n1, &n2, ONE, B_TL, ldB, A_TR, ldA);
             // A_TR = A_TR + 1/2 B_TR A_BR
-            BLAS(zhemm)("R", "U", &n1, &n2, zp5, A_BR, ldA, B_TR, ldB, z1, A_TR, ldA);
+            BLAS(zhemm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ONE, A_TR, ldA);
             // A_TL = A_TL + A_TR * B_TR' + B_TR * A_TR'
-            BLAS(zher2k)("U", "N", &n1, &n2, z1, A_TR, ldA, B_TR, ldB, z1, A_TL, ldA);
+            BLAS(zher2k)("U", "N", &n1, &n2, ONE, A_TR, ldA, B_TR, ldB, ONE, A_TL, ldA);
             // A_TR = A_TR + 1/2 B_TR * A_BR
-            BLAS(zhemm)("R", "U", &n1, &n2, zp5, A_BR, ldA, B_TR, ldB, z1, A_TR, ldA);
+            BLAS(zhemm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ONE, A_TR, ldA);
             // A_TR = A_TR * B_BR
-            BLAS(ztrmm)("R", "U", "C", "N", &n1, &n2, z1, B_BR, ldB, A_TR, ldA);
+            BLAS(ztrmm)("R", "U", "C", "N", &n1, &n2, ONE, B_BR, ldB, A_TR, ldA);
         }
 
     // recursion(A_BR, B_BR)

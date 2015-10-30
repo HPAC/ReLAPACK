@@ -27,9 +27,9 @@ void LARPACK(sgetrf)(const int *m, const int *n,
 
     // Constants
     // 1, -1
-   	const float s1 = 1, sm1 = -1;
+   	const float ONE[] = {1}, MONE[] = {-1};
     // 1
-    const int i1 = 1;
+    const int iONE[] = {1};
 
     // Splitting
     const int mn = MIN(*m, *n);
@@ -52,19 +52,19 @@ void LARPACK(sgetrf)(const int *m, const int *n,
     // recursion(A_TL, ipiv_T)
     LARPACK(sgetrf)(m, &n1, A_TL, ldA, ipiv_T, info);
     // apply pivots to A_TR
-    LAPACK(slaswp)(&n2, A_TR, ldA, &i1, &n1, ipiv_T, &i1);
+    LAPACK(slaswp)(&n2, A_TR, ldA, iONE, &n1, ipiv_T, iONE);
 
     // A_TR = A_TL \ A_TR
-    BLAS(strsm)("L", "L", "N", "U", &n1, &n2, &s1, A_TL, ldA, A_TR, ldA);
+    BLAS(strsm)("L", "L", "N", "U", &n1, &n2, ONE, A_TL, ldA, A_TR, ldA);
     // A_BR = A_BR - A_BL * A_TR
-    BLAS(sgemm)("N", "N", &rm, &n2, &n1, &sm1, A_BL, ldA, A_TR, ldA, &s1, A_BR, ldA);
+    BLAS(sgemm)("N", "N", &rm, &n2, &n1, MONE, A_BL, ldA, A_TR, ldA, ONE, A_BR, ldA);
 
     // recursion(A_BR, ipiv_B)
     LARPACK(sgetrf)(&rm, &n2, A_BR, ldA, ipiv_B, info);
     if (*info)
         *info += n1;
     // apply pivots to A_BL
-    LAPACK(slaswp)(&n1, A_BL, ldA, &i1, &n2, ipiv_B, &i1);
+    LAPACK(slaswp)(&n1, A_BL, ldA, iONE, &n2, ipiv_B, iONE);
     // shift pivots
     int i;
     for (i = 0; i < mn; i++)
@@ -81,7 +81,7 @@ void LARPACK(sgetrf)(const int *m, const int *n,
     float *const A_R = A + *ldA * mn;
 
     // A_R = apply(ipiv, A_R)
-    LAPACK(slaswp)(&rn, A_R, ldA, &i1, &mn, ipiv, &i1);
+    LAPACK(slaswp)(&rn, A_R, ldA, iONE, &mn, ipiv, iONE);
     // A_R = A_S \ A_R
-    BLAS(strsm)("L", "L", "N", "U", &mn, &rn, &s1, A_S, ldA, A_R, ldA);
+    BLAS(strsm)("L", "L", "N", "U", &mn, &rn, ONE, A_S, ldA, A_R, ldA);
 }
