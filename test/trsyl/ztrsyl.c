@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 
     { // N N +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         z2matgen(m, m, A1, A2);
         z2matgen(n, n, B1, B2);
         z2matgen(m, n, C1, C2);

@@ -25,7 +25,13 @@ void LARPACK(clauum)(const char *uplo, const int *n,
         return;
     }
 
-    // Recursion
+    // Recursive
+
+    // Constants
+    // 1
+   	const float c1[] = {1, 0};
+
+    // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
     const int n2 = *n - n1;
 
@@ -35,9 +41,6 @@ void LARPACK(clauum)(const char *uplo, const int *n,
     float *const A_TR = A + 2 * *ldA * n1;
     float *const A_BL = A                 + 2 * n1;
     float *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
-
-    // 1
-   	const float c1[] = {1, 0};
 
     // recursion(A_TL)
     LARPACK(clauum)(uplo, &n1, A_TL, ldA, info);

@@ -4,8 +4,8 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
         double *A, const int *ldA, const double *B, const int *ldB, int *info) {
 
     // Check arguments
-    int lower = LAPACK(lsame)(uplo, "L");
-    int upper = LAPACK(lsame)(uplo, "U");
+    const int lower = LAPACK(lsame)(uplo, "L");
+    const int upper = LAPACK(lsame)(uplo, "U");
     *info = 0;
     if (*itype < 1 || *itype > 3)
         *info = -1;
@@ -30,6 +30,12 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
     }
 
     // Recursive
+
+    // Constants
+    // 1, -1, 1/2, -1/2
+   	const double z1[] = {1, 0}, zm1[] = {-1, 0}, zp5[] = {.5, 0}, zmp5[] = {-.5, 0};
+
+    // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
     const int n2 = *n - n1;
 
@@ -46,9 +52,6 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
     const double *const B_TR = B + 2 * *ldB * n1;
     const double *const B_BL = B                 + 2 * n1;
     const double *const B_BR = B + 2 * *ldB * n1 + 2 * n1;
-
-    // 1, -1, 1/2, -1/2
-   	const double z1[] = {1, 0}, zm1[] = {-1, 0}, zp5[] = {.5, 0}, zmp5[] = {-.5, 0};
 
     // recursion(A_TL, B_TL)
     LARPACK(zhegst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);

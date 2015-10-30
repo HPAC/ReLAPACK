@@ -19,12 +19,13 @@ int main(int argc, char* argv[]) {
 
     int info;
     float scale1, scale2;
+
     // 0, 1, -1
     const int i0[] = {0}, i1[] = {1}, im1[] = {-1};
 
     { // N N +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
