@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
     { // N N +1 m < n
         const int m = n_min, n = n_max;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
 
     { // N N +1 m > n
         const int m = n_max, n = n_min;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 
     { // C N +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 
     { // N C +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
 
     { // C C +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -195,7 +195,7 @@ int main(int argc, char* argv[]) {
 
     { // N N offdiag 
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -230,7 +230,7 @@ int main(int argc, char* argv[]) {
 
     { // N N -1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         s2matgen(m, m, A1, A2);
         s2matgen(n, n, B1, B2);
         s2matgen(m, n, C1, C2);
@@ -241,12 +241,10 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
-        // scale diagonal of A and B
-        const float smi = 1. / m, sni = 1. / n;
+        // scale diagonal of A
+        const float smi = 1. / m;
         BLAS(sscal)(&m, &smi, A1, &mp1);
         BLAS(sscal)(&m, &smi, A2, &mp1);
-        BLAS(sscal)(&n, &sni, B1, &np1);
-        BLAS(sscal)(&n, &sni, B2, &np1);
 
         // run
         LARPACK(strsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);

@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
     { // N N +1 m < n
         const int m = n_min, n = n_max;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 
     { // N N +1 m > n
         const int m = n_max, n = n_min;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
 
     { // C N +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
 
     { // N C +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
@@ -135,7 +135,7 @@ int main(int argc, char* argv[]) {
 
     { // C C +1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
@@ -157,18 +157,16 @@ int main(int argc, char* argv[]) {
 
     { // N N -1 m = n
         const int m = n_max, n = n_max;
-        // generate matrix
+        // generate matrices
         c2matgen(m, m, A1, A2);
         c2matgen(n, n, B1, B2);
         c2matgen(m, n, C1, C2);
 
-        // scale diagonal of A and B
-        const float smi = 1. / m, sni = 1. / n;
-        const int mp1 = m + 1, np1 = n + 1;
+        // scale diagonal of A
+        const float smi = 1. / m;
+        const int mp1 = m + 1;
         BLAS(cscal)(&m, &smi, A1, &mp1);
         BLAS(cscal)(&m, &smi, A2, &mp1);
-        BLAS(cscal)(&n, &sni, B1, &np1);
-        BLAS(cscal)(&n, &sni, B2, &np1);
 
         // run
         LARPACK(ctrsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
