@@ -67,7 +67,7 @@ void LARPACK(sgetrf)(const int *m, const int *n,
     LAPACK(slaswp)(&n1, A_BL, ldA, iONE, &n2, ipiv_B, iONE);
     // shift pivots
     int i;
-    for (i = 0; i < mn; i++)
+    for (i = 0; i < n2; i++)
         ipiv_B[i] += n1;
 
     if (*n == mn)
