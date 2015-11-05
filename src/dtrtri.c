@@ -1,5 +1,11 @@
 #include "larpack.h"
 
+#ifdef LARPACK_SMALL_LAPACK
+#define SMALL dtrtri
+#else
+#define SMALL dtrti2
+#endif
+
 void LARPACK(dtrtri)(const char *uplo, const char *diag, const int *n,
         double *A, const int *ldA, int *info) {
 
@@ -25,7 +31,7 @@ void LARPACK(dtrtri)(const char *uplo, const char *diag, const int *n,
 
     if (*n <= LARPACK_CROSSOVER) {
         // Unblocked
-        LAPACK(dtrti2)(uplo, diag, n, A, ldA, info);
+        LAPACK(SMALL)(uplo, diag, n, A, ldA, info);
         return;
     }
 
