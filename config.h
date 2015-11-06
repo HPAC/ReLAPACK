@@ -6,6 +6,5 @@
 #define LARPACK(routine) LARPACK_ ## routine
 
 #define LARPACK_CROSSOVER 24
-#define LARPACK_SMALL_LAPACK
 
 #endif /* CONFIG_H */
