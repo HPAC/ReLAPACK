@@ -8,6 +8,11 @@ extern void BLAS(dscal)(const int *, const double *, double *, const int *);
 extern void BLAS(cscal)(const int *, const float *, float *, const int *);
 extern void BLAS(zscal)(const int *, const double *, double *, const int *);
 
+extern void BLAS(saxpy)(const int *, const float *, const float *, const int *, float *, const int *);
+extern void BLAS(daxpy)(const int *, const double *, const double *, const int *, double *, const int *);
+extern void BLAS(caxpy)(const int *, const float *, const float *, const int *, float *, const int *);
+extern void BLAS(zaxpy)(const int *, const double *, const double *, const int *, double *, const int *);
+
 extern void BLAS(sgemm)(const char *, const char *, const int *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, const float *, const int*);
 extern void BLAS(dgemm)(const char *, const char *, const int *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, const double *, const int*);
 extern void BLAS(cgemm)(const char *, const char *, const int *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, const float *, const int*);

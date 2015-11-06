@@ -9,7 +9,7 @@ UTIL = ../util.o
 test: $(TESTS)
 
 %.pass: %.x
-	@ $^
+	@ ./$^
 
 %.x: %.o ../../liblarpack.a
 	@ $(CC) $(CFLAGS) $^ -o $@ $(UTIL) $(LINK_LAPACK) $(LINK_BLAS)

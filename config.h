@@ -7,4 +7,6 @@
 
 #define LARPACK_CROSSOVER 24
 
+#define ALLOW_MALLOC
+
 #endif /* CONFIG_H */

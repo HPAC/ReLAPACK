@@ -1,4 +1,5 @@
 #include "larpack.h"
+#include "stdlib.h"
 
 void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
         float *A, const int *ldA, const float *B, const int *ldB, int *info) {
@@ -32,8 +33,10 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
     // Recursive
 
     // Constants
-    // 1, -1, 1/2, -1/2
-   	const float ONE[] = {1, 0}, MONE[] = {-1, 0}, HALF[] = {.5, 0}, MHALF[] = {-.5, 0};
+    // 0, 1, -1, 1/2, -1/2
+   	const float ZERO[] = {0, 0}, ONE[] = {1, 0}, MONE[] = {-1, 0}, HALF[] = {.5, 0}, MHALF[] = {-.5, 0};
+    // 1
+    const int IONE[] = {1};
 
     // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -56,27 +59,60 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
     // recursion(A_TL, B_TL)
     LARPACK(chegst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
 
+#ifdef ALLOW_MALLOC
+    float *const T = malloc(n2 * n1 * 2 * sizeof(float));
+    int i;
+#endif
+
     if (*itype == 1)
         if (lower) {
             // A_BL = A_BL / B_TL'
             BLAS(ctrsm)("R", "L", "C", "N", &n2, &n1, ONE, B_TL, ldB, A_BL, ldA);
+#ifdef ALLOW_MALLOC
+            // T = -1/2 * B_BL * A_TL
+            BLAS(chemm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ZERO, T, &n2);
+            // A_BL = A_BL + T
+            for (i = 0; i < n1; i++)
+                BLAS(caxpy)(&n2, ONE, T + 2 * n2 * i, IONE, A_BL + 2 * *ldA * i, IONE);
+#else
             // A_BL = A_BL - 1/2 B_BL * A_TL
             BLAS(chemm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ONE, A_BL, ldA);
+#endif
             // A_BR = A_BR - A_BL * B_BL' - B_BL * A_BL'
             BLAS(cher2k)("L", "N", &n2, &n1, MONE, A_BL, ldA, B_BL, ldB, ONE, A_BR, ldA);
+#ifdef ALLOW_MALLOC
+            // A_BL = A_BL + T
+            for (i = 0; i < n1; i++)
+                BLAS(caxpy)(&n2, ONE, T + 2 * n2 * i, IONE, A_BL + 2 * *ldA * i, IONE);
+#else
             // A_BL = A_BL - 1/2 B_BL * A_TL
             BLAS(chemm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ONE, A_BL, ldA);
+#endif
             // A_BL = B_BR \ A_BL
             BLAS(ctrsm)("L", "L", "N", "N", &n2, &n1, ONE, B_BR, ldB, A_BL, ldA);
         } else {
             // A_TR = B_TL' \ A_TR
             BLAS(ctrsm)("L", "U", "C", "N", &n1, &n2, ONE, B_TL, ldB, A_TR, ldA);
+#ifdef ALLOW_MALLOC
+            // T = -1/2 * A_TL * B_TR
+            BLAS(chemm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ZERO, T, &n1);
+            // A_TR = A_BL + T
+            for (i = 0; i < n2; i++)
+                BLAS(caxpy)(&n1, ONE, T + 2 * n1 * i, IONE, A_TR + 2 * *ldA * i, IONE);
+#else
             // A_TR = A_TR - 1/2 A_TL * B_TR
             BLAS(chemm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ONE, A_TR, ldA);
+#endif
             // A_BR = A_BR - A_TR' * B_TR - B_TR' * A_TR
             BLAS(cher2k)("U", "C", &n2, &n1, MONE, A_TR, ldA, B_TR, ldB, ONE, A_BR, ldA);
+#ifdef ALLOW_MALLOC
+            // A_TR = A_BL + T
+            for (i = 0; i < n2; i++)
+                BLAS(caxpy)(&n1, ONE, T + 2 * n1 * i, IONE, A_TR + 2 * *ldA * i, IONE);
+#else
             // A_TR = A_TR - 1/2 A_TL * B_TR
             BLAS(chemm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ONE, A_TR, ldA);
+#endif
             // A_TR = A_TR / B_BR
             BLAS(ctrsm)("R", "U", "N", "N", &n1, &n2, ONE, B_BR, ldB, A_TR, ldA);
         }
@@ -84,26 +120,58 @@ void LARPACK(chegst)(const int *itype, const char *uplo, const int *n,
         if (lower) {
             // A_BL = A_BL * B_TL
             BLAS(ctrmm)("R", "L", "N", "N", &n2, &n1, ONE, B_TL, ldB, A_BL, ldA);
+#ifdef ALLOW_MALLOC
+            // T = 1/2 * A_BR * B_BL
+            BLAS(chemm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ZERO, T, &n2);
+            // A_BL = A_BL + T
+            for (i = 0; i < n1; i++)
+                BLAS(caxpy)(&n2, ONE, T + 2 * n2 * i, IONE, A_BL + 2 * *ldA * i, IONE);
+#else
             // A_BL = A_BL + 1/2 A_BR * B_BL
             BLAS(chemm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ONE, A_BL, ldA);
+#endif
             // A_TL = A_TL + A_BL' * B_BL + B_BL' * A_BL
             BLAS(cher2k)("L", "C", &n1, &n2, ONE, A_BL, ldA, B_BL, ldB, ONE, A_TL, ldA);
+#ifdef ALLOW_MALLOC
+            // A_BL = A_BL + T
+            for (i = 0; i < n1; i++)
+                BLAS(caxpy)(&n2, ONE, T + 2 * n2 * i, IONE, A_BL + 2 * *ldA * i, IONE);
+#else
             // A_BL = A_BL + 1/2 A_BR * B_BL
             BLAS(chemm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ONE, A_BL, ldA);
+#endif
             // A_BL = B_BR * A_BL
             BLAS(ctrmm)("L", "L", "C", "N", &n2, &n1, ONE, B_BR, ldB, A_BL, ldA);
         } else {
             // A_TR = B_TL * A_TR
             BLAS(ctrmm)("L", "U", "N", "N", &n1, &n2, ONE, B_TL, ldB, A_TR, ldA);
+#ifdef ALLOW_MALLOC
+            // T = 1/2 * B_TR * A_BR
+            BLAS(chemm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ZERO, T, &n1);
+            // A_TR = A_TR + T
+            for (i = 0; i < n2; i++)
+                BLAS(caxpy)(&n1, ONE, T + 2 * n1 * i, IONE, A_TR + 2 * *ldA * i, IONE);
+#else
             // A_TR = A_TR + 1/2 B_TR A_BR
             BLAS(chemm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ONE, A_TR, ldA);
+#endif
             // A_TL = A_TL + A_TR * B_TR' + B_TR * A_TR'
             BLAS(cher2k)("U", "N", &n1, &n2, ONE, A_TR, ldA, B_TR, ldB, ONE, A_TL, ldA);
+#ifdef ALLOW_MALLOC
+            // A_TR = A_TR + T
+            for (i = 0; i < n2; i++)
+                BLAS(caxpy)(&n1, ONE, T + 2 * n1 * i, IONE, A_TR + 2 * *ldA * i, IONE);
+#else
             // A_TR = A_TR + 1/2 B_TR * A_BR
             BLAS(chemm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ONE, A_TR, ldA);
+#endif
             // A_TR = A_TR * B_BR
             BLAS(ctrmm)("R", "U", "C", "N", &n1, &n2, ONE, B_BR, ldB, A_TR, ldA);
         }
+
+#ifdef ALLOW_MALLOC
+    free(T);
+#endif
 
     // recursion(A_BR, B_BR)
     LARPACK(chegst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
