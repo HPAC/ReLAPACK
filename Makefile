@@ -4,19 +4,30 @@ include make.inc
 
 LIB = liblarpack.a
 
-SRC = $(wildcard src/*.c) $(wildcard src/*.f)
+# routine shorthand expansion
+ROUTINES := $(ROUTINES:all=xlauum xsygst xtrtri xpotrf xgetrf xtrsyl)
+ROUTINES := $(ROUTINES:xlauum=slauum dlauum clauum zlauum)
+ROUTINES := $(ROUTINES:xsygst=ssygst dsygst chegst zhegst)
+ROUTINES := $(ROUTINES:xtrtri=strtri dtrtri ctrtri ztrtri)
+ROUTINES := $(ROUTINES:xpotrf=spotrf dpotrf cpotrf zpotrf)
+ROUTINES := $(ROUTINES:xgetrf=sgetrf dgetrf cgetrf zgetrf)
+ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
+# xtrsyl need unblocked xtrsy2
+ROUTINES += $(ROUTINES:%trsyl=%trsy2)
+# sort and remove duplicates
+ROUTINES := $(sort $(ROUTINES))
 
-TMP = $(SRC:%.c=%.o)
-OBJS = $(TMP:%.f=%.o)
+OBJS = $(ROUTINES:%=src/%.o)
 
 $(LIB): $(OBJS)
 	$(AR) -r $@ $^
 
-test: $(LIB) 
-	cd test; make
 
 %.o: %.c config.h
 	$(CC) $(CFLAGS) -c $< -o $@
+
+test: $(LIB) 
+	cd test; make
 
 clean:
 	rm -f $(LIB) $(OBJS)
