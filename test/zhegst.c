@@ -1,4 +1,4 @@
-#include "../src/larpack.h"
+#include "../src/relapack.h"
 #include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        LARPACK(zhegst)(i1, "L", &n, A1, &n, B1, &n, &info);
+        RELAPACK(zhegst)(i1, "L", &n, A1, &n, B1, &n, &info);
         LAPACK(zhegs2)(i1, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        LARPACK(zhegst)(i1, "U", &n, A1, &n, B1, &n, &info);
+        RELAPACK(zhegst)(i1, "U", &n, A1, &n, B1, &n, &info);
         LAPACK(zhegs2)(i1, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        LARPACK(zhegst)(i2, "L", &n, A1, &n, B1, &n, &info);
+        RELAPACK(zhegst)(i2, "L", &n, A1, &n, B1, &n, &info);
         LAPACK(zhegs2)(i2, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        LARPACK(zhegst)(i2, "U", &n, A1, &n, B1, &n, &info);
+        RELAPACK(zhegst)(i2, "U", &n, A1, &n, B1, &n, &info);
         LAPACK(zhegs2)(i2, "U", &n, A2, &n, B2, &n, &info);
 
         // check error

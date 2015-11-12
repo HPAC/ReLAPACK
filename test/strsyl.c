@@ -1,4 +1,4 @@
-#include "../src/larpack.h"
+#include "../src/relapack.h"
 #include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
         // run
-        LARPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
         // run
-        LARPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
         // run
-        LARPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
         // run
-        LARPACK(strsyl)("C", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("C", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("C", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -154,7 +154,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
         // run
-        LARPACK(strsyl)("N", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("N", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("N", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -182,7 +182,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
 
         // run
-        LARPACK(strsyl)("C", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("C", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("C", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -217,7 +217,7 @@ int main(int argc, char* argv[]) {
         B1[n1 + n * (n1 - 1)] = B2[n1 + n * (n1 - 1)] = -.2;
 
         // run
-        LARPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
@@ -250,7 +250,7 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, A2, &mp1);
 
         // run
-        LARPACK(strsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
+        RELAPACK(strsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
         LAPACK(strsy2)("N", "N", im1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);

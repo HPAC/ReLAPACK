@@ -1,4 +1,4 @@
-#include "../src/larpack.h"
+#include "../src/relapack.h"
 #include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(zpotrf)("L", &n, A1, &n, &info);
+        RELAPACK(zpotrf)("L", &n, A1, &n, &info);
         LAPACK(zpotf2)("L", &n, A2, &n, &info);
 
         // check error
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(zpotrf)("U", &n, A1, &n, &info);
+        RELAPACK(zpotrf)("U", &n, A1, &n, &info);
         LAPACK(zpotf2)("U", &n, A2, &n, &info);
 
         // check error

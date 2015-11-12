@@ -1,7 +1,7 @@
-#include "larpack.h"
+#include "relapack.h"
 #include "stdlib.h"
 
-void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
+void RELAPACK(zhegst)(const int *itype, const char *uplo, const int *n,
         double *A, const int *ldA, const double *B, const int *ldB, int *info) {
 
     // Check arguments
@@ -24,7 +24,7 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) {
+    if (*n <= RELAPACK_CROSSOVER) {
         // Unblocked
         LAPACK(zhegs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
@@ -57,7 +57,7 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
     const double *const B_BR = B + 2 * *ldB * n1 + 2 * n1;
 
     // recursion(A_TL, B_TL)
-    LARPACK(zhegst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
+    RELAPACK(zhegst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
 
 #ifdef ALLOW_MALLOC
     double *const T = malloc(n2 * n1 * 2 * sizeof(double));
@@ -174,5 +174,5 @@ void LARPACK(zhegst)(const int *itype, const char *uplo, const int *n,
 #endif
 
     // recursion(A_BR, B_BR)
-    LARPACK(zhegst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
+    RELAPACK(zhegst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
 }

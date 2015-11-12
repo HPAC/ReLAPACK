@@ -1,9 +1,9 @@
-LARPACK
+ReLAPACK
 =======
 
-Linear Algebra Recursive Package
+Recursive Linear Algebra PACKage
 
-LARPACK provides recursive implementations of many blocked algorithms within
+ReLAPACK provides recursive implementations of many blocked algorithms within
 LAPACK
 
 Coverage
@@ -13,6 +13,13 @@ Coverage
 Symmetric triangular matrix squaring
 * A = L^T L
 * A = U U^T
+
+# `ssygst`, `dsygst`, `chegst`, `zhegst`
+Two-sided symmetric `trmm` or `trsm`
+* A = inv(L) A inv(L^T)
+* A = inv(U^T) A inv(U)
+* A = L^T A L
+* A = U A U^T
 
 # `strtri`, `dtrtri`, `ctrtri`, `ztrtri`
 Triangular matrix inversion
@@ -27,13 +34,6 @@ Cholesky decomposition
 # `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
 LU decomposition with pivoting
 * P L U = A
-
-# `ssygst`, `dsygst`, `chegst`, `zhegst`
-Two-sided symmetric `trmm` or `trsm`
-* A = inv(L) A inv(L^T)
-* A = inv(U^T) A inv(U)
-* A = L^T A L
-* A = U A U^T
 
 # `strsyl`, `dtrsyl`, `ctrsyl`, `ztrsyl`
 Sylvester equation solver
@@ -51,15 +51,15 @@ Not covered yet
 The following routines can potentially be translated to recursive algorithms but
 are not covered yet:
 
-# `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
-Generalized Sylvester solver
-* A R - L B = C, D R - L E = F
-* A^T R + D^T L = C, R B^T - L E^T = -F
-
 # `ssytrf`, `dsytrf`, `chetrf`, `zhetrf`
 LDL symmetric decomposition
 * L D L^T = A
 * U^T D U = A
+
+# `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
+Generalized Sylvester solver
+* A R - L B = C, D R - L E = F
+* A^T R + D^T L = C, R B^T - L E^T = -F
 
 Recursion not applicable
 ------------------------

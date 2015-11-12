@@ -3,9 +3,9 @@
 
 #define BLAS_UNDERSCORE
 #define LAPACK_UNDERSCORE
-#define LARPACK(routine) LARPACK_ ## routine
+#define RELAPACK(routine) RELAPACK_ ## routine
 
-#define LARPACK_CROSSOVER 24
+#define RELAPACK_CROSSOVER 24
 
 #define ALLOW_MALLOC
 

@@ -1,6 +1,6 @@
-#include "larpack.h"
+#include "relapack.h"
 
-void LARPACK(clauum)(const char *uplo, const int *n,
+void RELAPACK(clauum)(const char *uplo, const int *n,
         float *A, const int *ldA, int *info) {
 
     // Check arguments
@@ -19,7 +19,7 @@ void LARPACK(clauum)(const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) {
+    if (*n <= RELAPACK_CROSSOVER) {
         // Unblocked
         LAPACK(clauu2)(uplo, n, A, ldA, info);
         return;
@@ -43,7 +43,7 @@ void LARPACK(clauum)(const char *uplo, const int *n,
     float *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // recursion(A_TL)
-    LARPACK(clauum)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK(clauum)(uplo, &n1, A_TL, ldA, info);
 
     if (lower) {
         // A_TL = A_TL + A_BL' * A_BL
@@ -58,5 +58,5 @@ void LARPACK(clauum)(const char *uplo, const int *n,
     }
 
     // recursion(A_BR)
-    LARPACK(clauum)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK(clauum)(uplo, &n2, A_BR, ldA, info);
 }

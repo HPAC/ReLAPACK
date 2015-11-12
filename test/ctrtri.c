@@ -1,4 +1,4 @@
-#include "../src/larpack.h"
+#include "../src/relapack.h"
 #include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(ctrtri)("L", "N", &n, A1, &n, &info);
+        RELAPACK(ctrtri)("L", "N", &n, A1, &n, &info);
         LAPACK(ctrti2)("L", "N", &n, A2, &n, &info);
 
         // check error
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(ctrtri)("U", "N", &n, A1, &n, &info);
+        RELAPACK(ctrtri)("U", "N", &n, A1, &n, &info);
         LAPACK(ctrti2)("U", "N", &n, A2, &n, &info);
 
         // check error

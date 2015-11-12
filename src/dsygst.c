@@ -1,7 +1,7 @@
-#include "larpack.h"
+#include "relapack.h"
 #include "stdlib.h"
 
-void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n,
+void RELAPACK(dsygst)(const int *itype, const char *uplo, const int *n,
         double *A, const int *ldA, const double *B, const int *ldB, int *info) {
 
     // Check arguments
@@ -24,7 +24,7 @@ void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) {
+    if (*n <= RELAPACK_CROSSOVER) {
         // Unblocked
         LAPACK(dsygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
@@ -57,7 +57,7 @@ void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n,
     const double *const B_BR = B + *ldB * n1 + n1;
 
     // recursion(A_TL, B_TL)
-    LARPACK(dsygst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
+    RELAPACK(dsygst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
 
 #ifdef ALLOW_MALLOC
     double *const T = malloc(n2 * n1 * sizeof(double));
@@ -174,5 +174,5 @@ void LARPACK(dsygst)(const int *itype, const char *uplo, const int *n,
 #endif
 
     // recursion(A_BR, B_BR)
-    LARPACK(dsygst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
+    RELAPACK(dsygst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
 }

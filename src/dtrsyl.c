@@ -1,6 +1,6 @@
-#include "larpack.h"
+#include "relapack.h"
 
-void LARPACK(dtrsyl)(const char *tranA, const char *tranB, const int *isgn,
+void RELAPACK(dtrsyl)(const char *tranA, const char *tranB, const int *isgn,
         const int *m, const int *n,
         const double *A, const int *ldA, const double *B, const int *ldB,
         double *C, const int *ldC, double *scale, int *info) {
@@ -33,7 +33,7 @@ void LARPACK(dtrsyl)(const char *tranA, const char *tranB, const int *isgn,
         return;
     }
 
-    if (*m <= LARPACK_CROSSOVER && *n <= LARPACK_CROSSOVER) {
+    if (*m <= RELAPACK_CROSSOVER && *n <= RELAPACK_CROSSOVER) {
         // Unblocked
         LAPACK(dtrsy2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;
@@ -70,21 +70,21 @@ void LARPACK(dtrsyl)(const char *tranA, const char *tranB, const int *isgn,
 
         if (notransA) {
             // recusion(A_BR, B, C_B)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale1, info1);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale1, info1);
             // C_T = C_T - A_TR * C_B
             BLAS(dgemm)("N", "N", &m1, n, &m2, MONE, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
             // recusion(A_TL, B, C_T)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale2, info2);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(dlascl)("G", iONE, iONE, ONE, scale2, &m2, n, C_B, ldC, info);
         } else {
             // recusion(A_TL, B, C_T)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale1, info1);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale1, info1);
             // C_B = C_B - A_TR' * C_T
             BLAS(dgemm)("C", "N", &m2, n, &m1, MONE, A_TR, ldA, C_T, ldC, scale1, C_B, ldC);
             // recusion(A_BR, B, C_B)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale2, info2);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(dlascl)("G", iONE, iONE, ONE, scale2, &m1, n, C_B, ldC, info);
@@ -107,21 +107,21 @@ void LARPACK(dtrsyl)(const char *tranA, const char *tranB, const int *isgn,
 
         if (notransB) {
             // recusion(A, B_TL, C_L)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale1, info1);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale1, info1);
             // C_R = C_R -/+ C_L * B_TR
             BLAS(dgemm)("N", "N", m, &n2, &n1, MSGN, C_L, ldC, B_TR, ldB, scale1, C_R, ldC);
             // recusion(A, B_BR, C_R)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale2, info2);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(dlascl)("G", iONE, iONE, ONE, scale2, m, &n1, C_L, ldC, info);
         } else {
             // recusion(A, B_BR, C_R)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale1, info1);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale1, info1);
             // C_L = C_L -/+ C_R * B_TR'
             BLAS(dgemm)("N", "C", m, &n1, &n2, MSGN, C_R, ldC, B_TR, ldB, scale1, C_L, ldC);
             // recusion(A, B_TL, C_L)
-            LARPACK(dtrsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale2, info2);
+            RELAPACK(dtrsyl)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(dlascl)("G", iONE, iONE, ONE, scale2, m, &n2, C_R, ldC, info);

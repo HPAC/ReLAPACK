@@ -1,6 +1,6 @@
-#include "larpack.h"
+#include "relapack.h"
 
-void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
+void RELAPACK(strtri)(const char *uplo, const char *diag, const int *n,
         float *A, const int *ldA, int *info) {
 
     // Check arguments
@@ -23,7 +23,7 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) {
+    if (*n <= RELAPACK_CROSSOVER) {
         // Unblocked
         LAPACK(strti2)(uplo, diag, n, A, ldA, info);
         return;
@@ -47,7 +47,7 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
     float *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    LARPACK(strtri)(uplo, diag, &n1, A_TL, ldA, info);
+    RELAPACK(strtri)(uplo, diag, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
@@ -64,7 +64,7 @@ void LARPACK(strtri)(const char *uplo, const char *diag, const int *n,
     }
 
     // recursion(A_BR)
-    LARPACK(strtri)(uplo, diag, &n2, A_BR, ldA, info);
+    RELAPACK(strtri)(uplo, diag, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

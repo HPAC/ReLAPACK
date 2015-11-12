@@ -2,7 +2,7 @@ include make.inc
 
 .PHONY: test
 
-LIB = liblarpack.a
+LIB = librelapack.a
 
 # routine shorthand expansion
 ROUTINES := $(ROUTINES:all=xlauum xsygst xtrtri xpotrf xgetrf xtrsyl)

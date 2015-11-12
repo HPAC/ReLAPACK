@@ -1,6 +1,6 @@
-#include "larpack.h"
+#include "relapack.h"
 
-void LARPACK(zgetrf)(const int *m, const int *n,
+void RELAPACK(zgetrf)(const int *m, const int *n,
         double *A, const int *ldA, int *ipiv, int *info) {
 
     // Check arguments
@@ -17,7 +17,7 @@ void LARPACK(zgetrf)(const int *m, const int *n,
         return;
     }
 
-    if (*n <= LARPACK_CROSSOVER) {
+    if (*n <= RELAPACK_CROSSOVER) {
         // Unblocked
         LAPACK(zgetf2)(m, n, A, ldA, ipiv, info);
         return;
@@ -50,7 +50,7 @@ void LARPACK(zgetrf)(const int *m, const int *n,
     int *const ipiv_B = ipiv + n1;
 
     // recursion(A_TL, ipiv_T)
-    LARPACK(zgetrf)(m, &n1, A_TL, ldA, ipiv_T, info);
+    RELAPACK(zgetrf)(m, &n1, A_TL, ldA, ipiv_T, info);
     // apply pivots to A_TR
     LAPACK(zlaswp)(&n2, A_TR, ldA, iONE, &n1, ipiv_T, iONE);
 
@@ -60,7 +60,7 @@ void LARPACK(zgetrf)(const int *m, const int *n,
     BLAS(zgemm)("N", "N", &rm, &n2, &n1, MONE, A_BL, ldA, A_TR, ldA, ONE, A_BR, ldA);
 
     // recursion(A_BR, ipiv_B)
-    LARPACK(zgetrf)(&rm, &n2, A_BR, ldA, ipiv_B, info);
+    RELAPACK(zgetrf)(&rm, &n2, A_BR, ldA, ipiv_B, info);
     if (*info)
         *info += n1;
     // apply pivots to A_BL

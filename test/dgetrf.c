@@ -1,4 +1,4 @@
-#include "../src/larpack.h"
+#include "../src/relapack.h"
 #include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(dgetrf)(&n, &n, A1, &n, ipiv1, &info);
+        RELAPACK(dgetrf)(&n, &n, A1, &n, ipiv1, &info);
         LAPACK(dgetf2)(&n, &n, A2, &n, ipiv2, &info);
 
         // check error
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n2, A1, A2);
 
         // run
-        LARPACK(dgetrf)(&n, &n2, A1, &n, ipiv1, &info);
+        RELAPACK(dgetrf)(&n, &n2, A1, &n, ipiv1, &info);
         LAPACK(dgetf2)(&n, &n2, A2, &n, ipiv2, &info);
 
         // check error
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         d2matgen(n2, n, A1, A2);
 
         // run
-        LARPACK(dgetrf)(&n2, &n, A1, &n, ipiv1, &info);
+        RELAPACK(dgetrf)(&n2, &n, A1, &n, ipiv1, &info);
         LAPACK(dgetf2)(&n2, &n, A2, &n, ipiv2, &info);
 
         // check error
