@@ -22,7 +22,7 @@ test: util.o $(TESTS)
 	@ ./$< $(TEST_SIZE)
 
 %.x: %.c util.o
-	$(CC) $(FLAGS) $< -o $@ util.o ../liblarpack.a $(LINK_LAPACK) $(LINK_BLAS)
+	$(CC) $(FLAGS) $< -o $@ util.o ../librelapack.a $(LINK_LAPACK) $(LINK_BLAS)
 
 clean:
 	rm -f *.x
