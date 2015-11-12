@@ -1,1 +1,0 @@
-../trtri/Makefile

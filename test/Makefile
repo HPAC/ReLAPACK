@@ -1,17 +1,28 @@
+include ../make.inc
+
+# routine shorthand expansion
+ROUTINES := $(ROUTINES:all=xlauum xsygst xtrtri xpotrf xgetrf xtrsyl)
+ROUTINES := $(ROUTINES:xlauum=slauum dlauum clauum zlauum)
+ROUTINES := $(ROUTINES:xsygst=ssygst dsygst chegst zhegst)
+ROUTINES := $(ROUTINES:xtrtri=strtri dtrtri ctrtri ztrtri)
+ROUTINES := $(ROUTINES:xpotrf=spotrf dpotrf cpotrf zpotrf)
+ROUTINES := $(ROUTINES:xgetrf=sgetrf dgetrf cgetrf zgetrf)
+ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
+# sort and remove duplicates
+ROUTINES := $(sort $(ROUTINES))
+
+TESTS = $(ROUTINES:%=%.pass)  # these are just dummies
+EXES = $(ROTUINES:%=%.x)
+
+.SECONDARY: $(EXES)
 
 test: util.o $(TESTS)
-	@ cd lauum; make
-	@ cd trtri; make
-	@ cd potrf; make
-	@ cd getrf; make
-	@ cd sygst; make
-	@ cd trsyl; make
+
+%.pass: %.x
+	@ ./$< $(TEST_SIZE)
+
+%.x: %.c util.o
+	$(CC) $(FLAGS) $< -o $@ util.o ../liblarpack.a $(LINK_LAPACK) $(LINK_BLAS)
 
 clean:
-	rm *.o
-	cd lauum; make clean
-	cd trtri; make clean
-	cd potrf; make clean
-	cd getrf; make clean
-	cd sygst; make clean
-	cd trsyl; make clean
+	rm -f *.x

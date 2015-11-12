@@ -1,12 +1,15 @@
-#include "../../src/larpack.h"
-#include "../test_config.h"
-#include "../util.h"
+#include "../src/larpack.h"
+#include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
 
-	const int n = TEST_N;
+    if (argc == 1) {
+        fprintf(stderr, "usage: %s n\n", argv[0]);
+        return 0;
+    }
+    const int n = atoi(argv[1]);
     const int n2 = (n * 3) / 4;
 		
 	double *A1 = malloc(n * n * sizeof(double));

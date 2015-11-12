@@ -1,12 +1,15 @@
-#include "../../src/larpack.h"
-#include "../test_config.h"
-#include "../util.h"
+#include "../src/larpack.h"
+#include "util.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
 
-	const int n = TEST_N;
+    if (argc == 1) {
+        fprintf(stderr, "usage: %s n\n", argv[0]);
+        return 0;
+    }
+    const int n = atoi(argv[1]);
 		
 	float *A1 = malloc(2 * n * n * sizeof(float));
 	float *A2 = malloc(2 * n * n * sizeof(float));
@@ -19,12 +22,12 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(ctrtri)("L", "N", &n, A1, &n, &info);
-        LAPACK(ctrti2)("L", "N", &n, A2, &n, &info);
+        LARPACK(clauum)("L", &n, A1, &n, &info);
+        LAPACK(clauu2)("L", &n, A2, &n, &info);
 
         // check error
         const double error = c2vecerr(n * n, A1, A2);
-        printf("ctrtri L:\t%g\n", error);
+        printf("clauum L:\t%g\n", error);
     }
 
     // U
@@ -33,12 +36,12 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, A1, A2);
 
         // run
-        LARPACK(ctrtri)("U", "N", &n, A1, &n, &info);
-        LAPACK(ctrti2)("U", "N", &n, A2, &n, &info);
+        LARPACK(clauum)("U", &n, A1, &n, &info);
+        LAPACK(clauu2)("U", &n, A2, &n, &info);
 
         // check error
         const double error = c2vecerr(n * n, A1, A2);
-        printf("ctrtri U:\t%g\n", error);
+        printf("clauum U:\t%g\n", error);
     }
 
     free(A1); 
