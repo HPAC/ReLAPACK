@@ -33,7 +33,7 @@ void RELAPACK(ctrsyl)(const char *tranA, const char *tranB, const int *isgn,
         return;
     }
 
-    if (*m <= RELAPACK_CROSSOVER && *n <= RELAPACK_CROSSOVER) {
+    if (*m <= CROSSOVER_CTRSYL && *n <= CROSSOVER_CTRSYL) {
         // Unblocked
         LAPACK(ctrsy2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;

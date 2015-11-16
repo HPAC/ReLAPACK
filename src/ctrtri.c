@@ -23,7 +23,7 @@ void RELAPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_CTRTRI) {
         // Unblocked
         LAPACK(ctrti2)(uplo, diag, n, A, ldA, info);
         return;

@@ -19,7 +19,7 @@ void RELAPACK(dlauum)(const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_DLAUUM) {
         // Unblocked
         LAPACK(dlauu2)(uplo, n, A, ldA, info);
         return;

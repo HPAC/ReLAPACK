@@ -19,7 +19,7 @@ void RELAPACK(zpotrf)(const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_CPOTRF) {
         // Unblocked
         LAPACK(zpotf2)(uplo, n, A, ldA, info);
         return;

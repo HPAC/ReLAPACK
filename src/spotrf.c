@@ -19,7 +19,7 @@ void RELAPACK(spotrf)(const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_SPOTRF) {
         // Unblocked
         LAPACK(spotf2)(uplo, n, A, ldA, info);
         return;

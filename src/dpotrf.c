@@ -19,7 +19,7 @@ void RELAPACK(dpotrf)(const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_DPOTRF) {
         // Unblocked
         LAPACK(dpotf2)(uplo, n, A, ldA, info);
         return;

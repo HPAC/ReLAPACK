@@ -23,7 +23,7 @@ void RELAPACK(ztrtri)(const char *uplo, const char *diag, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_ZTRTRI) {
         // Unblocked
         LAPACK(ztrti2)(uplo, diag, n, A, ldA, info);
         return;

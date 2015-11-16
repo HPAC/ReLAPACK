@@ -17,7 +17,7 @@ void RELAPACK(sgetrf)(const int *m, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_SGETRF) {
         // Unblocked
         LAPACK(sgetf2)(m, n, A, ldA, ipiv, info);
         return;

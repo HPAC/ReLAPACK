@@ -24,7 +24,7 @@ void RELAPACK(chegst)(const int *itype, const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_CHEGST) {
         // Unblocked
         LAPACK(chegs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;

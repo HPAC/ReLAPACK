@@ -24,7 +24,7 @@ void RELAPACK(dsygst)(const int *itype, const char *uplo, const int *n,
         return;
     }
 
-    if (*n <= RELAPACK_CROSSOVER) {
+    if (*n <= CROSSOVER_DSYGST) {
         // Unblocked
         LAPACK(dsygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
