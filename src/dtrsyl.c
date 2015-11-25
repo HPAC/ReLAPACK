@@ -35,7 +35,7 @@ void RELAPACK(dtrsyl)(const char *tranA, const char *tranB, const int *isgn,
 
     if (*m <= CROSSOVER_DTRSYL && *n <= CROSSOVER_DTRSYL) {
         // Unblocked
-        LAPACK(dtrsy2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
+        DTRSY2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;
     }
 

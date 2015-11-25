@@ -1,8 +1,6 @@
 #ifndef LAPACK_H
 #define LAPACK_H
 
-#include "fortran_interface.h"
-
 extern int LAPACK(lsame)(const char *, const char *);
 extern int LAPACK(xerbla)(const char *, const int *);
 

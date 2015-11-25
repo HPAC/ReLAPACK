@@ -1,8 +1,6 @@
 #ifndef BLAS_H
 #define BLAS_H
 
-#include "fortran_interface.h"
-
 extern void BLAS(sscal)(const int *, const float *, float *, const int *);
 extern void BLAS(dscal)(const int *, const double *, double *, const int *);
 extern void BLAS(cscal)(const int *, const float *, float *, const int *);

@@ -3,7 +3,7 @@
 
 #define BLAS_UNDERSCORE
 #define LAPACK_UNDERSCORE
-#define RELAPACK(routine) RELAPACK_ ## routine
+// #define RELAPACK_AS_LAPACK
 
 #define ALLOW_MALLOC
 

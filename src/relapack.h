@@ -1,6 +1,24 @@
 #ifndef RELAPACK_H
 #define RELAPACK_H
 
+#ifdef BLAS_UNDERSCORE
+#define BLAS(routine) routine ## _
+#else
+#define BLAS(routine) routine
+#endif
+
+#ifdef LAPACK_UNDERSCORE
+#define LAPACK(routine) routine ## _
+#else
+#define LAPACK(routine) routine
+#endif
+
+#ifdef RELAPACK_AS_LAPACK
+#define RELEPACK(routine) LAPACK(routine)
+#else
+#define RELAPACK(routine) RELAPACK_ ## routine
+#endif
+
 #include "../config.h"
 #include "lapack.h"
 #include "blas.h"
@@ -32,14 +50,25 @@ void RELAPACK(dsygst)(const int *, const char *, const int *, double *, const in
 void RELAPACK(chegst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 void RELAPACK(zhegst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 
-void LAPACK(strsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void LAPACK(dtrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-void LAPACK(ctrsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void LAPACK(ztrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-
 void RELAPACK(strsyl)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
 void RELAPACK(dtrsyl)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 void RELAPACK(ctrsyl)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
 void RELAPACK(ztrsyl)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+
+#ifdef RELAPACK_AS_LAPACK
+#define STRSY2 LAPACK(strsy2)
+#define DTRSY2 LAPACK(dtrsy2)
+#define CTRSY2 LAPACK(ctrsy2)
+#define ZTRSY2 LAPACK(ztrsy2)
+#else
+#define STRSY2 LAPACK(strsyl)
+#define DTRSY2 LAPACK(dtrsyl)
+#define CTRSY2 LAPACK(ctrsyl)
+#define ZTRSY2 LAPACK(ztrsyl)
+#endif
+void STRSY2(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void DTRSY2(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+void CTRSY2(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void ZTRSY2(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 
 #endif /*  RELAPACK_H */
