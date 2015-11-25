@@ -21,8 +21,8 @@ test: util.o $(TESTS)
 %.pass: %.x
 	@ ./$< $(TEST_SIZE)
 
-%.x: %.c util.o
-	$(CC) $(FLAGS) $< -o $@ util.o ../librelapack.a $(LINK_LAPACK) $(LINK_BLAS)
+%.x: %.c util.o ../librelapack.a
+	$(CC) $(CFLAGS) $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
 
 clean:
 	rm -f *.x
