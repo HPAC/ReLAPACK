@@ -1,6 +1,8 @@
 #ifndef RELAPACK_H
 #define RELAPACK_H
 
+#include "../config.h"
+
 #ifdef BLAS_UNDERSCORE
 #define BLAS(routine) routine ## _
 #else
@@ -19,7 +21,6 @@
 #define RELAPACK(routine) RELAPACK_ ## routine
 #endif
 
-#include "../config.h"
 #include "lapack.h"
 #include "blas.h"
 #include "util.h"
@@ -46,7 +47,6 @@ void RELAPACK(zgetrf)(const int *, const int *, double *, const int *, int *, in
 
 void RELAPACK(ssygst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 void RELAPACK(dsygst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
-
 void RELAPACK(chegst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 void RELAPACK(zhegst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 
