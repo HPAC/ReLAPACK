@@ -41,8 +41,7 @@ Operations:
 ### LU decomposition with pivoting
 Routines: `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
 
-Operation:
-* P L U = A
+Operation: P L U = A
 
 ### Sylvester equation solver
 Routines: `strsyl`, `dtrsyl`, `ctrsyl`, `ztrsyl`
@@ -94,14 +93,12 @@ Operations:
 * Q L = A
 * L Q = A
 
-### symmetric reduction to tridiagonal
+### Symmetric reduction to tridiagonal
 Routines: `ssytrd`, `dsytrd`, `csytrd`, `zsytrd`
 
-Operation:
-* Q T Q^T = A
+Operation: Q T Q^T = A
 
-### reduction to upper Hessenberg
+### Reduction to upper Hessenberg
 Routines: `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
 
-Operation:
-* Q H Q^T = A
+Operation: Q H Q^T = A
