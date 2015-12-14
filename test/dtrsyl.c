@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -127,7 +127,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("C", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("C", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("C", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("N", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("N", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("N", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -183,7 +183,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("C", "C", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("C", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("C", "C", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -218,7 +218,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("N", "N", i1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("N", "N", i1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
@@ -251,7 +251,7 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(dtrsyl)("N", "N", im1, &m, &n, A1, &m, B1, &n, C1, &m, &scale1, &info);
-        LAPACK(dtrsy2)("N", "N", im1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
+        DTRSY2("N", "N", im1, &m, &n, A2, &m, B2, &n, C2, &m, &scale2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
