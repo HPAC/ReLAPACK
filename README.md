@@ -1,42 +1,53 @@
 ReLAPACK
 =======
 
-Recursive Linear Algebra PACKage
+Recursive LAPACK Collection
 
-ReLAPACK provides recursive implementations of many blocked algorithms within
-LAPACK
+ReLAPACK provides recursive implementations of blocked LAPACK algorithms. 
 
 Coverage
 --------
 
-### `slauum`, `dlauum`, `clauum`, `zlauum`
-Symmetric triangular matrix squaring
+### Symmetric triangular matrix squaring
+Routines: `slauum`, `dlauum`, `clauum`, `zlauum`
+
+Operations: 
 * A = L^T L
 * A = U U^T
 
-### `ssygst`, `dsygst`, `chegst`, `zhegst`
-Two-sided symmetric `trmm` or `trsm`
+### Two-sided symmetric `trmm` or `trsm`
+Routines: `ssygst`, `dsygst`, `chegst`, `zhegst`
+
+Operations:
 * A = inv(L) A inv(L^T)
 * A = inv(U^T) A inv(U)
 * A = L^T A L
 * A = U A U^T
 
-### `strtri`, `dtrtri`, `ctrtri`, `ztrtri`
-Triangular matrix inversion
+### Triangular matrix inversion
+Routines: `strtri`, `dtrtri`, `ctrtri`, `ztrtri`
+
+Operations:
 * L = inv(L)
 * U = inv(U)
 
-### `spotrf`, `dpotrf`, `cpotrf`, `zpotrf`
-Cholesky decomposition
+### Cholesky decomposition
+Routines: `spotrf`, `dpotrf`, `cpotrf`, `zpotrf`
+
+Operations:
 * L L^T = A
 * U^T U = A
 
-### `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
-LU decomposition with pivoting
+### LU decomposition with pivoting
+Routines: `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
+
+Operation:
 * P L U = A
 
-### `strsyl`, `dtrsyl`, `ctrsyl`, `ztrsyl`
-Sylvester equation solver
+### Sylvester equation solver
+Routines: `strsyl`, `dtrsyl`, `ctrsyl`, `ztrsyl`
+
+Operations:
 * A X + B Y = C -> X
 * A^T X + B Y = C -> X
 * A X + B^T Y = C -> X
@@ -48,16 +59,20 @@ Sylvester equation solver
 
 Not covered yet
 ---------------
-The following routines can potentially be translated to recursive algorithms but
-are not covered yet:
+The following routines can be translated to recursive algorithms but are not
+covered yet:
 
-### `ssytrf`, `dsytrf`, `chetrf`, `zhetrf`
-LDL symmetric decomposition
+### LDL symmetric decomposition
+Routines: `ssytrf`, `dsytrf`, `chetrf`, `zhetrf`
+
+Operations:
 * L D L^T = A
 * U^T D U = A
 
-### `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
-Generalized Sylvester solver
+### Generalized Sylvester solver
+Routines: `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
+
+Operations:
 * A R - L B = C, D R - L E = F
 * A^T R + D^T L = C, R B^T - L E^T = -F
 
@@ -67,13 +82,26 @@ The following routines are not covered because recursive variants would require
 considerably more FLOPs:
 
 ### QR decomposition (and related)
+Routines:
 * `sgeqrf`, `dgeqrf`, `cgeqrf`, `zgeqrf`
 * `sgerqf`, `dgerqf`, `cgerqf`, `zgerqf`
 * `sgeqlf`, `dgeqlf`, `cgeqlf`, `zgeqlf`
 * `sgelqf`, `dgelqf`, `cgelqf`, `zgelqf`
 
+Operations:
+* Q R = A
+* R Q = A
+* Q L = A
+* L Q = A
+
 ### symmetric reduction to tridiagonal
-* `ssytrd`, `dsytrd`, `csytrd`, `zsytrd`
+Routines: `ssytrd`, `dsytrd`, `csytrd`, `zsytrd`
+
+Operation:
+* Q T Q^T = A
 
 ### reduction to upper Hessenberg
-* `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
+Routines: `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
+
+Operation:
+* Q H Q^T = A
