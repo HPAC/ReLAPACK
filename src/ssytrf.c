@@ -34,7 +34,6 @@ void RELAPACK(ssytrf)(const char *uplo, const int *n,
         W = malloc(*ldA * *n * sizeof(float));
 
     int nout;
-    printf("slasyf(%s, %d, %d)\n", uplo, *n, *n);
     RELAPACK(slasyf)(uplo, n, n, &nout, A, ldA, ipiv, W, ldA, info);
 
     if (W != Work)

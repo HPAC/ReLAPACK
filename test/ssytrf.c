@@ -27,22 +27,10 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(ssytrf)("L", &n, A1, &n, ipiv1, Work, &lWork, &info);
-        int nout;
         LAPACK(ssytrf)("L", &n, A2, &n, ipiv2, Work, &lWork, &info);
-        // LAPACK(slasyf)("L", &n, &n, &nout, A2, &n, ipiv2, Work, &n, &info);
-
-        // print
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j <= i; j++)
-                printf(" %8g", (double) A2[i + j * n] - A1[i + j * n]);
-            printf("\n");
-        }
-        for (int i = 0; i < n; i++)
-            printf(" %8d", ipiv2[i] - ipiv1[i]);
-        printf("\n");
 
         // check error
-        const double error = s2vecerr(n * n, A1, A2);
+        const double error = s2vecerr(n * n, A1, A2) + i2vecerr(n, ipiv1, ipiv2);
         printf("ssytrf L:\t%g\n", error);
     }
 

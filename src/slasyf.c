@@ -7,12 +7,10 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
     if (*n <= CROSSOVER_SSYTRF) {
         // Unblocked
         if (*m == *n) {
-            printf("ssytf2(%s, %d)\n", uplo, *n);
             LAPACK(ssytf2)(uplo, n, A, ldA, ipiv, info);
-        } else {
-            printf("ssytf3(%s, %d, %d)\n", uplo, *m, *n);
+            *nout = *n;
+        } else
             LAPACK(ssytf3)(uplo, m, n, nout, A, ldA, ipiv, Work, ldWork, info);
-        }
         return;
     }
 
@@ -23,6 +21,8 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
     // Constants
     // 1, -1
    	const float ONE[] = {1}, MONE[] = {-1};
+    // 1
+    const int iONE[] = {1};
     
     // Splitting (setup)
     int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
@@ -41,19 +41,16 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
 
     // recursion(A_L)
     int n1out;
-    printf("slasyf(%s, %d, %d)\n", uplo, *m, n1);
     RELAPACK(slasyf)(uplo, m, &n1, &n1out, A_TL, ldA, ipiv_T, Work_TL, ldWork, &info_1);
     n1 = n1out;
 
     if (n1 == 0) {
         // Unblocked
         if (*m == *n) {
-            printf("ssytf2(%s, %d)\n", uplo, *n);
             LAPACK(ssytf2)(uplo, n, A, ldA, ipiv, info);
-        } else {
-            printf("ssytf3(%s, %d, %d)\n", uplo, *m, *n);
+            *nout = *n;
+        } else
             LAPACK(ssytf3)(uplo, m, n, nout, A, ldA, ipiv, Work, ldWork, info);
-        }
         return;
     }
 
@@ -80,15 +77,14 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
     // ipiv_B
     int *const ipiv_B = ipiv + n1;
 
+    // TODO: upper
+
     // A_BR = A_BR - A_BL Work_BL'
-    printf("sgemm_tr(N, T, %s, %d, %d)\n", uplo, n2, n1);
     RELAPACK(sgemm_tr)("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
-    printf("sgemm(N, T, %d, %d, %d)\n", mmn, n2, n1);
     BLAS(sgemm)("N", "T", &mmn, &n2, &n1, MONE, A_BL2, ldA, Work_BL, ldWork, ONE, A_BR2, ldA);
 
     // recursion(A_BR)
     int n2out;
-    printf("slasyf(%s, %d, %d)\n", uplo, m2, n2);
     RELAPACK(slasyf)(uplo, &m2, &n2, &n2out, A_BR, ldA, ipiv_B, Work_BR, ldWork, &info_2);
 
     // shift pivots
@@ -98,10 +94,26 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
             ipiv_B[i] += n1;
         else
             ipiv_B[i] -= n1;
-    if (info)
 
-    // set nout
     *nout = n1 + n2out;
 
+    if (*nout != *n) {
+        // undo 1 column of updates
+        
+        // last column of A_BR
+        float *const A_BR_r = A_BR + *ldA * n2out + n2out;
+
+        // last row of A_BL
+        float *const A_BL_b = A_BL + n2out;
+
+        // last row of Work_BL
+        float *const Work_BL_b = Work_BL + n2out;
+
+        // A_BR_r = A_BR_r + A_BL Work_BL'
+        int mmnp1 = mmn + 1;
+        BLAS(sgemv)("N", &mmnp1, &n1, ONE, A_BL_b, ldA, Work_BL_b, ldWork, ONE, A_BR_r, iONE);
+    }
+
+    // set return values
     *info = info_1 || info_2;
 }

@@ -178,8 +178,8 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("N", "N", "L", &n, &k, s0, A1, &n, B1, &n, s1, C1, &n);
-        BLAS(sgemm)("N", "N", &n, &n, &k, s0, A2, &n, B2, &n, s1, C2, &n);
+        RELAPACK(sgemm_tr)("N", "T", "L", &n, &k, s0, A1, &n, B1, &n, s1, C1, &n);
+        BLAS(sgemm)("N", "T", &n, &n, &k, s0, A2, &n, B2, &n, s1, C2, &n);
 
         // clear upper part of C
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C2 + n, &n, &info);
