@@ -1,4 +1,4 @@
-*> \brief \b SSYTF3 computes a partial factorization of a real symmetric matrix using the Bunch-Kaufman diagonal pivoting method.
+*> \brief \b SSYTRF_REC2 computes a partial factorization of a real symmetric matrix using the Bunch-Kaufman diagonal pivoting method.
 *
 *  =========== DOCUMENTATION ===========
 *
@@ -18,7 +18,7 @@
 *  Definition:
 *  ===========
 *
-*       SUBROUTINE SSYTF3( UPLO, N, NB, KB, A, LDA, IPIV, W, LDW, INFO )
+*       SUBROUTINE SSYTRF_REC2( UPLO, N, NB, KB, A, LDA, IPIV, W, LDW, INFO )
 *
 *       .. Scalar Arguments ..
 *       CHARACTER          UPLO
@@ -35,7 +35,7 @@
 *>
 *> \verbatim
 *>
-*> SSYTF3 computes a partial factorization of a real symmetric matrix A
+*> SSYTRF_REC2 computes a partial factorization of a real symmetric matrix A
 *> using the Bunch-Kaufman diagonal pivoting method. The partial
 *> factorization has the form:
 *>
@@ -48,7 +48,7 @@
 *> where the order of D is at most NB. The actual order is returned in
 *> the argument KB, and is either NB or NB-1, or N if N <= NB.
 *>
-*> SSYTF3 is an auxiliary routine called by SSYTRF. It uses blocked code
+*> SSYTRF_REC2 is an auxiliary routine called by SSYTRF. It uses blocked code
 *> (calling Level 3 BLAS) to update the submatrix A11 (if UPLO = 'U') or
 *> A22 (if UPLO = 'L').
 *> \endverbatim
@@ -174,7 +174,8 @@
 *> \endverbatim
 *
 *  =====================================================================
-      SUBROUTINE SSYTF3( UPLO, N, NB, KB, A, LDA, IPIV, W, LDW, INFO )
+      SUBROUTINE SSYTRF_REC2( UPLO, N, NB, KB, A, LDA, IPIV, W, LDW, 
+     $                        INFO )
 *
 *  -- LAPACK computational routine (version 3.5.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -817,6 +818,6 @@
       END IF
       RETURN
 *
-*     End of SSYTF3
+*     End of SSYTRF_REC2
 *
       END

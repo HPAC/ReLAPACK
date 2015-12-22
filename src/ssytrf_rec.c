@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
+void RELAPACK(ssytrf_rec)(const char *uplo, const int *m, const int *n, int *nout,
         float *A, const int *ldA, int *ipiv, 
         float *Work, const int *ldWork, int *info) {
 
@@ -10,7 +10,7 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
             LAPACK(ssytf2)(uplo, n, A, ldA, ipiv, info);
             *nout = *n;
         } else
-            LAPACK(ssytf3)(uplo, m, n, nout, A, ldA, ipiv, Work, ldWork, info);
+            LAPACK(ssytrf_rec2)(uplo, m, n, nout, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 
@@ -41,7 +41,7 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
 
     // recursion(A_L)
     int n1out;
-    RELAPACK(slasyf)(uplo, m, &n1, &n1out, A_TL, ldA, ipiv_T, Work_TL, ldWork, &info_1);
+    RELAPACK(ssytrf_rec)(uplo, m, &n1, &n1out, A_TL, ldA, ipiv_T, Work_TL, ldWork, &info_1);
     n1 = n1out;
 
     if (n1 == 0) {
@@ -50,7 +50,7 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
             LAPACK(ssytf2)(uplo, n, A, ldA, ipiv, info);
             *nout = *n;
         } else
-            LAPACK(ssytf3)(uplo, m, n, nout, A, ldA, ipiv, Work, ldWork, info);
+            LAPACK(ssytrf_rec2)(uplo, m, n, nout, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 
@@ -85,7 +85,7 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
 
     // recursion(A_BR)
     int n2out;
-    RELAPACK(slasyf)(uplo, &m2, &n2, &n2out, A_BR, ldA, ipiv_B, Work_BR, ldWork, &info_2);
+    RELAPACK(ssytrf_rec)(uplo, &m2, &n2, &n2out, A_BR, ldA, ipiv_B, Work_BR, ldWork, &info_2);
 
     // shift pivots
     int i;
@@ -95,10 +95,9 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
         else
             ipiv_B[i] -= n1;
 
-    *nout = n1 + n2out;
-
-    if (*nout != *n) {
+    if (n2out != n2) {
         // undo 1 column of updates
+        int mmnp1 = mmn + 1;
         
         // last column of A_BR
         float *const A_BR_r = A_BR + *ldA * n2out + n2out;
@@ -109,11 +108,11 @@ void RELAPACK(slasyf)(const char *uplo, const int *m, const int *n, int *nout,
         // last row of Work_BL
         float *const Work_BL_b = Work_BL + n2out;
 
-        // A_BR_r = A_BR_r + A_BL Work_BL'
-        int mmnp1 = mmn + 1;
+        // A_BR_r = A_BR_r + A_BL_b Work_BL_b'
         BLAS(sgemv)("N", &mmnp1, &n1, ONE, A_BL_b, ldA, Work_BL_b, ldWork, ONE, A_BR_r, iONE);
     }
 
     // set return values
+    *nout = n1 + n2out;
     *info = info_1 || info_2;
 }

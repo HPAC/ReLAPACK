@@ -27,7 +27,8 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(ssytrf)("L", &n, A1, &n, ipiv1, Work, &lWork, &info);
-        LAPACK(ssytrf)("L", &n, A2, &n, ipiv2, Work, &lWork, &info);
+        //LAPACK(ssytf2)("L", &n, A2, &n, ipiv2, Work, &lWork, &info);
+        LAPACK(ssytf2)("L", &n, A2, &n, ipiv2, &info);
 
         // check error
         const double error = s2vecerr(n * n, A1, A2) + i2vecerr(n, ipiv1, ipiv2);

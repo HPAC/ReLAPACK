@@ -75,7 +75,7 @@ void RELAPACK(sgemm_tr)(const char *, const char *, const char *, const int *, c
 void RELAPACK(sgemm_tr2)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
 
 void RELAPACK(ssytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(slasyf)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(ssytf3)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(ssytrf_rec)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void LAPACK(ssytrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
 
 #endif /*  RELAPACK_H */

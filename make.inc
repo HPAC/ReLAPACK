@@ -22,7 +22,7 @@ AR = ar
 # BLAS / LAPACK link lines (for
 LINK_BLAS = $(HOME)/phd/software/blas/blas_LINUX.a -lgfortran
 LINK_LAPACK = $(HOME)/phd/software/lapack/liblapack.a
-LINK_LAPACK = -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -ldl -lpthread -lm -fopenmp
+# LINK_LAPACK = -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -ldl -lpthread -lm -fopenmp
 
 # test matrix size
 TEST_SIZE = 100
