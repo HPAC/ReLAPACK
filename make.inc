@@ -12,9 +12,9 @@ ROUTINES = all
 
 # compiler options
 CC = gcc
-CFLAGS = -O3 -Wall
+CFLAGS = -g -O3 -Wall
 FC = gfortran
-FFLAGS = -O3 -Wall
+FFLAGS = -g -O3 -Wall
 AR = ar
 
 # TESTING CONFIGURATION

@@ -71,4 +71,11 @@ void DTRSY2(const char *, const char *, const int *, const int *, const int *, c
 void CTRSY2(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
 void ZTRSY2(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 
+void RELAPACK(sgemm_tr)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+void RELAPACK(sgemm_tr2)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+
+void RELAPACK(ssytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(slasyf)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void LAPACK(ssytf3)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+
 #endif /*  RELAPACK_H */
