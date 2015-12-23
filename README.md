@@ -38,6 +38,13 @@ Operations:
 * L L^T = A
 * U^T U = A
 
+### LDL symmetric decomposition
+Routines: `ssytrf`, `dsytrf`, `chetrf`, `zhetrf`
+
+Operations:
+* L D L^T = A
+* U^T D U = A
+
 ### LU decomposition with pivoting
 Routines: `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
 
@@ -60,13 +67,6 @@ Not covered yet
 ---------------
 The following routines can be translated to recursive algorithms but are not
 covered yet:
-
-### LDL symmetric decomposition
-Routines: `ssytrf`, `dsytrf`, `chetrf`, `zhetrf`
-
-Operations:
-* L D L^T = A
-* U^T D U = A
 
 ### Generalized Sylvester solver
 Routines: `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
