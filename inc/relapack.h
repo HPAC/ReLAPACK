@@ -51,11 +51,9 @@ void RELAPACK(dtrsyl)(const char *, const char *, const int *, const int *, cons
 void RELAPACK(ctrsyl)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
 void RELAPACK(ztrsyl)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 
-#ifdef RELAPACK_AS_LAPACK
-void LAPACK(strsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void LAPACK(dtrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-void LAPACK(ctrsy2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void LAPACK(ztrsy2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-#endif
+void RELAPACK(ssytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(dsytrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK(chetrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(zhetrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
 
 #endif /*  RELAPACK_H */
