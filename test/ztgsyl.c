@@ -50,12 +50,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
@@ -85,12 +85,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
@@ -120,12 +120,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
@@ -155,12 +155,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i1, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
@@ -190,12 +190,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i2, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
@@ -225,12 +225,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i3, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
@@ -260,12 +260,12 @@ int main(int argc, char* argv[]) {
         z2matgen(m, n, F1, F2);
 
         // scale diagonals of A and D
-        const double smi = 1. / m;
+        const double zmi[] = {1. / m, 0};
         const int mp1 = m + 1;
-        BLAS(zscal)(&m, &smi, A1, &mp1);
-        BLAS(zscal)(&m, &smi, A2, &mp1);
-        BLAS(zscal)(&m, &smi, D1, &mp1);
-        BLAS(zscal)(&m, &smi, D2, &mp1);
+        BLAS(zscal)(&m, zmi, A1, &mp1);
+        BLAS(zscal)(&m, zmi, A2, &mp1);
+        BLAS(zscal)(&m, zmi, D1, &mp1);
+        BLAS(zscal)(&m, zmi, D2, &mp1);
 
         // run
         RELAPACK(ztgsyl)("N", i4, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);

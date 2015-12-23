@@ -46,7 +46,7 @@ void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
     // Errors and work space queries
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("ZTRSYL", &minfo);
+        LAPACK(xerbla)("ZTGSYL", &minfo);
         return;
     } else if (*lWork == -1) {
         *Work = lwmin;
@@ -73,7 +73,6 @@ void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
         *scale = 1;
         double dscale = 0;
         double dsum = 1;
-        // TODO: make sure PQ is irrelevant
         RELAPACK(ztgsyl_rec)(trans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, info);
         if (dscale != 0) {
             if (*ijob == 1 || *ijob == 3)

@@ -7,7 +7,7 @@
 
 #define ALLOW_MALLOC
 
-#define CROSSOVER 24
+#define CROSSOVER 2
  
 // individual crossover sizes
 #define CROSSOVER_XLAUUM CROSSOVER

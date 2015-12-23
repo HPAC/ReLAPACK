@@ -9,8 +9,14 @@ extern void LAPACK(dlaswp)(const int *, double *, const int *, const int *, cons
 extern void LAPACK(claswp)(const int *, float *, const int *, const int *, const int *, const int *, const int *);
 extern void LAPACK(zlaswp)(const int *, double *, const int *, const int *, const int *, const int *, const int *);
 
+extern void LAPACK(slaset)(const char *, const int *, const int *, const float *, const float *, float *, const int *);
+extern void LAPACK(dlaset)(const char *, const int *, const int *, const double *, const double *, double *, const int *);
+extern void LAPACK(claset)(const char *, const int *, const int *, const float *, const float *, float *, const int *);
 extern void LAPACK(zlaset)(const char *, const int *, const int *, const double *, const double *, double *, const int *);
 
+extern void LAPACK(slacpy)(const char *, const int *, const int *, const float *, const int *, float *, const int *);
+extern void LAPACK(dlacpy)(const char *, const int *, const int *, const double *, const int *, double *, const int *);
+extern void LAPACK(clacpy)(const char *, const int *, const int *, const float *, const int *, float *, const int *);
 extern void LAPACK(zlacpy)(const char *, const int *, const int *, const double *, const int *, double *, const int *);
 
 extern void LAPACK(slascl)(const char *, const int *, const int *, const float *, const float *, const int *, const int *, float *, const int *, int *);
@@ -48,6 +54,9 @@ extern void LAPACK(dgetf2)(const int *, const int *, double *, const int *, int 
 extern void LAPACK(cgetf2)(const int *, const int *, float *, const int *, int *, int *);
 extern void LAPACK(zgetf2)(const int *, const int *, double *, const int *, int *, int *);
 
+extern void LAPACK(stgsy2)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, int *, int *, int *);
+extern void LAPACK(dtgsy2)(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, int *, int *, int *);
+extern void LAPACK(ctgsy2)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, int *);
 extern void LAPACK(ztgsy2)(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, int *);
 
 #endif /* LAPACK_H */

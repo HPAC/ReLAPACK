@@ -9,7 +9,7 @@ ROUTINES := $(ROUTINES:xpotrf=spotrf dpotrf cpotrf zpotrf)
 ROUTINES := $(ROUTINES:xsytrf=ssytrf dsytrf chetrf zhetrf)
 ROUTINES := $(ROUTINES:xgetrf=sgetrf dgetrf cgetrf zgetrf)
 ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
-ROUTINES := $(ROUTINES:xtgsyl=ztgsyl)
+ROUTINES := $(ROUTINES:xtgsyl=stgsyl dtgsyl ctgsyl ztgsyl)
 # xsytrf auxiliary routine xgemm_tr
 ROUTINES += $(ROUTINES:%sytrf=%gemm_tr) $(ROUTINES:%hetrf=%gemm_tr)
 # sort and remove duplicates

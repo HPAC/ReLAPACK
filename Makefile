@@ -13,7 +13,7 @@ ROUTINES := $(ROUTINES:xpotrf=spotrf dpotrf cpotrf zpotrf)
 ROUTINES := $(ROUTINES:xsytrf=ssytrf dsytrf chetrf zhetrf)
 ROUTINES := $(ROUTINES:xgetrf=sgetrf dgetrf cgetrf zgetrf)
 ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
-ROUTINES := $(ROUTINES:xtgsyl=ztgsyl)
+ROUTINES := $(ROUTINES:xtgsyl=stgsyl dtgsyl ztgsyl ctgsyl)
 # xtrsyl need unblocked xtrsy2
 ROUTINES += $(ROUTINES:%trsyl=%trsy2)
 # xsytrf need xgemm_tr, and xsytrf_rec
