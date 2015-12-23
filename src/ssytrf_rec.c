@@ -48,15 +48,15 @@ void RELAPACK(ssytrf_rec)(const char *uplo,
         // *      *
         // A_BL   A_BR
         // A_BL_B A_BR_B
-        float *const A_BL = A + n1;
-        float *const A_BL_B = A + *n;
-        float *const A_BR = A + *ldA * n1 + n1;
+        float *const A_BL   = A             + n1;
+        float *const A_BR   = A + *ldA * n1 + n1;
+        float *const A_BL_B = A             + *n;
         float *const A_BR_B = A + *ldA * n1 + *n;
 
         // *        *
         // Work_BL Work_BR
         // *       *
-        float *const Work_BL = Work + n1;
+        float *const Work_BL = Work                + n1;
         float *const Work_BR = Work + *ldWork * n1 + n1;
 
         // ipiv_T
@@ -127,7 +127,7 @@ void RELAPACK(ssytrf_rec)(const char *uplo,
         // Work_L *
         // *      Work_TR
         // *      *
-        float *const Work_L = Work;
+        float *const Work_L  = Work;
         float *const Work_TR = Work + *ldWork * n1 + n_rest;
 
         // A_TL = A_TL - A_TR Work_TR'

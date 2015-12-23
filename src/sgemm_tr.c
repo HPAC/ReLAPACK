@@ -35,7 +35,7 @@ void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo
     // C_BL C_BR
     float *const C_TL = C;
     float *const C_TR = C + *ldC * n1;
-    float *const C_BL = C + n1;
+    float *const C_BL = C             + n1;
     float *const C_BR = C + *ldC * n1 + n1;
 
     // recursion(C_TL)
