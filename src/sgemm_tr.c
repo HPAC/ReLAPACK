@@ -1,8 +1,8 @@
 #include "relapack.h"
 
-void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo, 
-        const int *n, const int *k, 
-        const float *alpha, const float *A, const int *ldA, 
+void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo,
+        const int *n, const int *k,
+        const float *alpha, const float *A, const int *ldA,
         const float *B, const int *ldB,
         const float *beta, float *C, const int *ldC) {
 
@@ -17,7 +17,7 @@ void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo
     }
 
     // Recursion
-    
+
     // Splitting
     const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
     const int n2 = *n - n1;

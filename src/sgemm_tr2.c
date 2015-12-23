@@ -1,8 +1,8 @@
 #include "relapack.h"
 
-void RELAPACK(sgemm_tr2)(const char *transA, const char *transB, const char *uplo, 
-        const int *n, const int *k, 
-        const float *alpha, const float *A, const int *ldA, 
+void RELAPACK(sgemm_tr2)(const char *transA, const char *transB, const char *uplo,
+        const int *n, const int *k,
+        const float *alpha, const float *A, const int *ldA,
         const float *B, const int *ldB,
         const float *beta, float *C, const int *ldC) {
 

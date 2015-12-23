@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         printf("ctrtri U:\t%g\n", error);
     }
 
-    free(A1); 
+    free(A1);
     free(A2);
 
 	return 0;

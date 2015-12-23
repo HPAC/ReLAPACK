@@ -200,7 +200,7 @@
       PARAMETER          ( EIGHT = 8.0E+0, SEVTEN = 17.0E+0 )
 *     ..
 *     .. Local Scalars ..
-      INTEGER            IMAX, J, JB, JJ, JMAX, JP, K, KK, KKW, KP,
+      INTEGER            IMAX, J, JJ, JMAX, JP, K, KK, KKW, KP,
      $                   KSTEP, KW
       REAL               ABSAKK, ALPHA, COLMAX, D11, D21, D22, R1,
      $                   ROWMAX, T
@@ -471,29 +471,29 @@
 *
    30    CONTINUE
 *
-*        Update the upper triangle of A11 (= A(1:k,1:k)) as
-*
-*        A11 := A11 - U12*D*U12**T = A11 - U12*W**T
-*
-*        computing blocks of NB columns at a time
-*
-         DO 50 J = ( ( K-1 ) / NB )*NB + 1, 1, -NB
-            JB = MIN( NB, K-J+1 )
-*
-*           Update the upper triangle of the diagonal block
-*
-            DO 40 JJ = J, J + JB - 1
-               CALL SGEMV( 'No transpose', JJ-J+1, N-K, -ONE,
-     $                     A( J, K+1 ), LDA, W( JJ, KW+1 ), LDW, ONE,
-     $                     A( J, JJ ), 1 )
-   40       CONTINUE
-*
-*           Update the rectangular superdiagonal block
-*
-            CALL SGEMM( 'No transpose', 'Transpose', J-1, JB, N-K, -ONE,
-     $                  A( 1, K+1 ), LDA, W( J, KW+1 ), LDW, ONE,
-     $                  A( 1, J ), LDA )
-   50    CONTINUE
+*    *        Update the upper triangle of A11 (= A(1:k,1:k)) as
+*    *
+*    *        A11 := A11 - U12*D*U12**T = A11 - U12*W**T
+*    *
+*    *        computing blocks of NB columns at a time
+*    *
+*             DO 50 J = ( ( K-1 ) / NB )*NB + 1, 1, -NB
+*                JB = MIN( NB, K-J+1 )
+*    *
+*    *           Update the upper triangle of the diagonal block
+*    *
+*                DO 40 JJ = J, J + JB - 1
+*                   CALL SGEMV( 'No transpose', JJ-J+1, N-K, -ONE,
+*         $                     A( J, K+1 ), LDA, W( JJ, KW+1 ), LDW, ONE,
+*         $                     A( J, JJ ), 1 )
+*       40       CONTINUE
+*    *
+*    *           Update the rectangular superdiagonal block
+*    *
+*                CALL SGEMM( 'No transpose', 'Transpose', J-1, JB, N-K, -ONE,
+*         $                  A( 1, K+1 ), LDA, W( J, KW+1 ), LDW, ONE,
+*         $                  A( 1, J ), LDA )
+*       50    CONTINUE
 *
 *        Put U12 in standard form by partially undoing the interchanges
 *        in columns k+1:n looping backwards from k+1 to n

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 void RELAPACK(ssytrf)(const char *uplo, const int *n,
-        float *A, const int *ldA, int *ipiv, 
+        float *A, const int *ldA, int *ipiv,
         float *Work, const int *lWork, int *info) {
 
     // Check arguments
@@ -34,7 +34,7 @@ void RELAPACK(ssytrf)(const char *uplo, const int *n,
         W = malloc(*ldA * *n * sizeof(float));
 
     int nout;
-    RELAPACK(slasyf)(uplo, n, n, &nout, A, ldA, ipiv, W, ldA, info);
+    RELAPACK(ssytrf_rec)(uplo, n, n, &nout, A, ldA, ipiv, W, ldA, info);
 
     if (W != Work)
         free(W);

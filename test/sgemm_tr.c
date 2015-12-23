@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
         const float error = s2vecerr(n * n, C1, C2);
         printf("gemm_tr N N L 1 1:\t%g\n", error);
     }
-    
+
     { // N N L 1 -1
         const int n = n_max;
         // generate matrices
@@ -189,11 +189,11 @@ int main(int argc, char* argv[]) {
         printf("gemm_tr smallk:\t%g\n", error);
     }
 
-    free(A1); 
+    free(A1);
     free(A2);
-    free(B1); 
+    free(B1);
     free(B2);
-    free(C1); 
+    free(C1);
     free(C2);
 
 	return 0;

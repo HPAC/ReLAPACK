@@ -76,9 +76,9 @@ int main(int argc, char* argv[]) {
         printf("ssygst 2 U:\t%g\n", error);
     }
 
-    free(A1); 
+    free(A1);
     free(A2);
-    free(B1); 
+    free(B1);
     free(B2);
 
 	return 0;

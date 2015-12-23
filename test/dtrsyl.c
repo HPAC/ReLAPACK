@@ -196,7 +196,7 @@ int main(int argc, char* argv[]) {
         printf("dtrsyl C C +1 m = n:\t%g\n", error);
     }
 
-    { // N N offdiag 
+    { // N N offdiag
         const int m = n_max, n = n_max;
         // generate matrices
         d2matgen(m, m, A1, A2);

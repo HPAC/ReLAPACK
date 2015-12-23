@@ -27,12 +27,25 @@ int main(int argc, char* argv[]) {
 
         // run
         RELAPACK(ssytrf)("L", &n, A1, &n, ipiv1, Work, &lWork, &info);
-        //LAPACK(ssytf2)("L", &n, A2, &n, ipiv2, Work, &lWork, &info);
         LAPACK(ssytf2)("L", &n, A2, &n, ipiv2, &info);
 
         // check error
         const double error = s2vecerr(n * n, A1, A2) + i2vecerr(n, ipiv1, ipiv2);
         printf("ssytrf L:\t%g\n", error);
+    }
+
+    // U
+    {
+        // generate matrix
+        s2matgen(n, n, A1, A2);
+
+        // run
+        RELAPACK(ssytrf)("U", &n, A1, &n, ipiv1, Work, &lWork, &info);
+        LAPACK(ssytf2)("U", &n, A2, &n, ipiv2, &info);
+
+        // check error
+        const double error = s2vecerr(n * n, A1, A2) + i2vecerr(n, ipiv1, ipiv2);
+        printf("ssytrf U:\t%g\n", error);
     }
 
     free(A1);
