@@ -10,7 +10,7 @@ void RELAPACK(dgemm_tr)(const char *transA, const char *transB, const char *uplo
     const int tranB = LAPACK(lsame)(transB, "T");
     const int lower = LAPACK(lsame)(uplo, "L");
 
-    if (*n <= CROSSOVER_SSYTRF) {
+    if (*n <= CROSSOVER_SGEMM_TR) {
         // Unblocked
         RELAPACK(dgemm_tr2)(transA, transB, uplo, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
         return;

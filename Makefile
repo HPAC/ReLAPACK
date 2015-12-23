@@ -16,8 +16,8 @@ ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
 ROUTINES := $(ROUTINES:xtgsyl=ztgsyl)
 # xtrsyl need unblocked xtrsy2
 ROUTINES += $(ROUTINES:%trsyl=%trsy2)
-# xsytrf need xgemm_tr, and xsytrf_rec2
-ROUTINES += $(ROUTINES:%trf_rec=%trf_rec2)
+# xsytrf need xgemm_tr, and xsytrf_rec
+ROUTINES += $(ROUTINES:%sytrf=%sytrf_rec2) $(ROUTINES:%hetrf=%hetrf_rec2)
 ROUTINES += $(ROUTINES:%sytrf=%gemm_tr) $(ROUTINES:%hetrf=%gemm_tr)
 # sort and remove duplicates
 ROUTINES := $(sort $(ROUTINES))

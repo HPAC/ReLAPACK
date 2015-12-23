@@ -87,12 +87,12 @@ void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
                     ifunc = *ijob;
                 scale2 = *scale;
                 LAPACK(zlacpy)("F", m, n, C, ldC, Work, m);
-                LAPACK(zlacpy)("F", m, n, F, ldF, Work + *m * *n, m);
+                LAPACK(zlacpy)("F", m, n, F, ldF, Work + 2 * *m * *n, m);
                 LAPACK(zlaset)("F", m, n, ZERO, ZERO, C, ldC);
                 LAPACK(zlaset)("F", m, n, ZERO, ZERO, F, ldF);
             } else {
                 LAPACK(zlacpy)("F", m, n, Work, m, C, ldC);
-                LAPACK(zlacpy)("F", m, n, Work + *m * *n, m, F, ldF);
+                LAPACK(zlacpy)("F", m, n, Work + 2 * *m * *n, m, F, ldF);
                 *scale = scale2;
             }
         }
@@ -107,7 +107,7 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
         double *F, const int *ldF,
         double *scale, double *dsum, double *dscale, int *info) {
 
-    if (*m <= CROSSOVER_ZTRSYL && *n <= CROSSOVER_ZTRSYL) {
+    if (*m <= CROSSOVER_ZTGSYL && *n <= CROSSOVER_ZTGSYL) {
         // Unblocked
         LAPACK(ztgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, info);
         return;
@@ -159,14 +159,31 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
             RELAPACK(ztgsyl_rec)(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale1, dsum, dscale, info1);
             // C_T = C_T - A_TR * C_B
             BLAS(zgemm)("N", "N", &m1, n, &m2, MONE, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
-            // F_T = F_T - D_TR * F_B
-            BLAS(zgemm)("N", "N", &m1, n, &m2, MONE, D_TR, ldD, F_B, ldF, scale1, F_T, ldF);
+            // F_T = F_T - D_TR * C_B
+            BLAS(zgemm)("N", "N", &m1, n, &m2, MONE, D_TR, ldD, C_B, ldC, scale1, F_T, ldF);
             // recursion(A_TL, B, C_T, D_TL, E, F_T)
             RELAPACK(ztgsyl_rec)(trans, ifunc, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, D_TL, ldD, E, ldE, F_T, ldF, scale2, dsum, dscale, info2);
             // apply scale
             if (scale2[0] != 1) {
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m2, n, C_B, ldC, info);
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m2, n, F_B, ldF, info);
+            }
+        } else {
+            // recursion(A_TL, B, C_T, D_TL, E, F_T)
+            RELAPACK(ztgsyl_rec)(trans, ifunc, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, D_TL, ldD, E, ldE, F_T, ldF, scale1, dsum, dscale, info1);
+            // apply scale
+            if (scale1[0] != 1)
+                LAPACK(zlascl)("G", iONE, iONE, ONE, scale1, &m2, n, F_B, ldF, info);
+            // C_B = C_B - A_TR^H * C_T
+            BLAS(zgemm)("C", "N", &m2, n, &m1, MONE, A_TR, ldA, C_T, ldC, scale1, C_B, ldC);
+            // C_B = C_B - D_TR^H * F_T
+            BLAS(zgemm)("C", "N", &m2, n, &m1, MONE, D_TR, ldD, F_T, ldC, ONE, C_B, ldC);
+            // recursion(A_BR, B, C_B, D_BR, E, F_B)
+            RELAPACK(ztgsyl_rec)(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale2, dsum, dscale, info2);
+            // apply scale
+            if (scale2[0] != 1) {
+                LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m1, n, C_T, ldC, info);
+                LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m1, n, F_T, ldF, info);
             }
         }
     } else {
@@ -196,16 +213,33 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
         if (notran) {
             // recursion(A, B_TL, C_L, D, E_TL, F_L)
             RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale1, dsum, dscale, info1);
-            // C_R = C_R - C_L * B_TR
-            BLAS(zgemm)("N", "N", m, &n2, &n1, MONE, C_L, ldC, B_TR, ldB, scale1, C_R, ldC);
-            // F_R = F_R - F_L * E_TR
-            BLAS(zgemm)("N", "N", m, &n2, &n1, MONE, F_L, ldF, E_TR, ldE, scale1, F_R, ldF);
+            // C_R = C_R + F_L * B_TR
+            BLAS(zgemm)("N", "N", m, &n2, &n1, ONE, F_L, ldF, B_TR, ldB, scale1, C_R, ldC);
+            // F_R = F_R + F_L * E_TR
+            BLAS(zgemm)("N", "N", m, &n2, &n1, ONE, F_L, ldF, E_TR, ldE, scale1, F_R, ldF);
             // recursion(A, B_BR, C_R, D, E_BR, F_R)
             RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, D, ldD, E_BR, ldE, F_R, ldF, scale2, dsum, dscale, info2);
             // apply scale
             if (scale2[0] != 1) {
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n1, C_L, ldC, info);
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n1, F_L, ldF, info);
+            }
+        } else {
+            // recursion(A, B_BR, C_R, D, E_BR, F_R)
+            RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, D, ldD, E_BR, ldE, F_R, ldF, scale1, dsum, dscale, info1);
+            // apply scale
+            if (scale1[0] != 1)
+                LAPACK(zlascl)("G", iONE, iONE, ONE, scale1, m, &n1, C_L, ldC, info);
+            // F_L = F_L + C_R * B_TR
+            BLAS(zgemm)("N", "C", m, &n1, &n2, ONE, C_R, ldC, B_TR, ldB, scale1, F_L, ldF);
+            // F_L = F_L + F_R * E_TR
+            BLAS(zgemm)("N", "C", m, &n1, &n2, ONE, F_R, ldF, E_TR, ldB, ONE, F_L, ldF);
+            // recursion(A, B_TL, C_L, D, E_TL, F_L)
+            RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale2, dsum, dscale, info2);
+            // apply scale
+            if (scale2[0] != 1) {
+                LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n2, C_R, ldC, info);
+                LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n2, F_R, ldF, info);
             }
         }
     }
