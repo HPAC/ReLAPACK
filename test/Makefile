@@ -8,7 +8,7 @@ ROUTINES := $(ROUTINES:xtrtri=strtri dtrtri ctrtri ztrtri)
 ROUTINES := $(ROUTINES:xpotrf=spotrf dpotrf cpotrf zpotrf)
 ROUTINES := $(ROUTINES:xgetrf=sgetrf dgetrf cgetrf zgetrf)
 ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
-ROUTINES := $(ROUTINES:xsytrf=ssytrf)
+ROUTINES := $(ROUTINES:xsytrf=ssytrf dsytrf chetrf zhetrf)
 ROUTINES += $(ROUTINES:%sytrf=%gemm_tr) $(ROUTINES:%hetrf=%gemm_tr)
 # sort and remove duplicates
 ROUTINES := $(sort $(ROUTINES))
