@@ -1,7 +1,14 @@
 #include "relapack.h"
 
-void RELAPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
-        float *A, const int *ldA, int *info) {
+static void RELAPACK(ctrtri_rec)(const char *, const char *, const int *,
+    float *, const int *, int *);
+
+
+void RELAPACK(ctrtri)(
+    const char *uplo, const char *diag, const int *n,
+    float *A, const int *ldA, 
+    int *info
+) {
 
     // Check arguments
     const int lower = LAPACK(lsame)(uplo, "L");
@@ -23,6 +30,20 @@ void RELAPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
         return;
     }
 
+    // clean char * arguments
+    const char cleanuplo = lower ? 'L' : 'U';
+    const char cleandiag = nounit ? 'N' : 'U';
+
+    RELAPACK(ctrtri_rec)(&cleanuplo, &cleandiag, n, A, ldA, info);
+}
+
+
+static void RELAPACK(ctrtri_rec)(
+    const char *uplo, const char *diag, const int *n,
+    float *A, const int *ldA,
+    int *info
+){
+
     if (*n <= CROSSOVER_CTRTRI) {
         // Unblocked
         LAPACK(ctrti2)(uplo, diag, n, A, ldA, info);
@@ -36,7 +57,7 @@ void RELAPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
     const float ONE[] = {1, 0}, MONE[] = {-1, 0};
 
     // Splitting
-    const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+    const int n1 = REC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR
@@ -47,11 +68,11 @@ void RELAPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
     float *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // recursion(A_TL)
-    RELAPACK(ctrtri)(uplo, diag, &n1, A_TL, ldA, info);
+    RELAPACK(ctrtri_rec)(uplo, diag, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
-    if (lower) {
+    if (*uplo == 'L') {
         // A_BL = - A_BL * A_TL
         BLAS(ctrmm)("R", "L", "N", diag, &n2, &n1, MONE, A_TL, ldA, A_BL, ldA);
         // A_BL = A_BR \ A_BL
@@ -64,7 +85,7 @@ void RELAPACK(ctrtri)(const char *uplo, const char *diag, const int *n,
     }
 
     // recursion(A_BR)
-    RELAPACK(ctrtri)(uplo, diag, &n2, A_BR, ldA, info);
+    RELAPACK(ctrtri_rec)(uplo, diag, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

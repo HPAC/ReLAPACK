@@ -2,8 +2,9 @@
 #include "stdlib.h"
 
 static void RELAPACK(dsygst_rec)(const int *, const char *, const int *,
-        double *, const int *, const double *, const int *,
-        double *, const int *, int *);
+    double *, const int *, const double *, const int *,
+    double *, const int *, int *);
+
 
 void RELAPACK(dsygst)(
     const int *itype, const char *uplo, const int *n,
@@ -31,7 +32,7 @@ void RELAPACK(dsygst)(
         return;
     }
 
-    // clean char* arguments
+    // clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
     // Allocate work space
@@ -50,6 +51,7 @@ void RELAPACK(dsygst)(
     free(Work);
 #endif
 }
+
 
 static void RELAPACK(dsygst_rec)(
     const int *itype, const char *uplo, const int *n,
@@ -90,7 +92,7 @@ static void RELAPACK(dsygst_rec)(
     const double *const B_BR = B + *ldB * n1 + n1;
 
     // recursion(A_TL, B_TL)
-    RELAPACK(dsygst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
+    RELAPACK(dsygst_rec)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, Work, lWork, info);
 
     if (*itype == 1)
         if (*uplo == 'L') {
@@ -190,5 +192,5 @@ static void RELAPACK(dsygst_rec)(
         }
 
     // recursion(A_BR, B_BR)
-    RELAPACK(dsygst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
+    RELAPACK(dsygst_rec)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, Work, lWork, info);
 }

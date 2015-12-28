@@ -2,8 +2,9 @@
 #include "stdlib.h"
 
 static void RELAPACK(zhegst_rec)(const int *, const char *, const int *,
-        double *, const int *, const double *, const int *,
-        double *, const int *, int *);
+    double *, const int *, const double *, const int *,
+    double *, const int *, int *);
+
 
 void RELAPACK(zhegst)(
     const int *itype, const char *uplo, const int *n,
@@ -31,7 +32,7 @@ void RELAPACK(zhegst)(
         return;
     }
 
-    // clean char* arguments
+    // clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
     // Allocate work space
@@ -50,6 +51,7 @@ void RELAPACK(zhegst)(
     free(Work);
 #endif
 }
+
 
 static void RELAPACK(zhegst_rec)(
     const int *itype, const char *uplo, const int *n,
@@ -90,7 +92,7 @@ static void RELAPACK(zhegst_rec)(
     const double *const B_BR = B + 2 * *ldB * n1 + 2 * n1;
 
     // recursion(A_TL, B_TL)
-    RELAPACK(zhegst)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, info);
+    RELAPACK(zhegst_rec)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, Work, lWork, info);
 
     if (*itype == 1)
         if (*uplo == 'L') {
@@ -190,5 +192,5 @@ static void RELAPACK(zhegst_rec)(
         }
 
     // recursion(A_BR, B_BR)
-    RELAPACK(zhegst)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, info);
+    RELAPACK(zhegst_rec)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, Work, lWork, info);
 }
