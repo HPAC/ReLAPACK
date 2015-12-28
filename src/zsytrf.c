@@ -1,7 +1,7 @@
 #include "relapack.h"
 #include <stdlib.h>
 
-void RELAPACK(zhetrf)(const char *uplo, const int *n,
+void RELAPACK(zsytrf)(const char *uplo, const int *n,
         double *A, const int *ldA, int *ipiv,
         double *Work, const int *lWork, int *info) {
 
@@ -19,7 +19,7 @@ void RELAPACK(zhetrf)(const char *uplo, const int *n,
         *info = -7;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("ZHETRF", &minfo);
+        LAPACK(xerbla)("ZSYTRF", &minfo);
         return;
     }
 
@@ -34,24 +34,24 @@ void RELAPACK(zhetrf)(const char *uplo, const int *n,
         W = malloc(*ldA * *n * 2 * sizeof(double));
 
     int nout;
-    RELAPACK(zhetrf_rec)(uplo, n, n, &nout, A, ldA, ipiv, W, ldA, info);
+    RELAPACK(zsytrf_rec)(uplo, n, n, &nout, A, ldA, ipiv, W, ldA, info);
 
     if (W != Work)
         free(W);
 }
 
-void RELAPACK(zhetrf_rec)(const char *uplo,
+void RELAPACK(zsytrf_rec)(const char *uplo,
         const int *n_full, const int *n, int *n_out,
         double *A, const int *ldA, int *ipiv,
         double *Work, const int *ldWork, int *info) {
 
-    if (*n <= MAX(CROSSOVER_ZHETRF, 3)) {
+    if (*n <= MAX(CROSSOVER_ZSYTRF, 3)) {
         // Unblocked
         if (*n == *n_full) {
-            LAPACK(zhetf2)(uplo, n, A, ldA, ipiv, info);
+            LAPACK(zsytf2)(uplo, n, A, ldA, ipiv, info);
             *n_out = *n;
         } else
-            LAPACK(zhetrf_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
+            LAPACK(zsytrf_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 
@@ -78,7 +78,7 @@ void RELAPACK(zhetrf_rec)(const char *uplo,
 
         // recursion(A_L)
         int n1_out;
-        RELAPACK(zhetrf_rec)(uplo, n_full, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
+        RELAPACK(zsytrf_rec)(uplo, n_full, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
         n1 = n1_out;
 
         // Splitting (continued)
@@ -109,7 +109,7 @@ void RELAPACK(zhetrf_rec)(const char *uplo,
 
         // recursion(A_BR)
         int n2_out;
-        RELAPACK(zhetrf_rec)(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, ldWork, &info2);
+        RELAPACK(zsytrf_rec)(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, ldWork, &info2);
 
         if (n2_out != n2) {
             // undo 1 column of updates
@@ -149,7 +149,7 @@ void RELAPACK(zhetrf_rec)(const char *uplo,
 
         // recursion(A_L)
         int n2_out;
-        RELAPACK(zhetrf_rec)(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
+        RELAPACK(zsytrf_rec)(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
         n2 = n2_out;
 
         // Splitting (continued)
@@ -176,7 +176,7 @@ void RELAPACK(zhetrf_rec)(const char *uplo,
 
         // recursion(A_TL)
         int n1_out;
-        RELAPACK(zhetrf_rec)(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
+        RELAPACK(zsytrf_rec)(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
 
         if (n1_out != n1) {
             // undo 1 column of updates
