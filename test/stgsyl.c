@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void LAPACK(stgsyl)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, const int *, int *, int *); 
+void LAPACK(stgsyl)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, const int *, int *, int *);
 
 int main(int argc, char* argv[]) {
 

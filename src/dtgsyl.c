@@ -1,13 +1,13 @@
 #include "relapack.h"
 #include <math.h>
 
-void RELAPACK(dtgsyl)(const char *trans, const int *ijob, 
+void RELAPACK(dtgsyl)(const char *trans, const int *ijob,
         const int *m, const int *n,
         const double *A, const int *ldA, const double *B, const int *ldB,
-        double *C, const int *ldC, 
-        const double *D, const int *ldD, const double *E, const int *ldE, 
+        double *C, const int *ldC,
+        const double *D, const int *ldD, const double *E, const int *ldE,
         double *F, const int *ldF,
-        double *scale, double *dif, 
+        double *scale, double *dif,
         double *Work, const int *lWork, int *iWork, int *info) {
     // Parse arguments
     const int notran = LAPACK(lsame)(trans, "N");
@@ -52,11 +52,11 @@ void RELAPACK(dtgsyl)(const char *trans, const int *ijob,
         *Work = lwmin;
         return;
     }
-    
+
     // Constants
     // 0
    	const double ZERO[] = {0};
-    
+
     int isolve = 1;
     int ifunc = 0;
     if (notran) {
@@ -102,10 +102,10 @@ void RELAPACK(dtgsyl)(const char *trans, const int *ijob,
 void RELAPACK(dtgsyl_rec)(const char *trans, const int *ifunc,
         const int *m, const int *n,
         const double *A, const int *ldA, const double *B, const int *ldB,
-        double *C, const int *ldC, 
-        const double *D, const int *ldD, const double *E, const int *ldE, 
+        double *C, const int *ldC,
+        const double *D, const int *ldD, const double *E, const int *ldE,
         double *F, const int *ldF,
-        double *scale, double *dsum, double *dscale, int *iWork, int *pq, 
+        double *scale, double *dsum, double *dscale, int *iWork, int *pq,
         int *info) {
 
     if (*m <= CROSSOVER_DTGSYL && *n <= CROSSOVER_DTGSYL) {
