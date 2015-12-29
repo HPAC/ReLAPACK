@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlascl)("U", i0, i0, z1, z0, &nm1, &nm1, C1 +  2 * n, &n, &info);
 
         // run
-        RELAPACK(zgemm_tr)("N", "N", "L", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
+        RELAPACK(zgemm_tr_rec)("N", "N", "L", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
         BLAS(zgemm)("N", "N", &n, &n, &n, z1, A2, &n, B2, &n, z1, C2, &n);
 
         // clear upper part of C
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = z2vecerr(n * n, C1, C2);
-        printf("zgemm_tr N N L 1 1:\t%g\n", error);
+        printf("zgemm_tr_rec N N L 1 1:\t%g\n", error);
     }
 
     { // N N L 1 -1
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlascl)("U", i0, i0, z1, z0, &nm1, &nm1, C1 +  2 * n, &n, &info);
 
         // run
-        RELAPACK(zgemm_tr)("N", "N", "L", &n, &n, z1, A1, &n, B1, &n, zm1, C1, &n);
+        RELAPACK(zgemm_tr_rec)("N", "N", "L", &n, &n, z1, A1, &n, B1, &n, zm1, C1, &n);
         BLAS(zgemm)("N", "N", &n, &n, &n, z1, A2, &n, B2, &n, zm1, C2, &n);
 
         // clear upper part of C
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = z2vecerr(n * n, C1, C2);
-        printf("zgemm_tr N N L 1 -1:\t%g\n", error);
+        printf("zgemm_tr_rec N N L 1 -1:\t%g\n", error);
     }
 
     { // N T L 1 1
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlascl)("U", i0, i0, z1, z0, &nm1, &nm1, C1 +  2 * n, &n, &info);
 
         // run
-        RELAPACK(zgemm_tr)("N", "T", "L", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
+        RELAPACK(zgemm_tr_rec)("N", "T", "L", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
         BLAS(zgemm)("N", "T", &n, &n, &n, z1, A2, &n, B2, &n, z1, C2, &n);
 
         // clear upper part of C
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = z2vecerr(n * n, C1, C2);
-        printf("zgemm_tr N T L 1 1:\t%g\n", error);
+        printf("zgemm_tr_rec N T L 1 1:\t%g\n", error);
     }
 
     { // T N L 1 1
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlascl)("U", i0, i0, z1, z0, &nm1, &nm1, C1 +  2 * n, &n, &info);
 
         // run
-        RELAPACK(zgemm_tr)("T", "N", "L", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
+        RELAPACK(zgemm_tr_rec)("T", "N", "L", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
         BLAS(zgemm)("T", "N", &n, &n, &n, z1, A2, &n, B2, &n, z1, C2, &n);
 
         // clear upper part of C
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = z2vecerr(n * n, C1, C2);
-        printf("zgemm_tr T N L 1 1:\t%g\n", error);
+        printf("zgemm_tr_rec T N L 1 1:\t%g\n", error);
     }
 
     { // N N U 1 1
@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlascl)("L", i0, i0, z1, z0, &nm1, &nm1, C1 +  2, &n, &info);
 
         // run
-        RELAPACK(zgemm_tr)("N", "N", "U", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
+        RELAPACK(zgemm_tr_rec)("N", "N", "U", &n, &n, z1, A1, &n, B1, &n, z1, C1, &n);
         BLAS(zgemm)("N", "N", &n, &n, &n, z1, A2, &n, B2, &n, z1, C2, &n);
 
         // clear upper part of C
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = z2vecerr(n * n, C1, C2);
-        printf("zgemm_tr N N U 1 1:\t%g\n", error);
+        printf("zgemm_tr_rec N N U 1 1:\t%g\n", error);
     }
 
     { // smallk
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
         LAPACK(zlascl)("U", i0, i0, z1, z0, &nm1, &nm1, C1 +  2 * n, &n, &info);
 
         // run
-        RELAPACK(zgemm_tr)("N", "N", "L", &n, &k, z1, A1, &n, B1, &n, z1, C1, &n);
+        RELAPACK(zgemm_tr_rec)("N", "N", "L", &n, &k, z1, A1, &n, B1, &n, z1, C1, &n);
         BLAS(zgemm)("N", "N", &n, &n, &k, z1, A2, &n, B2, &n, z1, C2, &n);
 
         // clear upper part of C
@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = z2vecerr(n * n, C1, C2);
-        printf("zgemm_tr smallk:\t%g\n", error);
+        printf("zgemm_tr_rec smallk:\t%g\n", error);
     }
 
     free(A1);

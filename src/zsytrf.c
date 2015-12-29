@@ -1,9 +1,15 @@
 #include "relapack.h"
 #include <stdlib.h>
 
-void RELAPACK(zsytrf)(const char *uplo, const int *n,
-        double *A, const int *ldA, int *ipiv,
-        double *Work, const int *lWork, int *info) {
+void RELAPACK(zsytrf_rec)(const char *, const int *, const int *, int *, 
+    double *, const int *, int *, double *, const int *, int *);
+
+
+void RELAPACK(zsytrf)(
+    const char *uplo, const int *n,
+    double *A, const int *ldA, int *ipiv,
+    double *Work, const int *lWork, int *info
+) {
 
     // Check arguments
     const int lower = LAPACK(lsame)(uplo, "L");
@@ -23,27 +29,35 @@ void RELAPACK(zsytrf)(const char *uplo, const int *n,
         return;
     }
 
+    // Required work size
+    const int cleanlWork = *ldA * (*n / 2);
+
     if (*lWork == -1) {
         // Work size query
-        *Work = *ldA * *n;
+        *Work = cleanlWork;
         return;
     }
 
-    double *W = Work;
+    // Clean char * arguments
+    const char cleanuplo = lower ? 'L' : 'U';
+
+    // Ensure Work size
+    double *cleanWork = Work;
     if (*lWork < *ldA * *n)
-        W = malloc(*ldA * *n * 2 * sizeof(double));
+        cleanWork = malloc(cleanlWork * sizeof(float));
 
     int nout;
-    RELAPACK(zsytrf_rec)(uplo, n, n, &nout, A, ldA, ipiv, W, ldA, info);
+    RELAPACK(zsytrf_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, ldA, info);
 
-    if (W != Work)
-        free(W);
+    if (cleanWork != Work)
+        free(cleanWork);
 }
 
-void RELAPACK(zsytrf_rec)(const char *uplo,
-        const int *n_full, const int *n, int *n_out,
-        double *A, const int *ldA, int *ipiv,
-        double *Work, const int *ldWork, int *info) {
+void RELAPACK(zsytrf_rec)(
+    const char *uplo, const int *n_full, const int *n, int *n_out,
+    double *A, const int *ldA, int *ipiv,
+    double *Work, const int *ldWork, int *info
+) {
 
     if (*n <= MAX(CROSSOVER_ZSYTRF, 3)) {
         // Unblocked
@@ -55,9 +69,6 @@ void RELAPACK(zsytrf_rec)(const char *uplo,
         return;
     }
 
-    // Recursive
-
-    const int lower = LAPACK(lsame)(uplo, "L");
     int info1, info2;
 
     // Constants
@@ -68,9 +79,9 @@ void RELAPACK(zsytrf_rec)(const char *uplo,
 
     const int n_rest = *n_full - *n;
 
-    if (lower) {
+    if (*uplo == 'L') {
         // Splitting (setup)
-        int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+        int n1 = REC_SPLIT(*n);
         int n2 = *n - n1;
 
         // Work_L *
@@ -96,20 +107,22 @@ void RELAPACK(zsytrf_rec)(const char *uplo,
         // *        *
         // Work_BL Work_BR
         // *       *
-        double *const Work_BL = Work                    + 2 * n1;
-        double *const Work_BR = Work + 2 * *ldWork * n1 + 2 * n1;
+        // (top recursion level: use Work as Work_BR)
+        const int ldWork_BR   = (*n == *n_full) ? n2   : *ldWork;
+        double *const Work_BL =                          Work                    + 2 * n1;
+        double *const Work_BR = (*n == *n_full) ? Work : Work + 2 * *ldWork * n1 + 2 * n1;
 
         // ipiv_T
         // ipiv_B
         int *const ipiv_B = ipiv + n1;
 
         // A_BR = A_BR - A_BL Work_BL'
-        RELAPACK(zgemm_tr)("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
+        RELAPACK(zgemm_tr_rec)("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
         BLAS(zgemm)("N", "T", &n_rest, &n2, &n1, MONE, A_BL_B, ldA, Work_BL, ldWork, ONE, A_BR_B, ldA);
 
         // recursion(A_BR)
         int n2_out;
-        RELAPACK(zsytrf_rec)(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, ldWork, &info2);
+        RELAPACK(zsytrf_rec)(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, &ldWork_BR, &info2);
 
         if (n2_out != n2) {
             // undo 1 column of updates
@@ -141,15 +154,17 @@ void RELAPACK(zsytrf_rec)(const char *uplo,
         *n_out = n1 + n2;
     } else {
         // Splitting (setup)
-        int n2 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+        int n2 = REC_SPLIT(*n);
         int n1 = *n - n2;
 
         // * Work_R
-        double *const Work_R = Work + 2 * *ldWork * n1;
+        // (top recursion level: use Work as Work_R)
+        double *const Work_R = (*n == *n_full) ? Work : Work + 2 * *ldWork * n1;
 
-        // recursion(A_L)
+        // recursion(A_R)
         int n2_out;
         RELAPACK(zsytrf_rec)(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
+        const int n2_diff = n2 - n2_out;
         n2 = n2_out;
 
         // Splitting (continued)
@@ -167,22 +182,24 @@ void RELAPACK(zsytrf_rec)(const char *uplo,
         // Work_L *
         // *      Work_TR
         // *      *
-        double *const Work_L  = Work;
-        double *const Work_TR = Work + 2 * *ldWork * n1 + 2 * n_rest;
+        // (top recursion level: Work_R was Work)
+        const int ldWork_L    = (*n == *n_full) ? n1 : *ldWork;
+        double *const Work_L  =                   Work;
+        double *const Work_TR = (*n == *n_full) ? Work + 2 * *ldWork * n2_diff + 2 * n_rest : Work + 2 * *ldWork * n1 + 2 * n_rest;
 
         // A_TL = A_TL - A_TR Work_TR'
-        RELAPACK(zgemm_tr)("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
+        RELAPACK(zgemm_tr_rec)("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
         BLAS(zgemm)("N", "T", &n_rest, &n1, &n2, MONE, A_TR_T, ldA, Work_TR, ldWork, ONE, A_TL_T, ldA);
 
         // recursion(A_TL)
         int n1_out;
-        RELAPACK(zsytrf_rec)(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
+        RELAPACK(zsytrf_rec)(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, &ldWork_L, &info1);
 
         if (n1_out != n1) {
             // undo 1 column of updates
             const int n_restp1 = n_rest + 1;
 
-            // A_TL_T(l) = A_TL_T(l) + A_TR_T Work_TR(t)'
+            // A_TL_T_l = A_TL_T_l + A_TR_T Work_TR_t'
             BLAS(zgemv)("N", &n_restp1, &n2, ONE, A_TR_T, ldA, Work_TR, ldWork, ONE, A_TL_T, iONE);
         }
         n1 = n1_out;

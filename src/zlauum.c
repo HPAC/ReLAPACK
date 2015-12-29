@@ -1,7 +1,14 @@
 #include "relapack.h"
 
-void RELAPACK(zlauum)(const char *uplo, const int *n,
-        double *A, const int *ldA, int *info) {
+static void RELAPACK(zlauum_rec)(const char *, const int *, double *, 
+    const int *, int *);
+
+
+void RELAPACK(zlauum)(
+    const char *uplo, const int *n,
+    double *A, const int *ldA, 
+    int *info
+) {
 
     // Check arguments
     const int lower = LAPACK(lsame)(uplo, "L");
@@ -19,20 +26,31 @@ void RELAPACK(zlauum)(const char *uplo, const int *n,
         return;
     }
 
+    // Clean char * arguments
+    const char cleanuplo = lower ? 'L' : 'U';
+
+    RELAPACK(zlauum_rec)(&cleanuplo, n, A, ldA, info);
+}
+
+
+static void RELAPACK(zlauum_rec)(
+    const char *uplo, const int *n,
+    double *A, const int *ldA, 
+    int *info
+) {
+
     if (*n <= CROSSOVER_ZLAUUM) {
         // Unblocked
         LAPACK(zlauu2)(uplo, n, A, ldA, info);
         return;
     }
 
-    // Recursive
-
     // Constants
     // 1
    	const double ONE[] = {1, 0};
 
     // Splitting
-    const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+    const int n1 = REC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR
@@ -43,9 +61,9 @@ void RELAPACK(zlauum)(const char *uplo, const int *n,
     double *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // recursion(A_TL)
-    RELAPACK(zlauum)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK(zlauum_rec)(uplo, &n1, A_TL, ldA, info);
 
-    if (lower) {
+    if (*uplo == 'L') {
         // A_TL = A_TL + A_BL' * A_BL
         BLAS(zherk)("L", "C", &n1, &n2, ONE, A_BL, ldA, ONE, A_TL, ldA);
         // A_BL = A_BR' * A_BL
@@ -58,5 +76,5 @@ void RELAPACK(zlauum)(const char *uplo, const int *n,
     }
 
     // recursion(A_BR)
-    RELAPACK(zlauum)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK(zlauum_rec)(uplo, &n2, A_BR, ldA, info);
 }

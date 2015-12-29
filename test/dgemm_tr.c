@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlascl)("U", i0, i0, d1, d0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(dgemm_tr)("N", "N", "L", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
+        RELAPACK(dgemm_tr_rec)("N", "N", "L", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
         BLAS(dgemm)("N", "N", &n, &n, &n, d1, A2, &n, B2, &n, d1, C2, &n);
 
         // clear upper part of C
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = d2vecerr(n * n, C1, C2);
-        printf("cgemm_tr N N L 1 1:\t%g\n", error);
+        printf("dgemm_tr_rec N N L 1 1:\t%g\n", error);
     }
 
     { // N N L 1 -1
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlascl)("U", i0, i0, d1, d0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(dgemm_tr)("N", "N", "L", &n, &n, d1, A1, &n, B1, &n, sm1, C1, &n);
+        RELAPACK(dgemm_tr_rec)("N", "N", "L", &n, &n, d1, A1, &n, B1, &n, sm1, C1, &n);
         BLAS(dgemm)("N", "N", &n, &n, &n, d1, A2, &n, B2, &n, sm1, C2, &n);
 
         // clear upper part of C
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = d2vecerr(n * n, C1, C2);
-        printf("cgemm_tr N N L 1 -1:\t%g\n", error);
+        printf("dgemm_tr_rec N N L 1 -1:\t%g\n", error);
     }
 
     { // N T L 1 1
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlascl)("U", i0, i0, d1, d0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(dgemm_tr)("N", "T", "L", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
+        RELAPACK(dgemm_tr_rec)("N", "T", "L", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
         BLAS(dgemm)("N", "T", &n, &n, &n, d1, A2, &n, B2, &n, d1, C2, &n);
 
         // clear upper part of C
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = d2vecerr(n * n, C1, C2);
-        printf("cgemm_tr N T L 1 1:\t%g\n", error);
+        printf("dgemm_tr_rec N T L 1 1:\t%g\n", error);
     }
 
     { // T N L 1 1
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlascl)("U", i0, i0, d1, d0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(dgemm_tr)("T", "N", "L", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
+        RELAPACK(dgemm_tr_rec)("T", "N", "L", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
         BLAS(dgemm)("T", "N", &n, &n, &n, d1, A2, &n, B2, &n, d1, C2, &n);
 
         // clear upper part of C
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = d2vecerr(n * n, C1, C2);
-        printf("cgemm_tr T N L 1 1:\t%g\n", error);
+        printf("dgemm_tr_rec T N L 1 1:\t%g\n", error);
     }
 
     { // N N U 1 1
@@ -128,18 +128,18 @@ int main(int argc, char* argv[]) {
 
         // clear lower part of C
         const int nm1 = n - 1;
-        LAPACK(dlascl)("L", i0, i0, d1, d0, &nm1, &nm1, C1 + 2, &n, &info);
+        LAPACK(dlascl)("L", i0, i0, d1, d0, &nm1, &nm1, C1 + 1, &n, &info);
 
         // run
-        RELAPACK(dgemm_tr)("N", "N", "U", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
+        RELAPACK(dgemm_tr_rec)("N", "N", "U", &n, &n, d1, A1, &n, B1, &n, d1, C1, &n);
         BLAS(dgemm)("N", "N", &n, &n, &n, d1, A2, &n, B2, &n, d1, C2, &n);
 
-        // clear upper part of C
-        LAPACK(dlascl)("L", i0, i0, d1, d0, &nm1, &nm1, C2 + 2, &n, &info);
+        // clear lower part of C
+        LAPACK(dlascl)("L", i0, i0, d1, d0, &nm1, &nm1, C2 + 1, &n, &info);
 
         // check error
         const double error = d2vecerr(n * n, C1, C2);
-        printf("cgemm_tr N N U 1 1:\t%g\n", error);
+        printf("dgemm_tr_rec N N U 1 1:\t%g\n", error);
     }
 
     { // smallk
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
         LAPACK(dlascl)("U", i0, i0, d1, d0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(dgemm_tr)("N", "N", "L", &n, &k, d1, A1, &n, B1, &n, d1, C1, &n);
+        RELAPACK(dgemm_tr_rec)("N", "N", "L", &n, &k, d1, A1, &n, B1, &n, d1, C1, &n);
         BLAS(dgemm)("N", "N", &n, &n, &k, d1, A2, &n, B2, &n, d1, C2, &n);
 
         // clear upper part of C
@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = d2vecerr(n * n, C1, C2);
-        printf("cgemm_tr smallk:\t%g\n", error);
+        printf("dgemm_tr_rec smallk:\t%g\n", error);
     }
 
     free(A1);

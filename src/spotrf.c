@@ -1,7 +1,14 @@
 #include "relapack.h"
 
-void RELAPACK(spotrf)(const char *uplo, const int *n,
-        float *A, const int *ldA, int *info) {
+static void RELAPACK(spotrf_rec)(const char *, const int *, float *, 
+    const int *, int *);
+
+
+void RELAPACK(spotrf)(
+    const char *uplo, const int *n,
+    float *A, const int *ldA, 
+    int *info
+) {
 
     // Check arguments
     const int lower = LAPACK(lsame)(uplo, "L");
@@ -19,20 +26,31 @@ void RELAPACK(spotrf)(const char *uplo, const int *n,
         return;
     }
 
+    // Clean char * arguments
+    const char cleanuplo = lower ? 'L' : 'U';
+
+    RELAPACK(spotrf_rec)(&cleanuplo, n, A, ldA, info);
+}
+
+
+static void RELAPACK(spotrf_rec)(
+    const char *uplo, const int *n,
+    float *A, const int *ldA,
+    int *info
+) {
+
     if (*n <= CROSSOVER_SPOTRF) {
         // Unblocked
         LAPACK(spotf2)(uplo, n, A, ldA, info);
         return;
     }
 
-    // Recursive
-
     // Constants
     // 1, -1
    	const float ONE[] = {1}, MONE[] = {-1};
 
     // Splitting
-    const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+    const int n1 = REC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR
@@ -43,11 +61,11 @@ void RELAPACK(spotrf)(const char *uplo, const int *n,
     float *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    RELAPACK(spotrf)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK(spotrf_rec)(uplo, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
-    if (lower) {
+    if (*uplo == 'L') {
         // A_BL = A_BL / A_TL'
         BLAS(strsm)("R", "L", "T", "N", &n2, &n1, ONE, A_TL, ldA, A_BL, ldA);
         // A_BR = A_BR - A_BL * A_BL'
@@ -60,7 +78,7 @@ void RELAPACK(spotrf)(const char *uplo, const int *n,
     }
 
     // recursion(A_BR)
-    RELAPACK(spotrf)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK(spotrf_rec)(uplo, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

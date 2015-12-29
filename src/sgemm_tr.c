@@ -1,14 +1,17 @@
 #include "relapack.h"
 
-void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo,
-        const int *n, const int *k,
-        const float *alpha, const float *A, const int *ldA,
-        const float *B, const int *ldB,
-        const float *beta, float *C, const int *ldC) {
+static void RELAPACK(sgemm_tr2)(const char *, const char *, const char *, 
+    const int *, const int *, const float *, const float *, const int *, 
+    const float *, const int *, const float *, float *, const int *);
 
-    const int tranA = LAPACK(lsame)(transA, "T");
-    const int tranB = LAPACK(lsame)(transB, "T");
-    const int lower = LAPACK(lsame)(uplo, "L");
+
+void RELAPACK(sgemm_tr_rec)(
+    const char *transA, const char *transB, const char *uplo,
+    const int *n, const int *k,
+    const float *alpha, const float *A, const int *ldA,
+    const float *B, const int *ldB,
+    const float *beta, float *C, const int *ldC
+) {
 
     if (*n <= CROSSOVER_SGEMM_TR) {
         // Unblocked
@@ -16,20 +19,18 @@ void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo
         return;
     }
 
-    // Recursion
-
     // Splitting
-    const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+    const int n1 = REC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_T
     // A_B
     const float *const A_T = A;
-    const float *const A_B = A + (tranA ? *ldA * n1 : n1);
+    const float *const A_B = A + ((*transA == 'T') ? *ldA * n1 : n1);
 
     // B_L B_R
     const float *const B_L = B;
-    const float *const B_R = B + (tranB? n1 : *ldB * n1);
+    const float *const B_R = B + ((*transB == 'T') ? n1 : *ldB * n1);
 
     // C_TL C_TR
     // C_BL C_BR
@@ -39,9 +40,9 @@ void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo
     float *const C_BR = C + *ldC * n1 + n1;
 
     // recursion(C_TL)
-    RELAPACK(sgemm_tr)(transA, transB, uplo, &n1, k, alpha, A_T, ldA, B_L, ldB, beta, C_TL, ldC);
+    RELAPACK(sgemm_tr_rec)(transA, transB, uplo, &n1, k, alpha, A_T, ldA, B_L, ldB, beta, C_TL, ldC);
 
-    if (lower)
+    if (*uplo == 'L')
         // C_BL = alpha A_B B_L + beta C_BL
         BLAS(sgemm)(transA, transB, &n2, &n1, k, alpha, A_B, ldA, B_L, ldB, beta, C_BL, ldC);
     else
@@ -49,20 +50,18 @@ void RELAPACK(sgemm_tr)(const char *transA, const char *transB, const char *uplo
         BLAS(sgemm)(transA, transB, &n1, &n2, k, alpha, A_T, ldA, B_R, ldB, beta, C_TR, ldC);
 
     // recursion(C_BR)
-    RELAPACK(sgemm_tr)(transA, transB, uplo, &n2, k, alpha, A_B, ldA, B_R, ldB, beta, C_BR, ldC);
+    RELAPACK(sgemm_tr_rec)(transA, transB, uplo, &n2, k, alpha, A_B, ldA, B_R, ldB, beta, C_BR, ldC);
 }
 
-void RELAPACK(sgemm_tr2)(const char *transA, const char *transB, const char *uplo,
-        const int *n, const int *k,
-        const float *alpha, const float *A, const int *ldA,
-        const float *B, const int *ldB,
-        const float *beta, float *C, const int *ldC) {
+static void RELAPACK(sgemm_tr2)(
+    const char *transA, const char *transB, const char *uplo, 
+    const int *n, const int *k,
+    const float *alpha, const float *A, const int *ldA,
+    const float *B, const int *ldB,
+    const float *beta, float *C, const int *ldC
+) {
 
-    const int tranA = LAPACK(lsame)(transA, "T");
-    const int tranB = LAPACK(lsame)(transB, "T");
-    const int lower = LAPACK(lsame)(uplo, "L");
-
-    const int incB = tranB ? *ldB : 1;
+    const int incB = (*transB == 'T') ? *ldB : 1;
     const int incC = 1;
 
     int i;
@@ -70,25 +69,25 @@ void RELAPACK(sgemm_tr2)(const char *transA, const char *transB, const char *upl
         // A_0
         // A_i
         const float *const A_0 = A;
-        const float *const A_i = A + (tranA ? *ldA * i : i);
+        const float *const A_i = A + ((*transA == 'T') ? *ldA * i : i);
 
         // * B_i *
-        const float *const B_i = B + (tranB ? i : *ldB * i);
+        const float *const B_i = B + ((*transB == 'T') ? i : *ldB * i);
 
         // * C_0i *
         // * C_ii *
         float *const C_0i = C + *ldC * i;
         float *const C_ii = C + *ldC * i + i;
 
-        if (lower) {
+        if (*uplo == 'L') {
             const int nmi = *n - i;
-            if (tranA)
+            if (*transA == 'T')
                 BLAS(sgemv)(transA, k, &nmi, alpha, A_i, ldA, B_i, &incB, beta, C_ii, &incC);
             else
                 BLAS(sgemv)(transA, &nmi, k, alpha, A_i, ldA, B_i, &incB, beta, C_ii, &incC);
         } else {
             const int ip1 = i + 1;
-            if (tranA)
+            if (*transA == 'T')
                 BLAS(sgemv)(transA, k, &ip1, alpha, A_0, ldA, B_i, &incB, beta, C_0i, &incC);
             else
                 BLAS(sgemv)(transA, &ip1, k, alpha, A_0, ldA, B_i, &incB, beta, C_0i, &incC);

@@ -1,14 +1,21 @@
 #include "relapack.h"
 #include <math.h>
 
-void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
-        const int *m, const int *n,
-        const double *A, const int *ldA, const double *B, const int *ldB,
-        double *C, const int *ldC,
-        const double *D, const int *ldD, const double *E, const int *ldE,
-        double *F, const int *ldF,
-        double *scale, double *dif,
-        double *Work, const int *lWork, int *iWork, int *info) {
+static void RELAPACK(ztgsyl_rec)(const char *, const int *, const int *, 
+    const int *, const double *, const int *, const double *, const int *, 
+    double *, const int *, const double *, const int *, const double *, 
+    const int *, double *, const int *, double *, double *, double *, int *);
+
+void RELAPACK(ztgsyl)(
+    const char *trans, const int *ijob, const int *m, const int *n,
+    const double *A, const int *ldA, const double *B, const int *ldB,
+    double *C, const int *ldC,
+    const double *D, const int *ldD, const double *E, const int *ldE,
+    double *F, const int *ldF,
+    double *scale, double *dif,
+    double *Work, const int *lWork, int *iWork, int *info
+) {
+
     // Parse arguments
     const int notran = LAPACK(lsame)(trans, "N");
     const int tran = LAPACK(lsame)(trans, "C");
@@ -42,16 +49,20 @@ void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
         *info = -16;
     else if (*lWork < lwmin && *lWork != -1)
         *info = -20;
-
-    // Errors and work space queries
     if (*info) {
         const int minfo = -*info;
         LAPACK(xerbla)("ZTGSYL", &minfo);
         return;
-    } else if (*lWork == -1) {
+    } 
+    
+    if (*lWork == -1) {
+        // Work size query
         *Work = lwmin;
         return;
     }
+
+    // Clean char * arguments
+    const char cleantrans = notran ? 'N' : 'C';
 
     // Constants
     // 0
@@ -73,7 +84,7 @@ void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
         *scale = 1;
         double dscale = 0;
         double dsum = 1;
-        RELAPACK(ztgsyl_rec)(trans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, info);
+        RELAPACK(ztgsyl_rec)(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, info);
         if (dscale != 0) {
             if (*ijob == 1 || *ijob == 3)
                 *dif = sqrt(2 * *m * *n) / (dscale * sqrt(dsum));
@@ -98,24 +109,21 @@ void RELAPACK(ztgsyl)(const char *trans, const int *ijob,
     }
 }
 
-void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
-        const int *m, const int *n,
-        const double *A, const int *ldA, const double *B, const int *ldB,
-        double *C, const int *ldC,
-        const double *D, const int *ldD, const double *E, const int *ldE,
-        double *F, const int *ldF,
-        double *scale, double *dsum, double *dscale, int *info) {
+static void RELAPACK(ztgsyl_rec)(
+    const char *trans, const int *ifunc, const int *m, const int *n,
+    const double *A, const int *ldA, const double *B, const int *ldB,
+    double *C, const int *ldC,
+    const double *D, const int *ldD, const double *E, const int *ldE,
+    double *F, const int *ldF,
+    double *scale, double *dsum, double *dscale,
+    int *info
+) {
 
     if (*m <= CROSSOVER_ZTGSYL && *n <= CROSSOVER_ZTGSYL) {
         // Unblocked
         LAPACK(ztgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, info);
         return;
     }
-
-    // Parse arguments
-    const int notran = LAPACK(lsame)(trans, "N");
-
-    // Recursive
 
     // Constants
     // 1, -1
@@ -128,7 +136,7 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
     int info1[1], info2[1];
 
     if (*m > *n) {
-        const int m1 = (*m >= 16) ? ((*m + 8) / 16) * 8 : *m / 2;
+        int m1 = REC_SPLIT(*m);
         const int m2 = *m - m1;
 
         // A_TL A_TR
@@ -153,7 +161,7 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
         double *const F_T = F;
         double *const F_B = F + 2 * m1;
 
-        if (notran) {
+        if (*trans == 'N') {
             // recursion(A_BR, B, C_B, D_BR, E, F_B)
             RELAPACK(ztgsyl_rec)(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale1, dsum, dscale, info1);
             // C_T = C_T - A_TR * C_B
@@ -186,7 +194,7 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
             }
         }
     } else {
-        const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+        int n1 = REC_SPLIT(*n);
         const int n2 = *n - n1;
 
         // B_TL B_TR
@@ -209,7 +217,7 @@ void RELAPACK(ztgsyl_rec)(const char *trans, const int *ifunc,
         double *const F_L = F;
         double *const F_R = F + 2 * *ldF * n1;
 
-        if (notran) {
+        if (*trans == 'N') {
             // recursion(A, B_TL, C_L, D, E_TL, F_L)
             RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale1, dsum, dscale, info1);
             // C_R = C_R + F_L * B_TR

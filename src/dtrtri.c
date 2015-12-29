@@ -30,7 +30,7 @@ void RELAPACK(dtrtri)(
         return;
     }
 
-    // clean char * arguments
+    // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
     const char cleandiag = nounit ? 'N' : 'U';
 
@@ -49,8 +49,6 @@ static void RELAPACK(dtrtri_rec)(
         LAPACK(dtrti2)(uplo, diag, n, A, ldA, info);
         return;
     }
-
-    // Recursive
 
     // Constants
     // 1, -1

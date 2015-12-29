@@ -1,7 +1,14 @@
 #include "relapack.h"
 
-void RELAPACK(dpotrf)(const char *uplo, const int *n,
-        double *A, const int *ldA, int *info) {
+static void RELAPACK(dpotrf_rec)(const char *, const int *, double *, 
+    const int *, int *);
+
+
+void RELAPACK(dpotrf)(
+    const char *uplo, const int *n,
+    double *A, const int *ldA, 
+    int *info
+) {
 
     // Check arguments
     const int lower = LAPACK(lsame)(uplo, "L");
@@ -19,6 +26,19 @@ void RELAPACK(dpotrf)(const char *uplo, const int *n,
         return;
     }
 
+    // Clean char * arguments
+    const char cleanuplo = lower ? 'L' : 'U';
+
+    RELAPACK(dpotrf_rec)(&cleanuplo, n, A, ldA, info);
+}
+
+
+static void RELAPACK(dpotrf_rec)(
+    const char *uplo, const int *n,
+    double *A, const int *ldA,
+    int *info
+){
+
     if (*n <= CROSSOVER_DPOTRF) {
         // Unblocked
         LAPACK(dpotf2)(uplo, n, A, ldA, info);
@@ -32,7 +52,7 @@ void RELAPACK(dpotrf)(const char *uplo, const int *n,
    	const double ONE[] = {1}, MONE[] = {-1};
 
     // Splitting
-    const int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+    const int n1 = REC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR
@@ -43,11 +63,11 @@ void RELAPACK(dpotrf)(const char *uplo, const int *n,
     double *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    RELAPACK(dpotrf)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK(dpotrf_rec)(uplo, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
-    if (lower) {
+    if (*uplo == 'L') {
         // A_BL = A_BL / A_TL'
         BLAS(dtrsm)("R", "L", "T", "N", &n2, &n1, ONE, A_TL, ldA, A_BL, ldA);
         // A_BR = A_BR - A_BL * A_BL'
@@ -60,7 +80,7 @@ void RELAPACK(dpotrf)(const char *uplo, const int *n,
     }
 
     // recursion(A_BR)
-    RELAPACK(dpotrf)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK(dpotrf_rec)(uplo, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

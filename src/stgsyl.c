@@ -1,14 +1,22 @@
 #include "relapack.h"
 #include <math.h>
 
-void RELAPACK(stgsyl)(const char *trans, const int *ijob,
-        const int *m, const int *n,
-        const float *A, const int *ldA, const float *B, const int *ldB,
-        float *C, const int *ldC,
-        const float *D, const int *ldD, const float *E, const int *ldE,
-        float *F, const int *ldF,
-        float *scale, float *dif,
-        float *Work, const int *lWork, int *iWork, int *info) {
+static void RELAPACK(stgsyl_rec)(const char *, const int *, const int *, 
+    const int *, const float *, const int *, const float *, const int *, 
+    float *, const int *, const float *, const int *, const float *, 
+    const int *, float *, const int *, float *, float *, float *, int *, int *,
+    int *);
+
+void RELAPACK(stgsyl)(
+    const char *trans, const int *ijob, const int *m, const int *n,
+    const float *A, const int *ldA, const float *B, const int *ldB,
+    float *C, const int *ldC,
+    const float *D, const int *ldD, const float *E, const int *ldE,
+    float *F, const int *ldF,
+    float *scale, float *dif,
+    float *Work, const int *lWork, int *iWork, int *info
+) {
+
     // Parse arguments
     const int notran = LAPACK(lsame)(trans, "N");
     const int tran = LAPACK(lsame)(trans, "T");
@@ -42,16 +50,20 @@ void RELAPACK(stgsyl)(const char *trans, const int *ijob,
         *info = -16;
     else if (*lWork < lwmin && *lWork != -1)
         *info = -20;
-
-    // Errors and work space queries
     if (*info) {
         const int minfo = -*info;
         LAPACK(xerbla)("STGSYL", &minfo);
         return;
-    } else if (*lWork == -1) {
+    } 
+    
+    if (*lWork == -1) {
+        // Work size query
         *Work = lwmin;
         return;
     }
+
+    // Clean char * arguments
+    const char cleantrans = notran ? 'N' : 'T';
 
     // Constants
     // 0
@@ -74,7 +86,7 @@ void RELAPACK(stgsyl)(const char *trans, const int *ijob,
         float dscale = 0;
         float dsum = 1;
         int pq;
-        RELAPACK(stgsyl_rec)(trans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, iWork, &pq, info);
+        RELAPACK(stgsyl_rec)(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, iWork, &pq, info);
         if (dscale != 0) {
             if (*ijob == 1 || *ijob == 3)
                 *dif = sqrt(2 * *m * *n) / (dscale * sqrt(dsum));
@@ -99,25 +111,21 @@ void RELAPACK(stgsyl)(const char *trans, const int *ijob,
     }
 }
 
-void RELAPACK(stgsyl_rec)(const char *trans, const int *ifunc,
-        const int *m, const int *n,
-        const float *A, const int *ldA, const float *B, const int *ldB,
-        float *C, const int *ldC,
-        const float *D, const int *ldD, const float *E, const int *ldE,
-        float *F, const int *ldF,
-        float *scale, float *dsum, float *dscale, int *iWork, int *pq,
-        int *info) {
+static void RELAPACK(stgsyl_rec)(
+    const char *trans, const int *ifunc, const int *m, const int *n,
+    const float *A, const int *ldA, const float *B, const int *ldB,
+    float *C, const int *ldC,
+    const float *D, const int *ldD, const float *E, const int *ldE,
+    float *F, const int *ldF,
+    float *scale, float *dsum, float *dscale,
+    int *iWork, int *pq, int *info
+) {
 
     if (*m <= CROSSOVER_STGSYL && *n <= CROSSOVER_STGSYL) {
         // Unblocked
         LAPACK(stgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, iWork, pq, info);
         return;
     }
-
-    // Parse arguments
-    const int notran = LAPACK(lsame)(trans, "N");
-
-    // Recursive
 
     // Constants
     // 1, -1
@@ -130,7 +138,7 @@ void RELAPACK(stgsyl_rec)(const char *trans, const int *ifunc,
     int info1[1], info2[1];
 
     if (*m > *n) {
-        int m1 = (*m >= 16) ? ((*m + 8) / 16) * 8 : *m / 2;
+        int m1 = REC_SPLIT(*m);
         if (A[m1 + *ldA * (m1 - 1)])
             m1++;
         const int m2 = *m - m1;
@@ -157,7 +165,7 @@ void RELAPACK(stgsyl_rec)(const char *trans, const int *ifunc,
         float *const F_T = F;
         float *const F_B = F + m1;
 
-        if (notran) {
+        if (*trans == 'N') {
             // recursion(A_BR, B, C_B, D_BR, E, F_B)
             RELAPACK(stgsyl_rec)(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale1, dsum, dscale, iWork, pq, info1);
             // C_T = C_T - A_TR * C_B
@@ -190,7 +198,7 @@ void RELAPACK(stgsyl_rec)(const char *trans, const int *ifunc,
             }
         }
     } else {
-        int n1 = (*n >= 16) ? ((*n + 8) / 16) * 8 : *n / 2;
+        int n1 = REC_SPLIT(*n);
         if (B[n1 + *ldB * (n1 - 1)])
             n1++;
         const int n2 = *n - n1;
@@ -215,7 +223,7 @@ void RELAPACK(stgsyl_rec)(const char *trans, const int *ifunc,
         float *const F_L = F;
         float *const F_R = F + *ldF * n1;
 
-        if (notran) {
+        if (*trans == 'N') {
             // recursion(A, B_TL, C_L, D, E_TL, F_L)
             RELAPACK(stgsyl_rec)(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale1, dsum, dscale, iWork, pq, info1);
             // C_R = C_R + F_L * B_TR

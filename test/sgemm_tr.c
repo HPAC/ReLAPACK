@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("N", "N", "L", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
+        RELAPACK(sgemm_tr_rec)("N", "N", "L", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
         BLAS(sgemm)("N", "N", &n, &n, &n, s1, A2, &n, B2, &n, s1, C2, &n);
 
         // clear upper part of C
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = s2vecerr(n * n, C1, C2);
-        printf("sgemm_tr N N L 1 1:\t%g\n", error);
+        printf("sgemm_tr_rec N N L 1 1:\t%g\n", error);
     }
 
     { // N N L 1 -1
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("N", "N", "L", &n, &n, s1, A1, &n, B1, &n, sm1, C1, &n);
+        RELAPACK(sgemm_tr_rec)("N", "N", "L", &n, &n, s1, A1, &n, B1, &n, sm1, C1, &n);
         BLAS(sgemm)("N", "N", &n, &n, &n, s1, A2, &n, B2, &n, sm1, C2, &n);
 
         // clear upper part of C
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = s2vecerr(n * n, C1, C2);
-        printf("sgemm_tr N N L 1 -1:\t%g\n", error);
+        printf("sgemm_tr_rec N N L 1 -1:\t%g\n", error);
     }
 
     { // N T L 1 1
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("N", "T", "L", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
+        RELAPACK(sgemm_tr_rec)("N", "T", "L", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
         BLAS(sgemm)("N", "T", &n, &n, &n, s1, A2, &n, B2, &n, s1, C2, &n);
 
         // clear upper part of C
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = s2vecerr(n * n, C1, C2);
-        printf("sgemm_tr N T L 1 1:\t%g\n", error);
+        printf("sgemm_tr_rec N T L 1 1:\t%g\n", error);
     }
 
     { // T N L 1 1
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("T", "N", "L", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
+        RELAPACK(sgemm_tr_rec)("T", "N", "L", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
         BLAS(sgemm)("T", "N", &n, &n, &n, s1, A2, &n, B2, &n, s1, C2, &n);
 
         // clear upper part of C
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = s2vecerr(n * n, C1, C2);
-        printf("sgemm_tr T N L 1 1:\t%g\n", error);
+        printf("sgemm_tr_rec T N L 1 1:\t%g\n", error);
     }
 
     { // N N U 1 1
@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("L", i0, i0, s1, s0, &nm1, &nm1, C1 + 1, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("N", "N", "U", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
+        RELAPACK(sgemm_tr_rec)("N", "N", "U", &n, &n, s1, A1, &n, B1, &n, s1, C1, &n);
         BLAS(sgemm)("N", "N", &n, &n, &n, s1, A2, &n, B2, &n, s1, C2, &n);
 
         // clear upper part of C
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = s2vecerr(n * n, C1, C2);
-        printf("sgemm_tr N N U 1 1:\t%g\n", error);
+        printf("sgemm_tr_rec N N U 1 1:\t%g\n", error);
     }
 
     { // smallk
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
         LAPACK(slascl)("U", i0, i0, s1, s0, &nm1, &nm1, C1 + n, &n, &info);
 
         // run
-        RELAPACK(sgemm_tr)("N", "N", "L", &n, &k, s1, A1, &n, B1, &n, s1, C1, &n);
+        RELAPACK(sgemm_tr_rec)("N", "N", "L", &n, &k, s1, A1, &n, B1, &n, s1, C1, &n);
         BLAS(sgemm)("N", "N", &n, &n, &k, s1, A2, &n, B2, &n, s1, C2, &n);
 
         // clear upper part of C
@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
 
         // check error
         const double error = s2vecerr(n * n, C1, C2);
-        printf("sgemm_tr smallk:\t%g\n", error);
+        printf("sgemm_tr_rec smallk:\t%g\n", error);
     }
 
     free(A1);

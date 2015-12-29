@@ -1,5 +1,7 @@
 #include "relapack.h"
+#ifdef ALLOW_MALLOC
 #include "stdlib.h"
+#endif
 
 static void RELAPACK(dsygst_rec)(const int *, const char *, const int *,
     double *, const int *, const double *, const int *,
@@ -32,7 +34,7 @@ void RELAPACK(dsygst)(
         return;
     }
 
-    // clean char * arguments
+    // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
     // Allocate work space
@@ -64,8 +66,6 @@ static void RELAPACK(dsygst_rec)(
         LAPACK(dsygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
     }
-
-    // Recursive
 
     // Constants
     // 0, 1, -1, 1/2, -1/2
