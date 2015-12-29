@@ -8,6 +8,7 @@
 #else
 #define BLAS(routine) routine
 #endif
+
 #include "lapack.h"
 #include "blas.h"
 #include "util.h"

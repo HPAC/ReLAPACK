@@ -1,12 +1,12 @@
 #include "relapack.h"
 
-static void RELAPACK(cpotrf_rec)(const char *, const int *, float *, 
+static void RELAPACK(cpotrf_rec)(const char *, const int *, float *,
     const int *, int *);
 
 
 void RELAPACK(cpotrf)(
     const char *uplo, const int *n,
-    float *A, const int *ldA, 
+    float *A, const int *ldA,
     int *info
 ) {
 
@@ -45,11 +45,9 @@ static void RELAPACK(cpotrf_rec)(
         return;
     }
 
-    // Recursive
-
     // Constants
-    // 1, -1
-   	const float ONE[] = {1, 0}, MONE[] = {-1, 0};
+    const float ONE[]  = {1, 0};
+    const float MONE[] = {-1, 0};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

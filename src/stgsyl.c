@@ -1,11 +1,12 @@
 #include "relapack.h"
 #include <math.h>
 
-static void RELAPACK(stgsyl_rec)(const char *, const int *, const int *, 
-    const int *, const float *, const int *, const float *, const int *, 
-    float *, const int *, const float *, const int *, const float *, 
+static void RELAPACK(stgsyl_rec)(const char *, const int *, const int *,
+    const int *, const float *, const int *, const float *, const int *,
+    float *, const int *, const float *, const int *, const float *,
     const int *, float *, const int *, float *, float *, float *, int *, int *,
     int *);
+
 
 void RELAPACK(stgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
@@ -54,8 +55,8 @@ void RELAPACK(stgsyl)(
         const int minfo = -*info;
         LAPACK(xerbla)("STGSYL", &minfo);
         return;
-    } 
-    
+    }
+
     if (*lWork == -1) {
         // Work size query
         *Work = lwmin;
@@ -66,11 +67,10 @@ void RELAPACK(stgsyl)(
     const char cleantrans = notran ? 'N' : 'T';
 
     // Constants
-    // 0
-   	const float ZERO[] = {0};
+    const float ZERO[] = {0};
 
     int isolve = 1;
-    int ifunc = 0;
+    int ifunc  = 0;
     if (notran) {
         if (*ijob >= 3) {
             ifunc = *ijob - 2;
@@ -84,7 +84,7 @@ void RELAPACK(stgsyl)(
     for (int iround = 1; iround <= isolve; iround++) {
         *scale = 1;
         float dscale = 0;
-        float dsum = 1;
+        float dsum   = 1;
         int pq;
         RELAPACK(stgsyl_rec)(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, iWork, &pq, info);
         if (dscale != 0) {
@@ -111,6 +111,7 @@ void RELAPACK(stgsyl)(
     }
 }
 
+
 static void RELAPACK(stgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
@@ -128,14 +129,15 @@ static void RELAPACK(stgsyl_rec)(
     }
 
     // Constants
-    // 1, -1
-   	const float ONE[] = {1, 0}, MONE[] = {-1, 0};
-    // 0
-    const int iONE[] = {1};
+    const float ONE[]  = {1};
+    const float MONE[] = {-1};
+    const int  iONE[]  = {1};
 
     // Outputs
-    float scale1[] = {1, 0}, scale2[] = {1, 0};
-    int info1[1], info2[1];
+    float scale1[] = {1};
+    float scale2[] = {1};
+    int   info1[]  = {0};
+    int   info2[]  = {0};
 
     if (*m > *n) {
         int m1 = REC_SPLIT(*m);
@@ -258,5 +260,5 @@ static void RELAPACK(stgsyl_rec)(
     }
 
     *scale = scale1[0] * scale2[0];
-    *info = info1[0] || info2[0];
+    *info  = info1[0] || info2[0];
 }

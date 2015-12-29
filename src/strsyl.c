@@ -1,7 +1,7 @@
 #include "relapack.h"
 
-static void RELAPACK(strsyl_rec)(const char *, const char *, const int *, 
-    const int *, const int *, const float *, const int *, const float *, 
+static void RELAPACK(strsyl_rec)(const char *, const char *, const int *,
+    const int *, const int *, const float *, const int *, const float *,
     const int *, float *, const int *, float *, int *);
 
 
@@ -9,7 +9,7 @@ void RELAPACK(strsyl)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
-    float *C, const int *ldC, float *scale, 
+    float *C, const int *ldC, float *scale,
     int *info
 ) {
 
@@ -55,7 +55,7 @@ static void RELAPACK(strsyl_rec)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
-    float *C, const int *ldC, float *scale, 
+    float *C, const int *ldC, float *scale,
     int *info
 ) {
 
@@ -66,14 +66,16 @@ static void RELAPACK(strsyl_rec)(
     }
 
     // Constants
-    // 1, -1, -isgn
-   	const float ONE[] = {1}, MONE[] = {-1}, MSGN[] = {-*isgn};
-    // 0
-    const int iONE[] = {1};
+    const float ONE[]  = {1};
+    const float MONE[] = {-1};
+    const float MSGN[] = {-*isgn};
+    const int  iONE[]  = {1};
 
     // Outputs
-    float scale1[1], scale2[1];
-    int info1[1], info2[1];
+    float scale1[] = {1};
+    float scale2[] = {1};
+    int   info1[]  = {0};
+    int   info2[]  = {0};
 
     if (*m > *n) {
         int m1 = REC_SPLIT(*m);
@@ -153,5 +155,5 @@ static void RELAPACK(strsyl_rec)(
     }
 
     *scale = scale1[0] * scale2[0];
-    *info = info1[0] || info2[0];
+    *info  = info1[0] || info2[0];
 }

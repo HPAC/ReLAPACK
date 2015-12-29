@@ -1,11 +1,12 @@
 #include "relapack.h"
 #include <math.h>
 
-static void RELAPACK(dtgsyl_rec)(const char *, const int *, const int *, 
-    const int *, const double *, const int *, const double *, const int *, 
-    double *, const int *, const double *, const int *, const double *, 
-    const int *, double *, const int *, double *, double *, double *, int *, 
+static void RELAPACK(dtgsyl_rec)(const char *, const int *, const int *,
+    const int *, const double *, const int *, const double *, const int *,
+    double *, const int *, const double *, const int *, const double *,
+    const int *, double *, const int *, double *, double *, double *, int *,
     int *, int *);
+
 
 void RELAPACK(dtgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
@@ -54,8 +55,8 @@ void RELAPACK(dtgsyl)(
         const int minfo = -*info;
         LAPACK(xerbla)("DTGSYL", &minfo);
         return;
-    } 
-    
+    }
+
     if (*lWork == -1) {
         // Work size query
         *Work = lwmin;
@@ -66,11 +67,10 @@ void RELAPACK(dtgsyl)(
     const char cleantrans = notran ? 'N' : 'T';
 
     // Constants
-    // 0
-   	const double ZERO[] = {0};
+    const double ZERO[] = {0};
 
     int isolve = 1;
-    int ifunc = 0;
+    int ifunc  = 0;
     if (notran) {
         if (*ijob >= 3) {
             ifunc = *ijob - 2;
@@ -84,7 +84,7 @@ void RELAPACK(dtgsyl)(
     for (int iround = 1; iround <= isolve; iround++) {
         *scale = 1;
         double dscale = 0;
-        double dsum = 1;
+        double dsum   = 1;
         int pq;
         RELAPACK(dtgsyl_rec)(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, iWork, &pq, info);
         if (dscale != 0) {
@@ -111,13 +111,14 @@ void RELAPACK(dtgsyl)(
     }
 }
 
+
 static void RELAPACK(dtgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
     double *C, const int *ldC,
     const double *D, const int *ldD, const double *E, const int *ldE,
     double *F, const int *ldF,
-    double *scale, double *dsum, double *dscale, 
+    double *scale, double *dsum, double *dscale,
     int *iWork, int *pq, int *info
 ) {
 
@@ -126,15 +127,17 @@ static void RELAPACK(dtgsyl_rec)(
         LAPACK(dtgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, iWork, pq, info);
         return;
     }
+
     // Constants
-    // 1, -1
-   	const double ONE[] = {1, 0}, MONE[] = {-1, 0};
-    // 0
-    const int iONE[] = {1};
+    const double ONE[]  = {1};
+    const double MONE[] = {-1};
+    const int   iONE[]  = {1};
 
     // Outputs
-    double scale1[] = {1, 0}, scale2[] = {1, 0};
-    int info1[1], info2[1];
+    double scale1[] = {1};
+    double scale2[] = {1};
+    int    info1[]  = {0};
+    int    info2[]  = {0};
 
     if (*m > *n) {
         int m1 = REC_SPLIT(*m);
@@ -257,5 +260,5 @@ static void RELAPACK(dtgsyl_rec)(
     }
 
     *scale = scale1[0] * scale2[0];
-    *info = info1[0] || info2[0];
+    *info  = info1[0] || info2[0];
 }

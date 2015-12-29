@@ -3,12 +3,6 @@
 
 #include "../config.h"
 
-#ifdef BLAS_UNDERSCORE
-#define BLAS(routine) routine ## _
-#else
-#define BLAS(routine) routine
-#endif
-
 #ifdef LAPACK_UNDERSCORE
 #define LAPACK(routine) routine ## _
 #else

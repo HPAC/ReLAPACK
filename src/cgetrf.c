@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(cgetrf_rec)(const int *, const int *, float *, 
+static void RELAPACK(cgetrf_rec)(const int *, const int *, float *,
     const int *, int *, int *);
 
 
@@ -29,17 +29,15 @@ void RELAPACK(cgetrf)(
     // Right remainder
     if (*m < *n) {
         // Constants
-        // 1
         const float ONE[] = {1, 0};
-        // 1
-        const int iONE[] = {1};
+        const int  iONE[] = {1};
 
         // Splitting
         const int rn = *n - *m;
 
         // A_L A_R
-        float *const A_L = A;
-        float *const A_R = A + 2 * *ldA * *m;
+        const float *const A_L = A;
+        float *const       A_R = A + 2 * *ldA * *m;
 
         // A_R = apply(ipiv, A_R)
         LAPACK(claswp)(&rn, A_R, ldA, iONE, m, ipiv, iONE);
@@ -62,10 +60,9 @@ static void RELAPACK(cgetrf_rec)(
     }
 
     // Constants
-    // 1, -1
-   	const float ONE[] = {1, 0}, MONE[] = {-1, 0};
-    // 1
-    const int iONE[] = {1};
+    const float ONE[]  = {1, 0};
+    const float MONE[] = {-1, 0};
+    const int  iONE[]  = {1};
 
     // Splitting
     const int mn = MIN(*m, *n);
@@ -102,7 +99,6 @@ static void RELAPACK(cgetrf_rec)(
     // apply pivots to A_BL
     LAPACK(claswp)(&n1, A_BL, ldA, iONE, &n2, ipiv_B, iONE);
     // shift pivots
-    int i;
-    for (i = 0; i < n2; i++)
+    for (int i = 0; i < n2; i++)
         ipiv_B[i] += n1;
 }

@@ -1,7 +1,7 @@
 #include "relapack.h"
 #include <stdlib.h>
 
-void RELAPACK(ssytrf_rec)(const char *, const int *, const int *, int *, 
+void RELAPACK(ssytrf_rec)(const char *, const int *, const int *, int *,
     float *, const int *, int *, float *, const int *, int *);
 
 
@@ -59,9 +59,12 @@ void RELAPACK(ssytrf_rec)(
     float *Work, const int *ldWork, int *info
 ) {
 
+    // top recursion level?
+    const int top = *n_full == *n;
+
     if (*n <= MAX(CROSSOVER_SSYTRF, 3)) {
         // Unblocked
-        if (*n == *n_full) {
+        if (top) {
             LAPACK(ssytf2)(uplo, n, A, ldA, ipiv, info);
             *n_out = *n;
         } else
@@ -72,10 +75,9 @@ void RELAPACK(ssytrf_rec)(
     int info1, info2;
 
     // Constants
-    // 1, -1
-   	const float ONE[] = {1}, MONE[] = {-1};
-    // 1
-    const int iONE[] = {1};
+    const float ONE[]  = {1};
+    const float MONE[] = {-1};
+    const int  iONE[]  = {1};
 
     const int n_rest = *n_full - *n;
 
@@ -108,9 +110,9 @@ void RELAPACK(ssytrf_rec)(
         // Work_BL Work_BR
         // *       *
         // (top recursion level: use Work as Work_BR)
-        const int ldWork_BR  = (*n == *n_full) ? n2   : *ldWork;
-        float *const Work_BL =                          Work                + n1;
-        float *const Work_BR = (*n == *n_full) ? Work : Work + *ldWork * n1 + n1;
+        const int ldWork_BR  = top ? n2   : *ldWork;
+        float *const Work_BL =              Work                + n1;
+        float *const Work_BR = top ? Work : Work + *ldWork * n1 + n1;
 
         // ipiv_T
         // ipiv_B
@@ -150,7 +152,7 @@ void RELAPACK(ssytrf_rec)(
             else
                 ipiv_B[i] -= n1;
 
-        *info = info1 || info2;
+        *info  = info1 || info2;
         *n_out = n1 + n2;
     } else {
         // Splitting (setup)
@@ -159,7 +161,7 @@ void RELAPACK(ssytrf_rec)(
 
         // * Work_R
         // (top recursion level: use Work as Work_R)
-        float *const Work_R = (*n == *n_full) ? Work : Work + *ldWork * n1;
+        float *const Work_R = top ? Work : Work + *ldWork * n1;
 
         // recursion(A_R)
         int n2_out;
@@ -183,9 +185,9 @@ void RELAPACK(ssytrf_rec)(
         // *      Work_TR
         // *      *
         // (top recursion level: Work_R was Work)
-        const int ldWork_L   = (*n == *n_full) ? n1 : *ldWork;
-        float *const Work_L  =                   Work;
-        float *const Work_TR = (*n == *n_full) ? Work + *ldWork * n2_diff + n_rest : Work + *ldWork * n1 + n_rest;
+        const int ldWork_L   = top ? n1 : *ldWork;
+        float *const Work_L  = Work;
+        float *const Work_TR = Work + *ldWork * (top ? n2_diff : n1) + n_rest;
 
         // A_TL = A_TL - A_TR Work_TR'
         RELAPACK(sgemm_tr_rec)("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
@@ -204,7 +206,7 @@ void RELAPACK(ssytrf_rec)(
         }
         n1 = n1_out;
 
-        *info = info2 || info1;
+        *info  = info2 || info1;
         *n_out = n1 + n2;
     }
 }

@@ -1,8 +1,6 @@
 #ifndef BLAS_H
 #define BLAS_H
 
-extern void BLAS(scopy)(const int *, const float *, const int *, float *, const int *);
-
 extern void BLAS(sscal)(const int *, const float *, float *, const int *);
 extern void BLAS(dscal)(const int *, const double *, double *, const int *);
 extern void BLAS(cscal)(const int *, const float *, float *, const int *);

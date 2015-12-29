@@ -1,7 +1,7 @@
 #include "relapack.h"
 
-static void RELAPACK(ztrsyl_rec)(const char *, const char *, const int *, 
-    const int *, const int *, const double *, const int *, const double *, 
+static void RELAPACK(ztrsyl_rec)(const char *, const char *, const int *,
+    const int *, const int *, const double *, const int *, const double *,
     const int *, double *, const int *, double *, int *);
 
 
@@ -9,19 +9,19 @@ void RELAPACK(ztrsyl)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
-    double *C, const int *ldC, double *scale, 
+    double *C, const int *ldC, double *scale,
     int *info
 ) {
 
     // Check arguments
     const int notransA = LAPACK(lsame)(tranA, "N");
-    const int transA = LAPACK(lsame)(tranA, "C");
+    const int ctransA = LAPACK(lsame)(tranA, "C");
     const int notransB = LAPACK(lsame)(tranB, "N");
-    const int transB = LAPACK(lsame)(tranB, "C");
+    const int ctransB = LAPACK(lsame)(tranB, "C");
     *info = 0;
-    if (!transA && !notransA)
+    if (!ctransA && !notransA)
         *info = -1;
-    else if (!transB && !notransB)
+    else if (!ctransB && !notransB)
         *info = -2;
     else if (*isgn != 1 && *isgn != -1)
         *info = -3;
@@ -53,7 +53,7 @@ static void RELAPACK(ztrsyl_rec)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
-    double *C, const int *ldC, double *scale, 
+    double *C, const int *ldC, double *scale,
     int *info
 ) {
 
@@ -64,14 +64,16 @@ static void RELAPACK(ztrsyl_rec)(
     }
 
     // Constants
-    // 1, -1, -isgn
-   	const double ONE[] = {1, 0}, MONE[] = {-1, 0}, MSGN[] = {-*isgn, 0};
-    // 0
-    const int iONE[] = {1};
+    const double ONE[]  = {1, 0};
+    const double MONE[] = {-1, 0};
+    const double MSGN[] = {-*isgn, 0};
+    const int   iONE[]  = {1};
 
     // Outputs
-    double scale1[] = {1, 0}, scale2[] = {1, 0};
-    int info1[1], info2[1];
+    double scale1[] = {1, 0};
+    double scale2[] = {1, 0};
+    int    info1[]  = {0};
+    int    info2[]  = {0};
 
     if (*m > *n) {
         int m1 = REC_SPLIT(*m);
@@ -147,5 +149,5 @@ static void RELAPACK(ztrsyl_rec)(
     }
 
     *scale = scale1[0] * scale2[0];
-    *info = info1[0] || info2[0];
+    *info  = info1[0] || info2[0];
 }

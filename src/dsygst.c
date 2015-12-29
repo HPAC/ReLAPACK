@@ -39,10 +39,10 @@ void RELAPACK(dsygst)(
 
     // Allocate work space
     double *Work = NULL;
-    int lWork = 0;
+    int    lWork = 0;
 #ifdef ALLOW_MALLOC
-    lWork = (*n * *n + 1) / 2;
-    Work = malloc(lWork * sizeof(double));
+    lWork = *n * (*n / 2);
+    Work  = malloc(lWork * sizeof(double));
 #endif
 
     // recursive kernel
@@ -68,10 +68,12 @@ static void RELAPACK(dsygst_rec)(
     }
 
     // Constants
-    // 0, 1, -1, 1/2, -1/2
-   	const double ZERO[] = {0}, ONE[] = {1}, MONE[] = {-1}, HALF[] = {.5}, MHALF[] = {-.5};
-    // 1
-    const int IONE[] = {1};
+    const double ZERO[]  = {0};
+    const double ONE[]   = {1};
+    const double MONE[]  = {-1};
+    const double HALF[]  = {.5};
+    const double MHALF[] = {-.5};
+    const int   iONE[]   = {1};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);
@@ -103,7 +105,7 @@ static void RELAPACK(dsygst_rec)(
                 BLAS(dsymm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ZERO, Work, &n2);
                 // A_BL = A_BL + T
                 for (int i = 0; i < n1; i++)
-                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, IONE, A_BL + *ldA * i, IONE);
+                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             } else
                 // A_BL = A_BL - 1/2 B_BL * A_TL
                 BLAS(dsymm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ONE, A_BL, ldA);
@@ -112,7 +114,7 @@ static void RELAPACK(dsygst_rec)(
             if (*lWork > n2 * n1)
                 // A_BL = A_BL + T
                 for (int i = 0; i < n1; i++)
-                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, IONE, A_BL + *ldA * i, IONE);
+                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             else
                 // A_BL = A_BL - 1/2 B_BL * A_TL
                 BLAS(dsymm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ONE, A_BL, ldA);
@@ -126,7 +128,7 @@ static void RELAPACK(dsygst_rec)(
                 BLAS(dsymm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ZERO, Work, &n1);
                 // A_TR = A_BL + T
                 for (int i = 0; i < n2; i++)
-                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, IONE, A_TR + *ldA * i, IONE);
+                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             } else
                 // A_TR = A_TR - 1/2 A_TL * B_TR
                 BLAS(dsymm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ONE, A_TR, ldA);
@@ -135,7 +137,7 @@ static void RELAPACK(dsygst_rec)(
             if (*lWork > n2 * n1)
                 // A_TR = A_BL + T
                 for (int i = 0; i < n2; i++)
-                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, IONE, A_TR + *ldA * i, IONE);
+                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             else
                 // A_TR = A_TR - 1/2 A_TL * B_TR
                 BLAS(dsymm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ONE, A_TR, ldA);
@@ -151,7 +153,7 @@ static void RELAPACK(dsygst_rec)(
                 BLAS(dsymm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ZERO, Work, &n2);
                 // A_BL = A_BL + T
                 for (int i = 0; i < n1; i++)
-                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, IONE, A_BL + *ldA * i, IONE);
+                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             } else
                 // A_BL = A_BL + 1/2 A_BR * B_BL
                 BLAS(dsymm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ONE, A_BL, ldA);
@@ -160,7 +162,7 @@ static void RELAPACK(dsygst_rec)(
             if (*lWork > n2 * n1)
                 // A_BL = A_BL + T
                 for (int i = 0; i < n1; i++)
-                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, IONE, A_BL + *ldA * i, IONE);
+                    BLAS(daxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             else
                 // A_BL = A_BL + 1/2 A_BR * B_BL
                 BLAS(dsymm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ONE, A_BL, ldA);
@@ -174,7 +176,7 @@ static void RELAPACK(dsygst_rec)(
                 BLAS(dsymm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ZERO, Work, &n1);
                 // A_TR = A_TR + T
                 for (int i = 0; i < n2; i++)
-                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, IONE, A_TR + *ldA * i, IONE);
+                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             } else
                 // A_TR = A_TR + 1/2 B_TR A_BR
                 BLAS(dsymm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ONE, A_TR, ldA);
@@ -183,7 +185,7 @@ static void RELAPACK(dsygst_rec)(
             if (*lWork > n2 * n1)
                 // A_TR = A_TR + T
                 for (int i = 0; i < n2; i++)
-                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, IONE, A_TR + *ldA * i, IONE);
+                    BLAS(daxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             else
                 // A_TR = A_TR + 1/2 B_TR * A_BR
                 BLAS(dsymm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ONE, A_TR, ldA);

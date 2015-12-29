@@ -1,12 +1,12 @@
 #include "relapack.h"
 
-static void RELAPACK(zlauum_rec)(const char *, const int *, double *, 
+static void RELAPACK(zlauum_rec)(const char *, const int *, double *,
     const int *, int *);
 
 
 void RELAPACK(zlauum)(
     const char *uplo, const int *n,
-    double *A, const int *ldA, 
+    double *A, const int *ldA,
     int *info
 ) {
 
@@ -35,7 +35,7 @@ void RELAPACK(zlauum)(
 
 static void RELAPACK(zlauum_rec)(
     const char *uplo, const int *n,
-    double *A, const int *ldA, 
+    double *A, const int *ldA,
     int *info
 ) {
 
@@ -46,8 +46,7 @@ static void RELAPACK(zlauum_rec)(
     }
 
     // Constants
-    // 1
-   	const double ONE[] = {1, 0};
+    const double ONE[] = {1, 0};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

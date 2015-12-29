@@ -1,12 +1,12 @@
 #include "relapack.h"
 
-static void RELAPACK(dlauum_rec)(const char *, const int *, double *, 
+static void RELAPACK(dlauum_rec)(const char *, const int *, double *,
     const int *, int *);
 
 
 void RELAPACK(dlauum)(
     const char *uplo, const int *n,
-    double *A, const int *ldA, 
+    double *A, const int *ldA,
     int *info
 ) {
 
@@ -35,7 +35,7 @@ void RELAPACK(dlauum)(
 
 static void RELAPACK(dlauum_rec)(
     const char *uplo, const int *n,
-    double *A, const int *ldA, 
+    double *A, const int *ldA,
     int *info
 ) {
 
@@ -46,8 +46,7 @@ static void RELAPACK(dlauum_rec)(
     }
 
     // Constants
-    // 1
-   	const double ONE[] = {1};
+    const double ONE[] = {1};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

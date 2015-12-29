@@ -1,7 +1,7 @@
 #include "relapack.h"
 
-static void RELAPACK(zgemm_tr2)(const char *, const char *, const char *, 
-    const int *, const int *, const double *, const double *, const int *, 
+static void RELAPACK(zgemm_tr2)(const char *, const char *, const char *,
+    const int *, const int *, const double *, const double *, const int *,
     const double *, const int *, const double *, double *, const int *);
 
 
@@ -54,7 +54,7 @@ void RELAPACK(zgemm_tr_rec)(
 }
 
 static void RELAPACK(zgemm_tr2)(
-    const char *transA, const char *transB, const char *uplo, 
+    const char *transA, const char *transB, const char *uplo,
     const int *n, const int *k,
     const double *alpha, const double *A, const int *ldA,
     const double *B, const int *ldB,
@@ -64,8 +64,7 @@ static void RELAPACK(zgemm_tr2)(
     const int incB = (*transB == 'T') ? *ldB : 1;
     const int incC = 1;
 
-    int i;
-    for (i = 0; i < *n; i++) {
+    for (int i = 0; i < *n; i++) {
         // A_0
         // A_i
         const double *const A_0 = A;

@@ -1,12 +1,12 @@
 #include "relapack.h"
 
-static void RELAPACK(spotrf_rec)(const char *, const int *, float *, 
+static void RELAPACK(spotrf_rec)(const char *, const int *, float *,
     const int *, int *);
 
 
 void RELAPACK(spotrf)(
     const char *uplo, const int *n,
-    float *A, const int *ldA, 
+    float *A, const int *ldA,
     int *info
 ) {
 
@@ -46,8 +46,8 @@ static void RELAPACK(spotrf_rec)(
     }
 
     // Constants
-    // 1, -1
-   	const float ONE[] = {1}, MONE[] = {-1};
+    const float ONE[]  = {1};
+    const float MONE[] = {-1};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

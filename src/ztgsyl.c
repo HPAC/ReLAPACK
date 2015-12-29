@@ -1,10 +1,11 @@
 #include "relapack.h"
 #include <math.h>
 
-static void RELAPACK(ztgsyl_rec)(const char *, const int *, const int *, 
-    const int *, const double *, const int *, const double *, const int *, 
-    double *, const int *, const double *, const int *, const double *, 
+static void RELAPACK(ztgsyl_rec)(const char *, const int *, const int *,
+    const int *, const double *, const int *, const double *, const int *,
+    double *, const int *, const double *, const int *, const double *,
     const int *, double *, const int *, double *, double *, double *, int *);
+
 
 void RELAPACK(ztgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
@@ -53,8 +54,8 @@ void RELAPACK(ztgsyl)(
         const int minfo = -*info;
         LAPACK(xerbla)("ZTGSYL", &minfo);
         return;
-    } 
-    
+    }
+
     if (*lWork == -1) {
         // Work size query
         *Work = lwmin;
@@ -65,11 +66,10 @@ void RELAPACK(ztgsyl)(
     const char cleantrans = notran ? 'N' : 'C';
 
     // Constants
-    // 0
-   	const double ZERO[] = {0, 0};
+    const double ZERO[] = {0, 0};
 
     int isolve = 1;
-    int ifunc = 0;
+    int ifunc  = 0;
     if (notran) {
         if (*ijob >= 3) {
             ifunc = *ijob - 2;
@@ -83,7 +83,7 @@ void RELAPACK(ztgsyl)(
     for (int iround = 1; iround <= isolve; iround++) {
         *scale = 1;
         double dscale = 0;
-        double dsum = 1;
+        double dsum   = 1;
         RELAPACK(ztgsyl_rec)(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, info);
         if (dscale != 0) {
             if (*ijob == 1 || *ijob == 3)
@@ -109,6 +109,7 @@ void RELAPACK(ztgsyl)(
     }
 }
 
+
 static void RELAPACK(ztgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
@@ -126,14 +127,15 @@ static void RELAPACK(ztgsyl_rec)(
     }
 
     // Constants
-    // 1, -1
-   	const double ONE[] = {1, 0}, MONE[] = {-1, 0};
-    // 0
-    const int iONE[] = {1};
+    const double ONE[]  = {1, 0};
+    const double MONE[] = {-1, 0};
+    const int   iONE[]  = {1};
 
     // Outputs
-    double scale1[] = {1, 0}, scale2[] = {1, 0};
-    int info1[1], info2[1];
+    double scale1[] = {1, 0};
+    double scale2[] = {1, 0};
+    int    info1[]  = {0};
+    int    info2[]  = {0};
 
     if (*m > *n) {
         int m1 = REC_SPLIT(*m);
@@ -252,5 +254,5 @@ static void RELAPACK(ztgsyl_rec)(
     }
 
     *scale = scale1[0] * scale2[0];
-    *info = info1[0] || info2[0];
+    *info  = info1[0] || info2[0];
 }

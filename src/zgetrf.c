@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(zgetrf_rec)(const int *, const int *, double *, 
+static void RELAPACK(zgetrf_rec)(const int *, const int *, double *,
     const int *, int *, int *);
 
 
@@ -29,17 +29,15 @@ void RELAPACK(zgetrf)(
     // Right remainder
     if (*m < *n) {
         // Constants
-        // 1
-        const double ONE[] = {1, 0};
-        // 1
-        const int iONE[] = {1};
+        const double ONE[]  = {1, 0};
+        const int   iONE[] = {1};
 
         // Splitting
         const int rn = *n - *m;
 
         // A_L A_R
-        double *const A_L = A;
-        double *const A_R = A + 2 * *ldA * *m;
+        const double *const A_L = A;
+        double *const       A_R = A + 2 * *ldA * *m;
 
         // A_R = apply(ipiv, A_R)
         LAPACK(zlaswp)(&rn, A_R, ldA, iONE, m, ipiv, iONE);
@@ -62,10 +60,9 @@ static void RELAPACK(zgetrf_rec)(
     }
 
     // Constants
-    // 1, -1
-   	const double ONE[] = {1, 0}, MONE[] = {-1, 0};
-    // 1
-    const int iONE[] = {1};
+    const double ONE[]  = {1, 0};
+    const double MONE[] = {-1, 0};
+    const int   iONE[]  = {1};
 
     // Splitting
     const int mn = MIN(*m, *n);
@@ -102,7 +99,6 @@ static void RELAPACK(zgetrf_rec)(
     // apply pivots to A_BL
     LAPACK(zlaswp)(&n1, A_BL, ldA, iONE, &n2, ipiv_B, iONE);
     // shift pivots
-    int i;
-    for (i = 0; i < n2; i++)
+    for (int i = 0; i < n2; i++)
         ipiv_B[i] += n1;
 }

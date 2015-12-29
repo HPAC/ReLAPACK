@@ -6,7 +6,7 @@ static void RELAPACK(strtri_rec)(const char *, const char *, const int *,
 
 void RELAPACK(strtri)(
     const char *uplo, const char *diag, const int *n,
-    float *A, const int *ldA, 
+    float *A, const int *ldA,
     int *info
 ) {
 
@@ -31,7 +31,7 @@ void RELAPACK(strtri)(
     }
 
     // Clean char * arguments
-    const char cleanuplo = lower ? 'L' : 'U';
+    const char cleanuplo = lower  ? 'L' : 'U';
     const char cleandiag = nounit ? 'N' : 'U';
 
     RELAPACK(strtri_rec)(&cleanuplo, &cleandiag, n, A, ldA, info);
@@ -51,8 +51,8 @@ static void RELAPACK(strtri_rec)(
     }
 
     // Constants
-    // 1, -1
-    const float ONE[] = {1}, MONE[] = {-1};
+    const float ONE[]  = {1};
+    const float MONE[] = {-1};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

@@ -1,12 +1,12 @@
 #include "relapack.h"
 
-static void RELAPACK(zpotrf_rec)(const char *, const int *, double *, 
+static void RELAPACK(zpotrf_rec)(const char *, const int *, double *,
     const int *, int *);
 
 
 void RELAPACK(zpotrf)(
     const char *uplo, const int *n,
-    double *A, const int *ldA, 
+    double *A, const int *ldA,
     int *info
 ) {
 
@@ -22,7 +22,7 @@ void RELAPACK(zpotrf)(
         *info = -4;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CPOTRF", &minfo);
+        LAPACK(xerbla)("ZPOTRF", &minfo);
         return;
     }
 
@@ -45,11 +45,9 @@ static void RELAPACK(zpotrf_rec)(
         return;
     }
 
-    // Recursive
-
     // Constants
-    // 1, -1
-   	const double ONE[] = {1, 0}, MONE[] = {-1, 0};
+    const double ONE[]  = {1, 0};
+    const double MONE[] = {-1, 0};
 
     // Splitting
     const int n1 = REC_SPLIT(*n);
