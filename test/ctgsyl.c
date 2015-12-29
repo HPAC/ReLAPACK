@@ -11,33 +11,41 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "usage: %s n\n", argv[0]);
         return 0;
     }
-    const int n = atoi(argv[1]);
+    const int n     = atoi(argv[1]);
     const int n_max = n;
     const int n_min = MAX(1, (n * 3) / 4);
 		
-	float *A1 = malloc(2 * n * n * sizeof(float));
-	float *A2 = malloc(2 * n * n * sizeof(float));
-	float *B1 = malloc(2 * n * n * sizeof(float));
-	float *B2 = malloc(2 * n * n * sizeof(float));
-	float *C1 = malloc(2 * n * n * sizeof(float));
-	float *C2 = malloc(2 * n * n * sizeof(float));
-	float *D1 = malloc(2 * n * n * sizeof(float));
-	float *D2 = malloc(2 * n * n * sizeof(float));
-	float *E1 = malloc(2 * n * n * sizeof(float));
-	float *E2 = malloc(2 * n * n * sizeof(float));
-	float *F1 = malloc(2 * n * n * sizeof(float));
-	float *F2 = malloc(2 * n * n * sizeof(float));
     const int lWork = 2 * n * n;
-    float *Work1 = malloc(2 * lWork  * sizeof(float));
-    float *Work2 = malloc(2 * lWork  * sizeof(float));
-    int *iWork1 = malloc((n + n + 2) * sizeof(int));
-    int *iWork2 = malloc((n + n + 2) * sizeof(int));
+	float *A1     = malloc(n * n * 2 * sizeof(float));
+	float *A2     = malloc(n * n * 2 * sizeof(float));
+	float *B1     = malloc(n * n * 2 * sizeof(float));
+	float *B2     = malloc(n * n * 2 * sizeof(float));
+	float *C1     = malloc(n * n * 2 * sizeof(float));
+	float *C2     = malloc(n * n * 2 * sizeof(float));
+	float *D1     = malloc(n * n * 2 * sizeof(float));
+	float *D2     = malloc(n * n * 2 * sizeof(float));
+	float *E1     = malloc(n * n * 2 * sizeof(float));
+	float *E2     = malloc(n * n * 2 * sizeof(float));
+	float *F1     = malloc(n * n * 2 * sizeof(float));
+	float *F2     = malloc(n * n * 2 * sizeof(float));
+    float *Work1  = malloc(lWork * 2 * sizeof(float));
+    float *Work2  = malloc(lWork * 2 * sizeof(float));
+    int   *iWork1 = malloc((n + n + 2) * sizeof(int));
+    int   *iWork2 = malloc((n + n + 2) * sizeof(int));
 
+    // Outputs
     int info;
-    float scale1, scale2;
-    float dif1, dif2;
-    // 0, 1, 2, 3, 4
-    const int i0[] = {0}, i1[] = {1}, i2[] = {2}, i3[] = {3}, i4[] = {4};
+    float scale1;
+    float scale2;
+    float dif1;
+    float dif2;
+
+    // Constants
+    const int iZERO[]  = {0};
+    const int iONE[]   = {1};
+    const int iTWO[]   = {2};
+    const int iTHREE[] = {3};
+    const int iFOUR[]  = {4};
 
     { // N 0 m = n
         const int m = n_max, n = n_max;
@@ -58,15 +66,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -93,15 +101,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -128,15 +136,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -163,15 +171,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i1, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i1, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iONE, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iONE, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -198,15 +206,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i2, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i2, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iTWO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iTWO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -233,15 +241,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i3, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i3, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iTHREE, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iTHREE, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -268,15 +276,15 @@ int main(int argc, char* argv[]) {
         BLAS(cscal)(&m, cmi, D2, &mp1);
 
         // run
-        RELAPACK(ctgsyl)("N", i4, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("N", i4, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("N", iFOUR, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("N", iFOUR, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -295,15 +303,15 @@ int main(int argc, char* argv[]) {
         c2matgen(m, n, F1, F2);
 
         // run
-        RELAPACK(ctgsyl)("C", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(ctgsyl)("C", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(ctgsyl)("C", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(ctgsyl)("C", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(clascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(clascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error

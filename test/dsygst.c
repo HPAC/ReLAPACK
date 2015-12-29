@@ -16,9 +16,12 @@ int main(int argc, char* argv[]) {
 	double *B1 = malloc(n * n * sizeof(double));
 	double *B2 = malloc(n * n * sizeof(double));
 
+    // Output
     int info;
 
-    const int i1[] = {1}, i2[] = {2};
+    // Constants
+    const int iONE[] = {1};
+    const int iTWO[] = {2};
 
     { // 1 L
         // generate matrix
@@ -26,8 +29,8 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(dsygst)(i1, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(dsygs2)(i1, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(dsygst)(iONE, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(dsygs2)(iONE, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = d2vecerr(n * n, A1, A2);
@@ -40,8 +43,8 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(dsygst)(i1, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(dsygs2)(i1, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(dsygst)(iONE, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(dsygs2)(iONE, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = d2vecerr(n * n, A1, A2);
@@ -54,8 +57,8 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(dsygst)(i2, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(dsygs2)(i2, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(dsygst)(iTWO, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(dsygs2)(iTWO, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = d2vecerr(n * n, A1, A2);
@@ -68,8 +71,8 @@ int main(int argc, char* argv[]) {
         d2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(dsygst)(i2, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(dsygs2)(i2, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(dsygst)(iTWO, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(dsygs2)(iTWO, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = d2vecerr(n * n, A1, A2);

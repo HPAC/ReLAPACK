@@ -9,18 +9,18 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "usage: %s n\n", argv[0]);
         return 0;
     }
-    const int n = atoi(argv[1]);
+    const int n  = atoi(argv[1]);
     const int n2 = (n * 3) / 4;
 		
-	float *A1 = malloc(n * n * sizeof(float));
-	float *A2 = malloc(n * n * sizeof(float));
-    int *ipiv1 = malloc(n * sizeof(int));
-    int *ipiv2 = malloc(n * sizeof(int));
+	float *A1    = malloc(n * n * sizeof(float));
+	float *A2    = malloc(n * n * sizeof(float));
+    int   *ipiv1 = malloc(n * sizeof(int));
+    int   *ipiv2 = malloc(n * sizeof(int));
 
+    // Output
     int info;
 
-    // m = n
-    {
+    { // m = n
         // generate matrix
         s2matgen(n, n, A1, A2);
 
@@ -33,8 +33,7 @@ int main(int argc, char* argv[]) {
         printf("sgetrf m = n:\t%g\n", error);
     }
 
-    // m > n
-    {
+    { // m > n
         // generate matrix
         s2matgen(n2, n, A1, A2);
 
@@ -47,8 +46,7 @@ int main(int argc, char* argv[]) {
         printf("sgetrf m > n:\t%g\n", error);
     }
 
-    // m < n
-    {
+    { // m < n
         // generate matrix
         s2matgen(n2, n, A1, A2);
 

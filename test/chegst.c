@@ -11,14 +11,17 @@ int main(int argc, char* argv[]) {
     }
     const int n = atoi(argv[1]);
 		
-	float *A1 = malloc(2 * n * n * sizeof(float));
-	float *A2 = malloc(2 * n * n * sizeof(float));
-	float *B1 = malloc(2 * n * n * sizeof(float));
-	float *B2 = malloc(2 * n * n * sizeof(float));
+	float *A1 = malloc(n * n * 2 * sizeof(float));
+	float *A2 = malloc(n * n * 2 * sizeof(float));
+	float *B1 = malloc(n * n * 2 * sizeof(float));
+	float *B2 = malloc(n * n * 2 * sizeof(float));
 
+    // Output
     int info;
 
-    const int i1[] = {1}, i2[] = {2};
+    // Constants
+    const int iONE[] = {1};
+    const int iTWO[] = {2};
 
     { // 1 L
         // generate matrix
@@ -26,8 +29,8 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(chegst)(i1, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(chegs2)(i1, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(chegst)(iONE, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(chegs2)(iONE, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = c2vecerr(n * n, A1, A2);
@@ -40,8 +43,8 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(chegst)(i1, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(chegs2)(i1, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(chegst)(iONE, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(chegs2)(iONE, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = c2vecerr(n * n, A1, A2);
@@ -54,8 +57,8 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(chegst)(i2, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(chegs2)(i2, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(chegst)(iTWO, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(chegs2)(iTWO, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = c2vecerr(n * n, A1, A2);
@@ -68,8 +71,8 @@ int main(int argc, char* argv[]) {
         c2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(chegst)(i2, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(chegs2)(i2, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(chegst)(iTWO, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(chegs2)(iTWO, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = c2vecerr(n * n, A1, A2);

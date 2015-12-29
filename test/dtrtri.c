@@ -14,10 +14,10 @@ int main(int argc, char* argv[]) {
 	double *A1 = malloc(n * n * sizeof(double));
 	double *A2 = malloc(n * n * sizeof(double));
 
+    // Output
     int info;
 
-    // L
-    {
+    { // L
         // generate matrix
         d2matgen(n, n, A1, A2);
 
@@ -30,8 +30,7 @@ int main(int argc, char* argv[]) {
         printf("dtrtri L:\t%g\n", error);
     }
 
-    // U
-    {
+    { // U
         // generate matrix
         d2matgen(n, n, A1, A2);
 

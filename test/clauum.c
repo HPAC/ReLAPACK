@@ -14,10 +14,10 @@ int main(int argc, char* argv[]) {
 	float *A1 = malloc(2 * n * n * sizeof(float));
 	float *A2 = malloc(2 * n * n * sizeof(float));
 
+    // Ouptut
     int info;
 
-    // L
-    {
+    { // L
         // generate matrix
         c2matgen(n, n, A1, A2);
 
@@ -30,8 +30,7 @@ int main(int argc, char* argv[]) {
         printf("clauum L:\t%g\n", error);
     }
 
-    // U
-    {
+    { // U
         // generate matrix
         c2matgen(n, n, A1, A2);
 

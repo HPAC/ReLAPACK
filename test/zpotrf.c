@@ -14,10 +14,10 @@ int main(int argc, char* argv[]) {
 	double *A1 = malloc(2 * n * n * sizeof(double));
 	double *A2 = malloc(2 * n * n * sizeof(double));
 
+    // Outputs
     int info;
 
-    // L
-    {
+    { // L
         // generate matrix
         z2matgen(n, n, A1, A2);
 
@@ -30,8 +30,7 @@ int main(int argc, char* argv[]) {
         printf("zpotrf L:\t%g\n", error);
     }
 
-    // U
-    {
+    { // U
         // generate matrix
         z2matgen(n, n, A1, A2);
 

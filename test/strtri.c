@@ -14,10 +14,10 @@ int main(int argc, char* argv[]) {
 	float *A1 = malloc(n * n * sizeof(float));
 	float *A2 = malloc(n * n * sizeof(float));
 
+    // Output
     int info;
 
-    // L
-    {
+    { // L
         // generate matrix
         s2matgen(n, n, A1, A2);
 
@@ -30,8 +30,7 @@ int main(int argc, char* argv[]) {
         printf("strtri L:\t%g\n", error);
     }
 
-    // U
-    {
+    { // U
         // generate matrix
         s2matgen(n, n, A1, A2);
 

@@ -11,17 +11,17 @@ int main(int argc, char* argv[]) {
     }
     const int n = atoi(argv[1]);
 		
-	double *A1 = malloc(n * n * 2 * sizeof(double));
-	double *A2 = malloc(n * n * 2 * sizeof(double));
-	int *ipiv1 = malloc(n * sizeof(int));
-	int *ipiv2 = malloc(n * sizeof(int));
     const int lWork = n * n;
-	double *Work = malloc(lWork * 2 * sizeof(double));
+	double *A1    = malloc(n * n * 2 * sizeof(double));
+	double *A2    = malloc(n * n * 2 * sizeof(double));
+	int    *ipiv1 = malloc(n * sizeof(int));
+	int    *ipiv2 = malloc(n * sizeof(int));
+	double *Work  = malloc(lWork * 2 * sizeof(double));
 
+    // Output
     int info;
 
-    // L
-    {
+    { // L
         // generate matrix
         z2matgen(n, n, A1, A2);
 
@@ -34,8 +34,7 @@ int main(int argc, char* argv[]) {
         printf("zhetrf L:\t%g\n", error);
     }
 
-    // U
-    {
+    { // U
         // generate matrix
         z2matgen(n, n, A1, A2);
 

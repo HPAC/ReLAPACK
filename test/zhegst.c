@@ -11,14 +11,17 @@ int main(int argc, char* argv[]) {
     }
     const int n = atoi(argv[1]);
 		
-	double *A1 = malloc(2 * n * n * sizeof(double));
-	double *A2 = malloc(2 * n * n * sizeof(double));
-	double *B1 = malloc(2 * n * n * sizeof(double));
-	double *B2 = malloc(2 * n * n * sizeof(double));
+	double *A1 = malloc(n * n * 2 * sizeof(double));
+	double *A2 = malloc(n * n * 2 * sizeof(double));
+	double *B1 = malloc(n * n * 2 * sizeof(double));
+	double *B2 = malloc(n * n * 2 * sizeof(double));
 
+    // Output
     int info;
 
-    int i1[] = {1}, i2[] = {2};
+    // Constants
+    const int iONE[] = {1};
+    const int iTWO[] = {2};
 
     { // 1 L
         // generate matrix
@@ -26,8 +29,8 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(zhegst)(i1, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(zhegs2)(i1, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(zhegst)(iONE, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(zhegs2)(iONE, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = z2vecerr(n * n, A1, A2);
@@ -40,8 +43,8 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(zhegst)(i1, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(zhegs2)(i1, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(zhegst)(iONE, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(zhegs2)(iONE, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = z2vecerr(n * n, A1, A2);
@@ -54,8 +57,8 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(zhegst)(i2, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(zhegs2)(i2, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(zhegst)(iTWO, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(zhegs2)(iTWO, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = z2vecerr(n * n, A1, A2);
@@ -68,8 +71,8 @@ int main(int argc, char* argv[]) {
         z2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(zhegst)(i2, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(zhegs2)(i2, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(zhegst)(iTWO, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(zhegs2)(iTWO, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = z2vecerr(n * n, A1, A2);

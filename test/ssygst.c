@@ -16,9 +16,12 @@ int main(int argc, char* argv[]) {
 	float *B1 = malloc(n * n * sizeof(float));
 	float *B2 = malloc(n * n * sizeof(float));
 
+    // Output
     int info;
 
-    const int i1[] = {1}, i2[] = {2};
+    // Constants
+    const int iONE[] = {1};
+    const int iTWO[] = {2};
 
     { // 1 L
         // generate matrix
@@ -26,8 +29,8 @@ int main(int argc, char* argv[]) {
         s2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(ssygst)(i1, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(ssygs2)(i1, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(ssygst)(iONE, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(iONE, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = s2vecerr(n * n, A1, A2);
@@ -40,8 +43,8 @@ int main(int argc, char* argv[]) {
         s2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(ssygst)(i1, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(ssygs2)(i1, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(ssygst)(iONE, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(iONE, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = s2vecerr(n * n, A1, A2);
@@ -54,8 +57,8 @@ int main(int argc, char* argv[]) {
         s2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(ssygst)(i2, "L", &n, A1, &n, B1, &n, &info);
-        LAPACK(ssygs2)(i2, "L", &n, A2, &n, B2, &n, &info);
+        RELAPACK(ssygst)(iTWO, "L", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(iTWO, "L", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = s2vecerr(n * n, A1, A2);
@@ -68,8 +71,8 @@ int main(int argc, char* argv[]) {
         s2matgen(n, n, B1, B2);
 
         // run
-        RELAPACK(ssygst)(i2, "U", &n, A1, &n, B1, &n, &info);
-        LAPACK(ssygs2)(i2, "U", &n, A2, &n, B2, &n, &info);
+        RELAPACK(ssygst)(iTWO, "U", &n, A1, &n, B1, &n, &info);
+        LAPACK(ssygs2)(iTWO, "U", &n, A2, &n, B2, &n, &info);
 
         // check error
         const double error = s2vecerr(n * n, A1, A2);

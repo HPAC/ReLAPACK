@@ -11,36 +11,42 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "usage: %s n\n", argv[0]);
         return 0;
     }
-    const int n = atoi(argv[1]);
+    const int n     = atoi(argv[1]);
     const int n_max = n;
     const int n_min = MAX(1, (n * 3) / 4);
 		
-	float *A1 = malloc(n * n * sizeof(float));
-	float *A2 = malloc(n * n * sizeof(float));
-	float *B1 = malloc(n * n * sizeof(float));
-	float *B2 = malloc(n * n * sizeof(float));
-	float *C1 = malloc(n * n * sizeof(float));
-	float *C2 = malloc(n * n * sizeof(float));
-	float *D1 = malloc(n * n * sizeof(float));
-	float *D2 = malloc(n * n * sizeof(float));
-	float *E1 = malloc(n * n * sizeof(float));
-	float *E2 = malloc(n * n * sizeof(float));
-	float *F1 = malloc(n * n * sizeof(float));
-	float *F2 = malloc(n * n * sizeof(float));
     const int lWork = 2 * n * n;
-    float *Work1 = malloc(lWork  * sizeof(float));
-    float *Work2 = malloc(lWork  * sizeof(float));
-    int *iWork1 = malloc((n + n + 2) * sizeof(int));
-    int *iWork2 = malloc((n + n + 2) * sizeof(int));
+	float *A1     = malloc(n * n * sizeof(float));
+	float *A2     = malloc(n * n * sizeof(float));
+	float *B1     = malloc(n * n * sizeof(float));
+	float *B2     = malloc(n * n * sizeof(float));
+	float *C1     = malloc(n * n * sizeof(float));
+	float *C2     = malloc(n * n * sizeof(float));
+	float *D1     = malloc(n * n * sizeof(float));
+	float *D2     = malloc(n * n * sizeof(float));
+	float *E1     = malloc(n * n * sizeof(float));
+	float *E2     = malloc(n * n * sizeof(float));
+	float *F1     = malloc(n * n * sizeof(float));
+	float *F2     = malloc(n * n * sizeof(float));
+    float *Work1  = malloc(lWork * sizeof(float));
+    float *Work2  = malloc(lWork * sizeof(float));
+    int   *iWork1 = malloc((n + n + 2) * sizeof(int));
+    int   *iWork2 = malloc((n + n + 2) * sizeof(int));
 
+    // Outputs
     int info;
-    float scale1, scale2;
-    float dif1, dif2;
+    float scale1;
+    float scale2;
+    float dif1;
+    float dif2;
 
-    // 0, 1, 2, 3, 4
-    const int i0[] = {0}, i1[] = {1}, i2[] = {2}, i3[] = {3}, i4[] = {4};
-    // 0
-    const float s0[] = {0};
+    // Constants
+    const float ZERO[]  = {0};
+    const int  iZERO[]  = {0};
+    const int  iONE[]   = {1};
+    const int  iTWO[]   = {2};
+    const int  iTHREE[] = {3};
+    const int  iFOUR[]  = {4};
 
     { // N 0 m = n
         const int m = n_max, n = n_max;
@@ -55,10 +61,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -68,15 +74,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -97,10 +103,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -110,15 +116,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -139,10 +145,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -152,15 +158,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -181,10 +187,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -194,15 +200,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i1, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i1, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iONE, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iONE, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -223,10 +229,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -236,15 +242,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i2, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i2, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iTWO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iTWO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -265,10 +271,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -278,15 +284,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i3, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i3, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iTHREE, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iTHREE, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -307,10 +313,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // scale diagonals of A and D
         const float smi = 1. / m;
@@ -320,15 +326,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i4, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i4, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iFOUR, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iFOUR, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -349,10 +355,10 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         int m1 = (m >= 16) ? ((m + 8) / 16) * 8 : m / 2;
         A1[m1 + m * (m1 - 1)] = A2[m1 + m * (m1 - 1)] = -.5;
@@ -369,15 +375,15 @@ int main(int argc, char* argv[]) {
         BLAS(sscal)(&m, &smi, D2, &mp1);
 
         // run
-        RELAPACK(stgsyl)("N", i4, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("N", i4, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("N", iFOUR, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("N", iFOUR, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error
@@ -398,21 +404,21 @@ int main(int argc, char* argv[]) {
         // clear subdiagonal for A and B
         const int mm1 = m - 1, mp1 = m + 1;
         const int nm1 = n - 1, np1 = n + 1;
-        BLAS(sscal)(&mm1, s0, A1 + 1, &mp1);
-        BLAS(sscal)(&mm1, s0, A2 + 1, &mp1);
-        BLAS(sscal)(&nm1, s0, B1 + 1, &np1);
-        BLAS(sscal)(&nm1, s0, B2 + 1, &np1);
+        BLAS(sscal)(&mm1, ZERO, A1 + 1, &mp1);
+        BLAS(sscal)(&mm1, ZERO, A2 + 1, &mp1);
+        BLAS(sscal)(&nm1, ZERO, B1 + 1, &np1);
+        BLAS(sscal)(&nm1, ZERO, B2 + 1, &np1);
 
         // run
-        RELAPACK(stgsyl)("T", i0, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
-        LAPACK(stgsyl)("T", i0, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
+        RELAPACK(stgsyl)("T", iZERO, &m, &n, A1, &m, B1, &n, C1, &m, D1, &m, E1, &n, F1, &m, &scale1, &dif1, Work1, &lWork, iWork1, &info);
+        LAPACK(stgsyl)("T", iZERO, &m, &n, A2, &m, B2, &n, C2, &m, D2, &m, E2, &n, F2, &m, &scale2, &dif2, Work2, &lWork, iWork2, &info);
         if (scale1 != 1 || scale2 != 1)
             printf("scale1 = %12g\tscale2 = %12g\n", scale1, scale2);
 
         // apply scales
         if (scale1) {
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
-            LAPACK(slascl)("G", i0, i0, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
+            LAPACK(slascl)("G", iZERO, iZERO, &scale1, &scale2, &m, &n, C1, &m, &info);
         }
 
         // check error

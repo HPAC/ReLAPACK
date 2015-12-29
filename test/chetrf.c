@@ -11,17 +11,17 @@ int main(int argc, char* argv[]) {
     }
     const int n = atoi(argv[1]);
 		
-	float *A1 = malloc(n * n * 2 * sizeof(float));
-	float *A2 = malloc(n * n * 2 * sizeof(float));
-	int *ipiv1 = malloc(n * sizeof(int));
-	int *ipiv2 = malloc(n * sizeof(int));
     const int lWork = n * n;
-	float *Work = malloc(lWork * 2 * sizeof(float));
+	float *A1    = malloc(n * n * 2 * sizeof(float));
+	float *A2    = malloc(n * n * 2 * sizeof(float));
+	int   *ipiv1 = malloc(n * sizeof(int));
+	int   *ipiv2 = malloc(n * sizeof(int));
+	float *Work  = malloc(lWork * 2 * sizeof(float));
 
+    // Output
     int info;
 
-    // L
-    {
+    { // L
         // generate matrix
         c2matgen(n, n, A1, A2);
 
@@ -34,8 +34,7 @@ int main(int argc, char* argv[]) {
         printf("chetrf L:\t%g\n", error);
     }
 
-    // U
-    {
+    { // U
         // generate matrix
         c2matgen(n, n, A1, A2);
 
