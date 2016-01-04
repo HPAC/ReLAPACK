@@ -26,6 +26,12 @@ void LAPACK(csytrf_rec2)(const char *, const int *, const int *, int *, float *,
 void LAPACK(chetrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
 void LAPACK(zsytrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
 void LAPACK(zhetrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void LAPACK(ssytrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void LAPACK(dsytrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void LAPACK(csytrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void LAPACK(chetrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void LAPACK(zsytrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void LAPACK(zhetrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
 
 // trsyl helper routines
 #ifdef RELAPACK_AS_LAPACK

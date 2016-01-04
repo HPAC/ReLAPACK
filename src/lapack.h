@@ -50,6 +50,12 @@ extern void LAPACK(csytf2)(const char *, const int *, float *, const int *, int 
 extern void LAPACK(chetf2)(const char *, const int *, float *, const int *, int *, int *);
 extern void LAPACK(zsytf2)(const char *, const int *, double *, const int *, int *, int *);
 extern void LAPACK(zhetf2)(const char *, const int *, double *, const int *, int *, int *);
+extern void LAPACK(ssytf2_rook)(const char *, const int *, float *, const int *, int *, int *);
+extern void LAPACK(dsytf2_rook)(const char *, const int *, double *, const int *, int *, int *);
+extern void LAPACK(csytf2_rook)(const char *, const int *, float *, const int *, int *, int *);
+extern void LAPACK(chetf2_rook)(const char *, const int *, float *, const int *, int *, int *);
+extern void LAPACK(zsytf2_rook)(const char *, const int *, double *, const int *, int *, int *);
+extern void LAPACK(zhetf2_rook)(const char *, const int *, double *, const int *, int *, int *);
 
 extern void LAPACK(sgetf2)(const int *, const int *, float *, const int *, int *, int *);
 extern void LAPACK(dgetf2)(const int *, const int *, double *, const int *, int *, int *);

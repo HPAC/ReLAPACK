@@ -36,6 +36,12 @@ void RELAPACK(csytrf)(const char *, const int *, float *, const int *, int *, fl
 void RELAPACK(chetrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
 void RELAPACK(zsytrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
 void RELAPACK(zhetrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK(ssytrf_rook)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(dsytrf_rook)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK(csytrf_rook)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(chetrf_rook)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK(zsytrf_rook)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK(zhetrf_rook)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
 
 void RELAPACK(sgetrf)(const int *, const int *, float *, const int *, int *, int *);
 void RELAPACK(dgetrf)(const int *, const int *, double *, const int *, int *, int *);

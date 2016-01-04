@@ -2,12 +2,15 @@
 # select routines to be included in the library.
 #
 # Shorthands:
-# all:		xlauum	xsygst	xtrtri	xpotrf	xgetrf	xtrsyl
+# all:		xlauum	xsygst	xtrtri	xpotrf	xsytrf	xgetrf	xtrsyl	xtgsyl
 # xlauum:	slauum	dlauum	clauum	zlauum
-# xsygst:  	ssygst	dsygst	chegst	zhegst
-# xpotrf:  	spotrf	dpotrf	cpotrf	zpotrf
-# xgetrf:  	sgetrf	dgetrf	cgetrf	zgetrf
-# xtrsyl:  	strsyl	dtrsyl	ctrsyl	ztrsyl
+# xsygst:	ssygst	dsygst	chegst	zhegst
+# xpotrf:	spotrf	dpotrf	cpotrf	zpotrf
+# xsytrf:	ssytrf	dsytrf	csytrf	chetrf zsytrf zhetrf
+# 			ssytrf_rook	dsytrf_rook	csytrf_rook	chetrf_rook	zsytrf_rook	zhetrf_rook
+# xgetrf:	sgetrf	dgetrf	cgetrf	zgetrf
+# xtrsyl:	strsyl	dtrsyl	ctrsyl	ztrsyl
+# xtgsyl:	stgsyl	dtgsyl	ctgsyl	zgrsyl
 ROUTINES = all
 
 # compiler options
