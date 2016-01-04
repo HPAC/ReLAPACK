@@ -39,7 +39,10 @@ Operations:
 * U^T U = A
 
 ### LDL symmetric decomposition
-Routines: `ssytrf`, `dsytrf`, `chetrf`, `zhetrf`
+Routines: 
+* `ssytrf`, `dsytrf`, `csytrf`, `chetrf`, `zsytrf`, `zhetrf`,
+* `ssytrf_rook`, `dsytrf_rook`, `csytrf_rook`, `chetrf_rook`, `zsytrf_rook`,
+  `zhetrf_rook`
 
 Operations:
 * L D L^T = A
@@ -63,11 +66,6 @@ Operations:
 * A X - B^T Y = C -> X
 * A^T X - B^T Y = C -> X
 
-Not covered yet
----------------
-The following routines can be translated to recursive algorithms but are not
-covered yet:
-
 ### Generalized Sylvester solver
 Routines: `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
 
@@ -78,7 +76,7 @@ Operations:
 Recursion not applicable
 ------------------------
 The following routines are not covered because recursive variants would require
-considerably more FLOPs:
+considerably more FLOPs or operate on banded matrices:
 
 ### QR decomposition (and related)
 Routines:
@@ -86,19 +84,57 @@ Routines:
 * `sgerqf`, `dgerqf`, `cgerqf`, `zgerqf`
 * `sgeqlf`, `dgeqlf`, `cgeqlf`, `zgeqlf`
 * `sgelqf`, `dgelqf`, `cgelqf`, `zgelqf`
+* `stzrzf`, `dtzrzf`, `ctzrzf`, `ztzrzf`
 
 Operations:
 * Q R = A
 * R Q = A
 * Q L = A
 * L Q = A
+* R Z = A
+
+Routines for multiplication with Q:
+* `sormqr`, `dormqr`, `cunmqr`, `zunmqr`
+* `sormrq`, `dormrq`, `cunmrq`, `zunmrq`
+* `sormql`, `dormql`, `cunmql`, `zunmql`
+* `sormlq`, `dormlq`, `cunmlq`, `zunmlq`
+* `sormrz`, `dormrz`, `cunmrz`, `zunmrz`
+
+Operations:
+* C = Q * C
+* C = C * Q
+* C = Q^T * C
+* C = C * Q^T
+
+Routines for construction of Q:
+* `sorgqr`, `dorgqr`, `cungqr`, `zungqr`
+* `sorgrq`, `dorgrq`, `cungrq`, `zungrq`
+* `sorgql`, `dorgql`, `cungql`, `zungql`
+* `sorglq`, `dorglq`, `cunglq`, `zunglq`
 
 ### Symmetric reduction to tridiagonal
 Routines: `ssytrd`, `dsytrd`, `csytrd`, `zsytrd`
 
 Operation: Q T Q^T = A
 
+### Symmetric reduction to bidiagonal
+Routines: `ssybrd`, `dsybrd`, `csybrd`, `zsybrd`
+
+Operation: Q T P^T = A
+
 ### Reduction to upper Hessenberg
 Routines: `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
 
 Operation: Q H Q^T = A
+
+### Banded Cholesky decomposition
+Routines: `spbtrf`, `dpbtrf`, `cpbtrf`, `zpbtrf`
+
+Operations:
+* L L^T = A
+* U^T U = A
+
+### Banded LU decomposition
+Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
+
+Operations: L U = A
