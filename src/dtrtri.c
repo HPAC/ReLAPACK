@@ -34,6 +34,14 @@ void RELAPACK(dtrtri)(
     const char cleanuplo = lower  ? 'L' : 'U';
     const char cleandiag = nounit ? 'N' : 'U';
 
+    // check for singularity
+    if (nounit)
+        for (int i = 0; i < *n; i++)
+            if (A[i + *ldA * i] == 0) {
+                *info = i;
+                return;
+            }
+
     RELAPACK(dtrtri_rec)(&cleanuplo, &cleandiag, n, A, ldA, info);
 }
 
