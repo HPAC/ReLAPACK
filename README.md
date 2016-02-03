@@ -1,5 +1,5 @@
 ReLAPACK
-=======
+========
 
 Recursive LAPACK Collection
 
@@ -70,8 +70,8 @@ Operations:
 Routines: `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
 
 Operations:
-* A R - L B = C, D R - L E = F
-* A^T R + D^T L = C, R B^T - L E^T = -F
+* A R - L B = C, D R - L E = F -> L, R
+* A^T R + D^T L = C, R B^T - L E^T = -F -> L, R
 
 Recursion not applicable
 ------------------------
@@ -86,12 +86,7 @@ Routines:
 * `sgelqf`, `dgelqf`, `cgelqf`, `zgelqf`
 * `stzrzf`, `dtzrzf`, `ctzrzf`, `ztzrzf`
 
-Operations:
-* Q R = A
-* R Q = A
-* Q L = A
-* L Q = A
-* R Z = A
+Operations: Q R = A, R Q = A, Q L = A, L Q = A, R Z = A
 
 Routines for multiplication with Q:
 * `sormqr`, `dormqr`, `cunmqr`, `zunmqr`
@@ -100,11 +95,7 @@ Routines for multiplication with Q:
 * `sormlq`, `dormlq`, `cunmlq`, `zunmlq`
 * `sormrz`, `dormrz`, `cunmrz`, `zunmrz`
 
-Operations:
-* C = Q * C
-* C = C * Q
-* C = Q^T * C
-* C = C * Q^T
+Operations: C = Q C, C = C Q, C = Q^T C, C = C Q^T
 
 Routines for construction of Q:
 * `sorgqr`, `dorgqr`, `cungqr`, `zungqr`
@@ -130,11 +121,9 @@ Operation: Q H Q^T = A
 ### Banded Cholesky decomposition
 Routines: `spbtrf`, `dpbtrf`, `cpbtrf`, `zpbtrf`
 
-Operations:
-* L L^T = A
-* U^T U = A
+Operations: L L^T = A, U^T U = A
 
 ### Banded LU decomposition
 Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
 
-Operations: L U = A
+Operation: L U = A
