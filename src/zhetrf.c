@@ -11,6 +11,13 @@ void RELAPACK(zhetrf)(
     double *Work, const int *lWork, int *info
 ) {
 
+    // Required work size
+    const int cleanlWork = *ldA * (*n / 2);
+    const int minlWork = cleanlWork;
+#ifdef ALLOW_MALLOC
+    minlWork = 1;
+#endif
+
     // Check arguments
     const int lower = LAPACK(lsame)(uplo, "L");
     const int upper = LAPACK(lsame)(uplo, "U");
@@ -21,16 +28,13 @@ void RELAPACK(zhetrf)(
         *info = -2;
     else if (*ldA < MAX(1, *n))
         *info = -4;
-    else if (*lWork < 1 && *lWork != -1)
+    else if (*lWork < minlWork && *lWork != -1)
         *info = -7;
     if (*info) {
         const int minfo = -*info;
         LAPACK(xerbla)("ZHETRF", &minfo);
         return;
     }
-
-    // Required work size
-    const int cleanlWork = *ldA * (*n / 2);
 
     if (*lWork == -1) {
         // Work size query
@@ -43,14 +47,18 @@ void RELAPACK(zhetrf)(
 
     // Ensure Work size
     double *cleanWork = Work;
-    if (*lWork < *ldA * *n)
-        cleanWork = malloc(cleanlWork * sizeof(float));
+#ifdef ALLOW_MALLOC
+    if (*lWork < cleanlWork)
+        cleanWork = malloc(cleanlWork * 2 * sizeof(double));
+#endif
 
     int nout;
     RELAPACK(zhetrf_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, ldA, info);
 
+#ifdef ALLOW_MALLOC
     if (cleanWork != Work)
         free(cleanWork);
+#endif
 }
 
 void RELAPACK(zhetrf_rec)(
