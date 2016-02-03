@@ -1,7 +1,7 @@
 include ../make.inc
 
 # routine shorthand expansion
-ROUTINES := $(ROUTINES:all=xlauum xsygst xtrtri xpotrf xsytrf xsytrf_rook xgetrf xtrsyl xtgsyl)
+ROUTINES := $(ROUTINES:all=xlauum xsygst xtrtri xpotrf xsytrf xgetrf xtrsyl xtgsyl)
 ROUTINES := $(ROUTINES:xlauum=slauum dlauum clauum zlauum)
 ROUTINES := $(ROUTINES:xsygst=ssygst dsygst chegst zhegst)
 ROUTINES := $(ROUTINES:xtrtri=strtri dtrtri ctrtri ztrtri)
