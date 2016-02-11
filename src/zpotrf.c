@@ -39,7 +39,7 @@ static void RELAPACK(zpotrf_rec)(
     int *info
 ){
 
-    if (*n <= CROSSOVER_ZPOTRF) {
+    if (*n <= MAX(CROSSOVER_ZPOTRF, 1)) {
         // Unblocked
         LAPACK(zpotf2)(uplo, n, A, ldA, info);
         return;

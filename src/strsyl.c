@@ -59,7 +59,7 @@ static void RELAPACK(strsyl_rec)(
     int *info
 ) {
 
-    if (*m <= CROSSOVER_STRSYL && *n <= CROSSOVER_STRSYL) {
+    if (*m <= MAX(CROSSOVER_STRSYL, 1) && *n <= MAX(CROSSOVER_STRSYL, 1)) {
         // Unblocked
         STRSY2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;

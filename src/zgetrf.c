@@ -53,7 +53,7 @@ static void RELAPACK(zgetrf_rec)(
     int *info
 ) {
 
-    if (*n <= CROSSOVER_ZGETRF) {
+    if (*n <= MAX(CROSSOVER_ZGETRF, 1)) {
         // Unblocked
         LAPACK(zgetf2)(m, n, A, ldA, ipiv, info);
         return;

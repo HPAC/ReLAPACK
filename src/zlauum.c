@@ -39,7 +39,7 @@ static void RELAPACK(zlauum_rec)(
     int *info
 ) {
 
-    if (*n <= CROSSOVER_ZLAUUM) {
+    if (*n <= MAX(CROSSOVER_ZLAUUM, 1)) {
         // Unblocked
         LAPACK(zlauu2)(uplo, n, A, ldA, info);
         return;

@@ -39,7 +39,7 @@ static void RELAPACK(spotrf_rec)(
     int *info
 ) {
 
-    if (*n <= CROSSOVER_SPOTRF) {
+    if (*n <= MAX(CROSSOVER_SPOTRF, 1)) {
         // Unblocked
         LAPACK(spotf2)(uplo, n, A, ldA, info);
         return;

@@ -53,7 +53,7 @@ static void RELAPACK(dgetrf_rec)(
     int *info
 ) {
 
-    if (*n <= CROSSOVER_DGETRF) {
+    if (*n <= MAX(CROSSOVER_DGETRF, 1)) {
         // Unblocked
         LAPACK(dgetf2)(m, n, A, ldA, ipiv, info);
         return;

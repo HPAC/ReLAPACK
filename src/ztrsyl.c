@@ -57,7 +57,7 @@ static void RELAPACK(ztrsyl_rec)(
     int *info
 ) {
 
-    if (*m <= CROSSOVER_ZTRSYL && *n <= CROSSOVER_ZTRSYL) {
+    if (*m <= MAX(CROSSOVER_ZTRSYL, 1) && *n <= MAX(CROSSOVER_ZTRSYL, 1)) {
         // Unblocked
         ZTRSY2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;

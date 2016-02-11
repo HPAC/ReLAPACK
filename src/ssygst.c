@@ -61,7 +61,7 @@ static void RELAPACK(ssygst_rec)(
     float *Work, const int *lWork, int *info
 ) {
 
-    if (*n <= CROSSOVER_SSYGST) {
+    if (*n <= MAX(CROSSOVER_SSYGST, 1)) {
         // Unblocked
         LAPACK(ssygs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;

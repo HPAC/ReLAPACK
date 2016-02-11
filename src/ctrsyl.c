@@ -57,7 +57,7 @@ static void RELAPACK(ctrsyl_rec)(
     int *info
 ) {
 
-    if (*m <= CROSSOVER_CTRSYL && *n <= CROSSOVER_CTRSYL) {
+    if (*m <= MAX(CROSSOVER_CTRSYL, 1) && *n <= MAX(CROSSOVER_CTRSYL, 1)) {
         // Unblocked
         CTRSY2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;

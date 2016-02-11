@@ -122,7 +122,7 @@ static void RELAPACK(dtgsyl_rec)(
     int *iWork, int *pq, int *info
 ) {
 
-    if (*m <= CROSSOVER_DTGSYL && *n <= CROSSOVER_DTGSYL) {
+    if (*m <= MAX(CROSSOVER_DTGSYL, 1) && *n <= MAX(CROSSOVER_DTGSYL, 1)) {
         // Unblocked
         LAPACK(dtgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, iWork, pq, info);
         return;

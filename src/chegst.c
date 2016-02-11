@@ -61,7 +61,7 @@ static void RELAPACK(chegst_rec)(
     float *Work, const int *lWork, int *info
 ) {
 
-    if (*n <= CROSSOVER_CHEGST) {
+    if (*n <= MAX(CROSSOVER_CHEGST, 1)) {
         // Unblocked
         LAPACK(chegs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;

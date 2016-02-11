@@ -59,7 +59,7 @@ static void RELAPACK(dtrsyl_rec)(
     int *info
 ) {
 
-    if (*m <= CROSSOVER_DTRSYL && *n <= CROSSOVER_DTRSYL) {
+    if (*m <= MAX(CROSSOVER_DTRSYL, 1) && *n <= MAX(CROSSOVER_DTRSYL, 1)) {
         // Unblocked
         DTRSY2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;

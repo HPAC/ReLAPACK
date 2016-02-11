@@ -122,7 +122,7 @@ static void RELAPACK(stgsyl_rec)(
     int *iWork, int *pq, int *info
 ) {
 
-    if (*m <= CROSSOVER_STGSYL && *n <= CROSSOVER_STGSYL) {
+    if (*m <= MAX(CROSSOVER_STGSYL, 1) && *n <= MAX(CROSSOVER_STGSYL, 1)) {
         // Unblocked
         LAPACK(stgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, iWork, pq, info);
         return;

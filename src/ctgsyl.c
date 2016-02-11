@@ -120,7 +120,7 @@ static void RELAPACK(ctgsyl_rec)(
     int *info
 ) {
 
-    if (*m <= CROSSOVER_CTGSYL && *n <= CROSSOVER_CTGSYL) {
+    if (*m <= MAX(CROSSOVER_CTGSYL, 1) && *n <= MAX(CROSSOVER_CTGSYL, 1)) {
         // Unblocked
         LAPACK(ctgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, info);
         return;

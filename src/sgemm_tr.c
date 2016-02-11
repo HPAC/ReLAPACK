@@ -13,7 +13,7 @@ void RELAPACK(sgemm_tr_rec)(
     const float *beta, float *C, const int *ldC
 ) {
 
-    if (*n <= CROSSOVER_SGEMM_TR) {
+    if (*n <= MAX(CROSSOVER_SGEMM_TR, 1)) {
         // Unblocked
         RELAPACK(sgemm_tr2)(transA, transB, uplo, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
         return;

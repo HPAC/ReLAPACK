@@ -52,7 +52,7 @@ static void RELAPACK(dtrtri_rec)(
     int *info
 ){
 
-    if (*n <= CROSSOVER_DTRTRI) {
+    if (*n <= MAX(CROSSOVER_DTRTRI, 1)) {
         // Unblocked
         LAPACK(dtrti2)(uplo, diag, n, A, ldA, info);
         return;

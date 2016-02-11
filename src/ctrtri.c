@@ -52,7 +52,7 @@ static void RELAPACK(ctrtri_rec)(
     int *info
 ){
 
-    if (*n <= CROSSOVER_CTRTRI) {
+    if (*n <= MAX(CROSSOVER_CTRTRI, 1)) {
         // Unblocked
         LAPACK(ctrti2)(uplo, diag, n, A, ldA, info);
         return;

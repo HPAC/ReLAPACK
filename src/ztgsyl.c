@@ -120,7 +120,7 @@ static void RELAPACK(ztgsyl_rec)(
     int *info
 ) {
 
-    if (*m <= CROSSOVER_ZTGSYL && *n <= CROSSOVER_ZTGSYL) {
+    if (*m <= MAX(CROSSOVER_ZTGSYL, 1) && *n <= MAX(CROSSOVER_ZTGSYL, 1)) {
         // Unblocked
         LAPACK(ztgsy2)(trans, ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dsum, dscale, info);
         return;

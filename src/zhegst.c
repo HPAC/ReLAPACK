@@ -61,7 +61,7 @@ static void RELAPACK(zhegst_rec)(
     double *Work, const int *lWork, int *info
 ) {
 
-    if (*n <= CROSSOVER_ZHEGST) {
+    if (*n <= MAX(CROSSOVER_ZHEGST, 1)) {
         // Unblocked
         LAPACK(zhegs2)(itype, uplo, n, A, ldA, B, ldB, info);
         return;
