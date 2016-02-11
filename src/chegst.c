@@ -1,5 +1,5 @@
 #include "relapack.h"
-#ifdef ALLOW_MALLOC
+#if XSYGST_ALLOW_MALLOC
 #include "stdlib.h"
 #endif
 
@@ -40,7 +40,7 @@ void RELAPACK(chegst)(
     // Allocate work space
     float *Work = NULL;
     int   lWork = 0;
-#ifdef ALLOW_MALLOC
+#if XSYGST_ALLOW_MALLOC
     lWork = *n * (*n / 2);
     Work  = malloc(lWork * 2 * sizeof(float));
 #endif
@@ -49,7 +49,7 @@ void RELAPACK(chegst)(
     RELAPACK(chegst_rec)(itype, &cleanuplo, n, A, ldA, B, ldB, Work, &lWork, info);
 
     // Free work space
-#ifdef ALLOW_MALLOC
+#if XSYGST_ALLOW_MALLOC
     free(Work);
 #endif
 }

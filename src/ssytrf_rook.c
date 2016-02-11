@@ -1,5 +1,7 @@
 #include "relapack.h"
+#if XSYTRF_ALLOW_MALLOC
 #include <stdlib.h>
+#endif
 
 void RELAPACK(ssytrf_rook_rec)(const char *, const int *, const int *, int *,
     float *, const int *, int *, float *, const int *, int *);
@@ -13,8 +15,8 @@ void RELAPACK(ssytrf_rook)(
 
     // Required work size
     const int cleanlWork = *ldA * (*n / 2);
-    const int minlWork = cleanlWork;
-#ifdef ALLOW_MALLOC
+    int minlWork = cleanlWork;
+#if XSYTRF_ALLOW_MALLOC
     minlWork = 1;
 #endif
 
@@ -47,7 +49,7 @@ void RELAPACK(ssytrf_rook)(
 
     // Ensure Work size
     float *cleanWork = Work;
-#ifdef ALLOW_MALLOC
+#if XSYTRF_ALLOW_MALLOC
     if (*lWork < cleanlWork)
         cleanWork = malloc(cleanlWork * sizeof(float));
 #endif
@@ -55,7 +57,7 @@ void RELAPACK(ssytrf_rook)(
     int nout;
     RELAPACK(ssytrf_rook_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, ldA, info);
 
-#ifdef ALLOW_MALLOC
+#if XSYTRF_ALLOW_MALLOC
     if (cleanWork != Work)
         free(cleanWork);
 #endif

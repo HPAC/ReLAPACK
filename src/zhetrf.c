@@ -1,5 +1,7 @@
 #include "relapack.h"
+#if XSYTRF_ALLOW_MALLOC
 #include <stdlib.h>
+#endif
 
 void RELAPACK(zhetrf_rec)(const char *, const int *, const int *, int *,
     double *, const int *, int *, double *, const int *, int *);
@@ -13,8 +15,8 @@ void RELAPACK(zhetrf)(
 
     // Required work size
     const int cleanlWork = *ldA * (*n / 2);
-    const int minlWork = cleanlWork;
-#ifdef ALLOW_MALLOC
+    int minlWork = cleanlWork;
+#if XSYTRF_ALLOW_MALLOC
     minlWork = 1;
 #endif
 
@@ -47,7 +49,7 @@ void RELAPACK(zhetrf)(
 
     // Ensure Work size
     double *cleanWork = Work;
-#ifdef ALLOW_MALLOC
+#if XSYTRF_ALLOW_MALLOC
     if (*lWork < cleanlWork)
         cleanWork = malloc(cleanlWork * 2 * sizeof(double));
 #endif
@@ -55,7 +57,7 @@ void RELAPACK(zhetrf)(
     int nout;
     RELAPACK(zhetrf_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, ldA, info);
 
-#ifdef ALLOW_MALLOC
+#if XSYTRF_ALLOW_MALLOC
     if (cleanWork != Work)
         free(cleanWork);
 #endif
