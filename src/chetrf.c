@@ -14,7 +14,7 @@ void RELAPACK(chetrf)(
 ) {
 
     // Required work size
-    const int cleanlWork = *ldA * (*n / 2);
+    const int cleanlWork = *n * (*n / 2);
     int minlWork = cleanlWork;
 #if XSYTRF_ALLOW_MALLOC
     minlWork = 1;
@@ -55,7 +55,7 @@ void RELAPACK(chetrf)(
 #endif
 
     int nout;
-    RELAPACK(chetrf_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, ldA, info);
+    RELAPACK(chetrf_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
 
 #if XSYTRF_ALLOW_MALLOC
     if (cleanWork != Work)

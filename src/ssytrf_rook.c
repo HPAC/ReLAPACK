@@ -14,7 +14,7 @@ void RELAPACK(ssytrf_rook)(
 ) {
 
     // Required work size
-    const int cleanlWork = *ldA * (*n / 2);
+    const int cleanlWork = *n * (*n / 2);
     int minlWork = cleanlWork;
 #if XSYTRF_ALLOW_MALLOC
     minlWork = 1;
@@ -55,7 +55,7 @@ void RELAPACK(ssytrf_rook)(
 #endif
 
     int nout;
-    RELAPACK(ssytrf_rook_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, ldA, info);
+    RELAPACK(ssytrf_rook_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
 
 #if XSYTRF_ALLOW_MALLOC
     if (cleanWork != Work)
