@@ -3,14 +3,14 @@
 
 #include "../config.h"
 
-#ifdef LAPACK_UNDERSCORE
+#if LAPACK_UNDERSCORE
 #define LAPACK(routine) routine ## _
 #else
 #define LAPACK(routine) routine
 #endif
 
-#ifdef RELAPACK_AS_LAPACK
-#define RELEPACK(routine) LAPACK(routine)
+#if RELAPACK_AS_LAPACK
+#define RELAPACK(routine) LAPACK(routine)
 #else
 #define RELAPACK(routine) RELAPACK_ ## routine
 #endif

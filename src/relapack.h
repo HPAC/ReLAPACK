@@ -3,7 +3,7 @@
 
 #include "../inc/relapack.h"
 
-#ifdef BLAS_UNDERSCORE
+#if BLAS_UNDERSCORE
 #define BLAS(routine) routine ## _
 #else
 #define BLAS(routine) routine
