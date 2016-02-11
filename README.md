@@ -3,127 +3,69 @@ ReLAPACK
 
 Recursive LAPACK Collection
 
-ReLAPACK provides recursive implementations of blocked LAPACK algorithms. 
+ReLAPACK offers a collection of recursive algorithms for many of LAPACK's
+compute kernels.  Since it preserves LAPACK's established interfaces, ReLAPACK
+integrates effortlessly into existing application codes.  ReLAPACK's routines
+not only to outperform reference LAPACK but also improve upon the performance of
+tuned implementations, such as OpenBLAS and MKL.
 
 Coverage
 --------
+For a detailed list of covered operations and an overview of operations to which
+recursion is not efficiently applicable, see [coverage.md](coverage.md).
 
-### Symmetric triangular matrix squaring
-Routines: `slauum`, `dlauum`, `clauum`, `zlauum`
+Installation
+------------
+To compile with the default configuration, simply run `make` to create the
+library `librelapack.a`.  
 
-Operations: 
-* A = L^T L
-* A = U U^T
+Configuration
+-------------
+ReLAPACK has two configuration files: `make.inc`, which is included by the
+Makefile, and `config.h` which is included in the source files.
 
-### Two-sided symmetric `trmm` or `trsm`
-Routines: `ssygst`, `dsygst`, `chegst`, `zhegst`
+### Build and Testing Environment
+The build environment (compilers and flags) and the test configuration (linker
+flags for BLAS and LAPACK, and the test matrix size) are specified in `make.inc`
 
-Operations:
-* A = inv(L) A inv(L^T)
-* A = inv(U^T) A inv(U)
-* A = L^T A L
-* A = U A U^T
+### Routine Selection
+Which of the available ReLAPACK routines are included in `librelapack.a` is
+configured in `make.inc`.  The default (`all`) is to include all routines;
+alternatively routines can be included or excluded individually or by operation.
 
-### Triangular matrix inversion
-Routines: `strtri`, `dtrtri`, `ctrtri`, `ztrtri`
+## Routine Names
+By default, ReLAPACK's routine names coincide with the functionally equivalent
+LAPACK routines. By setting `RELAPACK_AS_LAPACK` to 0 in `config.h`, they will
+receive the prefix `RELAPACK_`; e.g. the LU decomposition `dgetrf` would become
+`RELAPACK_dgetrf`.
 
-Operations:
-* L = inv(L)
-* U = inv(U)
+ReLAPACK uses the FORTRAN interfaces of BLAS and unblocked LAPACK routines,
+i.e., all routines have a suffix `_`.  Setting `BLAS_UNDERSCORE` or
+`LAPACK_UNDERSCORE` to 0 in `config.h` removes this suffix for calls to the
+respective library.
 
-### Cholesky decomposition
-Routines: `spotrf`, `dpotrf`, `cpotrf`, `zpotrf`
+### Crossover Size
+The crossover size determines below which matrix sizes ReLAPACK's recursive
+algorithms switch to LAPACK's unblocked routines to avoid tiny BLAS Level 3
+routines.  The crossover size is set in `config.h` and can be chosen either
+globally for the entire library, by operation, or individually by routine.
 
-Operations:
-* L L^T = A
-* U^T U = A
+### Allowing Temporary Buffers
+Two of ReLAPACK's routines make use of temporary buffers, which are allocated
+and freed within ReLAPACK.  Setting `ALLOW_MALLOC` (or one of the routine
+specific counterparts) to 0 in `config.h` will disable these buffers.  The
+affected routines are:
 
-### LDL symmetric decomposition
-Routines: 
-* `ssytrf`, `dsytrf`, `csytrf`, `chetrf`, `zsytrf`, `zhetrf`,
-* `ssytrf_rook`, `dsytrf_rook`, `csytrf_rook`, `chetrf_rook`, `zsytrf_rook`,
-  `zhetrf_rook`
+ * `xsytrf`: The LDL decomposition requires a buffer of size n^2 / 2.  As in
+   LAPACK, this size can be queried by setting `lWork = -1` and the passed
+   buffer will be used if it is large enough; only if it is not, a local buffer
+   will be allocated.  
+   
+   The advantage of this mechanism is that ReLAPACK will seamlessly work even
+   with codes that statically provide too little memory instead of breaking
+   them.
 
-Operations:
-* L D L^T = A
-* U^T D U = A
-
-### LU decomposition with pivoting
-Routines: `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
-
-Operation: P L U = A
-
-### Sylvester equation solver
-Routines: `strsyl`, `dtrsyl`, `ctrsyl`, `ztrsyl`
-
-Operations:
-* A X + B Y = C -> X
-* A^T X + B Y = C -> X
-* A X + B^T Y = C -> X
-* A^T X + B^T Y = C -> X
-* A X - B Y = C -> X
-* A^T X - B Y = C -> X
-* A X - B^T Y = C -> X
-* A^T X - B^T Y = C -> X
-
-### Generalized Sylvester solver
-Routines: `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
-
-Operations:
-* A R - L B = C, D R - L E = F -> L, R
-* A^T R + D^T L = C, R B^T - L E^T = -F -> L, R
-
-Recursion not applicable
-------------------------
-The following routines are not covered because recursive variants would require
-considerably more FLOPs or operate on banded matrices:
-
-### QR decomposition (and related)
-Routines:
-* `sgeqrf`, `dgeqrf`, `cgeqrf`, `zgeqrf`
-* `sgerqf`, `dgerqf`, `cgerqf`, `zgerqf`
-* `sgeqlf`, `dgeqlf`, `cgeqlf`, `zgeqlf`
-* `sgelqf`, `dgelqf`, `cgelqf`, `zgelqf`
-* `stzrzf`, `dtzrzf`, `ctzrzf`, `ztzrzf`
-
-Operations: Q R = A, R Q = A, Q L = A, L Q = A, R Z = A
-
-Routines for multiplication with Q:
-* `sormqr`, `dormqr`, `cunmqr`, `zunmqr`
-* `sormrq`, `dormrq`, `cunmrq`, `zunmrq`
-* `sormql`, `dormql`, `cunmql`, `zunmql`
-* `sormlq`, `dormlq`, `cunmlq`, `zunmlq`
-* `sormrz`, `dormrz`, `cunmrz`, `zunmrz`
-
-Operations: C = Q C, C = C Q, C = Q^T C, C = C Q^T
-
-Routines for construction of Q:
-* `sorgqr`, `dorgqr`, `cungqr`, `zungqr`
-* `sorgrq`, `dorgrq`, `cungrq`, `zungrq`
-* `sorgql`, `dorgql`, `cungql`, `zungql`
-* `sorglq`, `dorglq`, `cunglq`, `zunglq`
-
-### Symmetric reduction to tridiagonal
-Routines: `ssytrd`, `dsytrd`, `csytrd`, `zsytrd`
-
-Operation: Q T Q^T = A
-
-### Symmetric reduction to bidiagonal
-Routines: `ssybrd`, `dsybrd`, `csybrd`, `zsybrd`
-
-Operation: Q T P^T = A
-
-### Reduction to upper Hessenberg
-Routines: `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
-
-Operation: Q H Q^T = A
-
-### Banded Cholesky decomposition
-Routines: `spbtrf`, `dpbtrf`, `cpbtrf`, `zpbtrf`
-
-Operations: L L^T = A, U^T U = A
-
-### Banded LU decomposition
-Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
-
-Operation: L U = A
+ * `xsygst`: The reduction of a real symmetric-definite generalized eigenproblem
+   to standard form can use an auxiliary buffer of size n^2 / 2 to avoid
+   redundant computations.  It thereby performs about 30% less FLOPs than
+   LAPACK.
