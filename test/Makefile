@@ -6,7 +6,7 @@ ROUTINES := $(ROUTINES:xlauum=slauum dlauum clauum zlauum)
 ROUTINES := $(ROUTINES:xsygst=ssygst dsygst chegst zhegst)
 ROUTINES := $(ROUTINES:xtrtri=strtri dtrtri ctrtri ztrtri)
 ROUTINES := $(ROUTINES:xpotrf=spotrf dpotrf cpotrf zpotrf)
-ROUTINES := $(ROUTINES:xsytrf=ssytrf dsytrf csytrf chetrf zsytrf zhetrf ssytrf_rook dsytrf_rook csytrf_rook chetrf_rook zsytrf_rook zhetrf_rook)
+ROUTINES := $(ROUTINES:xsytrf=ssytrf dsytrf csytrf chetrf zsytrf zhetrf)
 ROUTINES := $(ROUTINES:xgetrf=sgetrf dgetrf cgetrf zgetrf)
 ROUTINES := $(ROUTINES:xtrsyl=strsyl dtrsyl ctrsyl ztrsyl)
 ROUTINES := $(ROUTINES:xtgsyl=stgsyl dtgsyl ctgsyl ztgsyl)
@@ -24,10 +24,23 @@ EXES = $(ROTUINES:%=%.x)
 test: util.o $(TESTS)
 
 %.pass: %.x
-	@ ./$< $(TEST_SIZE)
+	@echo -n $*:
+	@./$< > /dev/null && echo " pass" || (echo " FAIL" && ./$<)
 
-%.x: %.c util.o ../librelapack.a
-	$(CC) $(CFLAGS) $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
+s%.x: x%.c util.o ../librelapack.a config.h test.h
+	$(CC) $(CFLAGS) -DDT_PREFIX=s $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
+
+d%.x: x%.c util.o ../librelapack.a config.h test.h
+	$(CC) $(CFLAGS) -DDT_PREFIX=d $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
+
+c%.x: x%.c util.o ../librelapack.a config.h test.h
+	$(CC) $(CFLAGS) -DDT_PREFIX=c $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
+
+z%.x: x%.c util.o ../librelapack.a config.h test.h
+	$(CC) $(CFLAGS) -DDT_PREFIX=z $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
+
+#%.x: %.c util.o ../librelapack.a
+#	$(CC) $(CFLAGS) $^ -o $@ $(LINK_LAPACK) $(LINK_BLAS)
 
 clean:
 	rm -f *.x
