@@ -5,6 +5,12 @@ static void RELAPACK(ctrsyl_rec)(const char *, const char *, const int *,
     const int *, float *, const int *, float *, int *);
 
 
+/** CTRSYL solves the complex Sylvester matrix equation.
+ *
+ * This routine is functionally equivalent to LAPACK's ctrsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d8/df4/ctrsyl_8f.html
+ * */
 void RELAPACK(ctrsyl)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
@@ -49,6 +55,7 @@ void RELAPACK(ctrsyl)(
 }
 
 
+/** ctrsyl's recursive compute kernel */
 static void RELAPACK(ctrsyl_rec)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,

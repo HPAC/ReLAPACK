@@ -4,6 +4,12 @@ static void RELAPACK(cgetrf_rec)(const int *, const int *, float *,
     const int *, int *, int *);
 
 
+/** CGETRF computes an LU factorization of a general M-by-N matrix A using partial pivoting with row interchanges.
+ *
+ * This routine is functionally equivalent to LAPACK's cgetrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d9/dfb/cgetrf_8f.html
+ */
 void RELAPACK(cgetrf)(
     const int *m, const int *n,
     float *A, const int *ldA, int *ipiv,
@@ -47,6 +53,7 @@ void RELAPACK(cgetrf)(
 }
 
 
+/** cgetrf's recursive compute kernel */
 static void RELAPACK(cgetrf_rec)(
     const int *m, const int *n,
     float *A, const int *ldA, int *ipiv,

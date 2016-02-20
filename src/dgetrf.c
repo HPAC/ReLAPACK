@@ -4,6 +4,12 @@ static void RELAPACK(dgetrf_rec)(const int *, const int *, double *,
     const int *, int *, int *);
 
 
+/** DGETRF computes an LU factorization of a general M-by-N matrix A using partial pivoting with row interchanges.
+ *
+ * This routine is functionally equivalent to LAPACK's dgetrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d3/d6a/dgetrf_8f.html
+ * */
 void RELAPACK(dgetrf)(
     const int *m, const int *n,
     double *A, const int *ldA, int *ipiv,
@@ -47,6 +53,7 @@ void RELAPACK(dgetrf)(
 }
 
 
+/** dgetrf's recursive compute kernel */
 static void RELAPACK(dgetrf_rec)(
     const int *m, const int *n,
     double *A, const int *ldA, int *ipiv,

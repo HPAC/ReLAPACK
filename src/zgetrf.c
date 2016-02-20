@@ -4,6 +4,12 @@ static void RELAPACK(zgetrf_rec)(const int *, const int *, double *,
     const int *, int *, int *);
 
 
+/** ZGETRF computes an LU factorization of a general M-by-N matrix A using partial pivoting with row interchanges.
+ *
+ * This routine is functionally equivalent to LAPACK's zgetrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/dd/dd1/zgetrf_8f.html
+ * */
 void RELAPACK(zgetrf)(
     const int *m, const int *n,
     double *A, const int *ldA, int *ipiv,
@@ -47,6 +53,7 @@ void RELAPACK(zgetrf)(
 }
 
 
+/** zgetrf's recursive compute kernel */
 static void RELAPACK(zgetrf_rec)(
     const int *m, const int *n,
     double *A, const int *ldA, int *ipiv,

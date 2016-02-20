@@ -7,6 +7,12 @@ void RELAPACK(zhetrf_rec)(const char *, const int *, const int *, int *,
     double *, const int *, int *, double *, const int *, int *);
 
 
+/** ZHETRF computes the factorization of a complex Hermitian matrix A using the Bunch-Kaufman diagonal pivoting method.
+ *
+ * This routine is functionally equivalent to LAPACK's zhetrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d6/dd3/zhetrf_8f.html
+ * */
 void RELAPACK(zhetrf)(
     const char *uplo, const int *n,
     double *A, const int *ldA, int *ipiv,
@@ -63,7 +69,8 @@ void RELAPACK(zhetrf)(
 #endif
 }
 
-void RELAPACK(zhetrf_rec)(
+/** zhetrf's recursive compute kernel */
+static void RELAPACK(zhetrf_rec)(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     double *A, const int *ldA, int *ipiv,
     double *Work, const int *ldWork, int *info

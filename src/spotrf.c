@@ -4,6 +4,12 @@ static void RELAPACK(spotrf_rec)(const char *, const int *, float *,
     const int *, int *);
 
 
+/** SPOTRF computes the Cholesky factorization of a complex Hermitian positive definite matrix A.
+ *
+ * This routine is functionally equivalent to LAPACK's spotrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d0/da2/spotrf_8f.html
+ * */
 void RELAPACK(spotrf)(
     const char *uplo, const int *n,
     float *A, const int *ldA,
@@ -33,6 +39,7 @@ void RELAPACK(spotrf)(
 }
 
 
+/** spotrf's recursive compute kernel */
 static void RELAPACK(spotrf_rec)(
     const char *uplo, const int *n,
     float *A, const int *ldA,

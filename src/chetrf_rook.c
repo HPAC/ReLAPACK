@@ -7,6 +7,12 @@ void RELAPACK(chetrf_rook_rec)(const char *, const int *, const int *, int *,
     float *, const int *, int *, float *, const int *, int *);
 
 
+/** CHETRF_ROOK computes the factorization of a complex Hermitian indefinite matrix using the bounded Bunch-Kaufman ("rook") diagonal pivoting method.
+ *
+ * This routine is functionally equivalent to LAPACK's chetrf_rook.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d0/d5e/chetrf__rook_8f.html
+ * */
 void RELAPACK(chetrf_rook)(
     const char *uplo, const int *n,
     float *A, const int *ldA, int *ipiv,
@@ -63,7 +69,8 @@ void RELAPACK(chetrf_rook)(
 #endif
 }
 
-void RELAPACK(chetrf_rook_rec)(
+/** chetrf_rook's recursive compute kernel */
+static void RELAPACK(chetrf_rook_rec)(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     float *A, const int *ldA, int *ipiv,
     float *Work, const int *ldWork, int *info

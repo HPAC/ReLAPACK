@@ -5,6 +5,12 @@ static void RELAPACK(strsyl_rec)(const char *, const char *, const int *,
     const int *, float *, const int *, float *, int *);
 
 
+/** STRSYL solves the real Sylvester matrix equation.
+ *
+ * This routine is functionally equivalent to LAPACK's strsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d4/d7d/strsyl_8f.html
+ * */
 void RELAPACK(strsyl)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
@@ -51,6 +57,7 @@ void RELAPACK(strsyl)(
 }
 
 
+/** strsyl's recursive compute kernel */
 static void RELAPACK(strsyl_rec)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,

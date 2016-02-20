@@ -4,6 +4,12 @@ static void RELAPACK(dpotrf_rec)(const char *, const int *, double *,
     const int *, int *);
 
 
+/** DPOTRF computes the Cholesky factorization of a complex Hermitian positive definite matrix A.
+ *
+ * This routine is functionally equivalent to LAPACK's dpotrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d0/d8a/dpotrf_8f.html
+ * */
 void RELAPACK(dpotrf)(
     const char *uplo, const int *n,
     double *A, const int *ldA,
@@ -33,6 +39,7 @@ void RELAPACK(dpotrf)(
 }
 
 
+/** dpotrf's recursive compute kernel */
 static void RELAPACK(dpotrf_rec)(
     const char *uplo, const int *n,
     double *A, const int *ldA,

@@ -3,6 +3,12 @@
 #include "stdlib.h"
 #endif
 
+/** ZHEGST reduces a complex Hermitian-definite generalized eigenproblem to standard form.
+ *
+ * This routine is functionally equivalent to LAPACK's zhegst.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/dc/d68/zhegst_8f.html
+ * */
 static void RELAPACK(zhegst_rec)(const int *, const char *, const int *,
     double *, const int *, const double *, const int *,
     double *, const int *, int *);
@@ -55,6 +61,7 @@ void RELAPACK(zhegst)(
 }
 
 
+/** zhegst's recursive compute kernel */
 static void RELAPACK(zhegst_rec)(
     const int *itype, const char *uplo, const int *n,
     double *A, const int *ldA, const double *B, const int *ldB,

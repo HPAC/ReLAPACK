@@ -4,6 +4,12 @@ static void RELAPACK(dlauum_rec)(const char *, const int *, double *,
     const int *, int *);
 
 
+/** DLAUUM computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in the upper or lower triangular part of the array A.
+ *
+ * This routine is functionally equivalent to LAPACK's dlauum.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d0/dc2/dlauum_8f.html
+ * */
 void RELAPACK(dlauum)(
     const char *uplo, const int *n,
     double *A, const int *ldA,
@@ -33,6 +39,7 @@ void RELAPACK(dlauum)(
 }
 
 
+/** dlauum's recursive compute kernel */
 static void RELAPACK(dlauum_rec)(
     const char *uplo, const int *n,
     double *A, const int *ldA,

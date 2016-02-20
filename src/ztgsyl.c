@@ -7,6 +7,12 @@ static void RELAPACK(ztgsyl_rec)(const char *, const int *, const int *,
     const int *, double *, const int *, double *, double *, double *, int *);
 
 
+/** ZTGSYL solves the generalized Sylvester equation.
+ *
+ * This routine is functionally equivalent to LAPACK's ztgsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/db/d68/ztgsyl_8f.html
+ * */
 void RELAPACK(ztgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
@@ -110,6 +116,7 @@ void RELAPACK(ztgsyl)(
 }
 
 
+/** ztgsyl's recursive vompute kernel */
 static void RELAPACK(ztgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,

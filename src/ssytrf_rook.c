@@ -7,6 +7,12 @@ void RELAPACK(ssytrf_rook_rec)(const char *, const int *, const int *, int *,
     float *, const int *, int *, float *, const int *, int *);
 
 
+/** SSYTRF_ROOK computes the factorization of a real symmetric matrix A using the bounded Bunch-Kaufman ("rook") diagonal pivoting method.
+ *
+ * This routine is functionally equivalent to LAPACK's ssytrf_rook.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/de/da4/ssytrf__rook_8f.html
+ * */
 void RELAPACK(ssytrf_rook)(
     const char *uplo, const int *n,
     float *A, const int *ldA, int *ipiv,
@@ -63,7 +69,9 @@ void RELAPACK(ssytrf_rook)(
 #endif
 }
 
-void RELAPACK(ssytrf_rook_rec)(
+
+/** ssytrf_rook's recursive compute kernel */
+static void RELAPACK(ssytrf_rook_rec)(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     float *A, const int *ldA, int *ipiv,
     float *Work, const int *ldWork, int *info

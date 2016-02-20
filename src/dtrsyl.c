@@ -5,6 +5,12 @@ static void RELAPACK(dtrsyl_rec)(const char *, const char *, const int *,
     const int *, double *, const int *, double *, int *);
 
 
+/** DTRSYL solves the real Sylvester matrix equation.
+ *
+ * This routine is functionally equivalent to LAPACK's dtrsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d6/d43/dtrsyl_8f.html
+ * */
 void RELAPACK(dtrsyl)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
@@ -51,6 +57,7 @@ void RELAPACK(dtrsyl)(
 }
 
 
+/** dtrsyl's recursive compute kernel */
 static void RELAPACK(dtrsyl_rec)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,

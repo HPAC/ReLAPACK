@@ -4,7 +4,12 @@ static void RELAPACK(cgemm_tr2)(const char *, const char *, const char *,
     const int *, const int *, const float *, const float *, const int *,
     const float *, const int *, const float *, float *, const int *);
 
-
+/** matrix-matrix product update of a triangular matrix.
+ *
+ * This routine performs the same operation as BLAS's
+ * cgemm(transA, transB, n, n, k, alpha, A, ldA, B, ldB, beta, C, ldC)
+ * but only updates teh triangular part of C specified by uplo.
+ * */
 void RELAPACK(cgemm_tr_rec)(
     const char *transA, const char *transB, const char *uplo,
     const int *n, const int *k,
@@ -53,6 +58,8 @@ void RELAPACK(cgemm_tr_rec)(
     RELAPACK(cgemm_tr_rec)(transA, transB, uplo, &n2, k, alpha, A_B, ldA, B_R, ldB, beta, C_BR, ldC);
 }
 
+
+/** cgemm_tr's unblocked compute kernel */
 static void RELAPACK(cgemm_tr2)(
     const char *transA, const char *transB, const char *uplo,
     const int *n, const int *k,

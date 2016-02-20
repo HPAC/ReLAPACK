@@ -4,6 +4,12 @@ static void RELAPACK(clauum_rec)(const char *, const int *, float *,
     const int *, int *);
 
 
+/** CLAUUM computes the product U * U**H or L**H * L, where the triangular factor U or L is stored in the upper or lower triangular part of the array A.
+ *
+ * This routine is functionally equivalent to LAPACK's clauum.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d2/d36/clauum_8f.html
+ * */
 void RELAPACK(clauum)(
     const char *uplo, const int *n,
     float *A, const int *ldA,
@@ -33,6 +39,7 @@ void RELAPACK(clauum)(
 }
 
 
+/** clauum's recursive compute kernel */
 static void RELAPACK(clauum_rec)(
     const char *uplo, const int *n,
     float *A, const int *ldA,

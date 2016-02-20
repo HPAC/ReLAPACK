@@ -7,6 +7,12 @@ static void RELAPACK(ctgsyl_rec)(const char *, const int *, const int *,
     const int *, float *, const int *, float *, float *, float *, int *);
 
 
+/** CTGSYL solves the generalized Sylvester equation.
+ *
+ * This routine is functionally equivalent to LAPACK's ctgsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d7/de7/ctgsyl_8f.html
+ * */
 void RELAPACK(ctgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
@@ -110,6 +116,7 @@ void RELAPACK(ctgsyl)(
 }
 
 
+/** ctgsyl's recursive vompute kernel */
 static void RELAPACK(ctgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,

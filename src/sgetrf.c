@@ -4,6 +4,12 @@ static void RELAPACK(sgetrf_rec)(const int *, const int *, float *, const int *,
     int *, int *);
 
 
+/** SGETRF computes an LU factorization of a general M-by-N matrix A using partial pivoting with row interchanges.
+ *
+ * This routine is functionally equivalent to LAPACK's sgetrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/de/de2/sgetrf_8f.html
+ * */
 void RELAPACK(sgetrf)(
     const int *m, const int *n,
     float *A, const int *ldA, int *ipiv,
@@ -47,6 +53,7 @@ void RELAPACK(sgetrf)(
 }
 
 
+/** sgetrf's recursive compute kernel */
 static void RELAPACK(sgetrf_rec)(
     const int *m, const int *n,
     float *A, const int *ldA, int *ipiv,

@@ -4,6 +4,12 @@ static void RELAPACK(ctrtri_rec)(const char *, const char *, const int *,
     float *, const int *, int *);
 
 
+/** CTRTRI computes the inverse of a complex upper or lower triangular matrix A.
+ *
+ * This routine is functionally equivalent to LAPACK's ctrtri.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/df/df8/ctrtri_8f.html
+ * */
 void RELAPACK(ctrtri)(
     const char *uplo, const char *diag, const int *n,
     float *A, const int *ldA,
@@ -46,6 +52,7 @@ void RELAPACK(ctrtri)(
 }
 
 
+/** ctrtri's recursive compute kernel */
 static void RELAPACK(ctrtri_rec)(
     const char *uplo, const char *diag, const int *n,
     float *A, const int *ldA,

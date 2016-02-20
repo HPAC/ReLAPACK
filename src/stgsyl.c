@@ -8,6 +8,12 @@ static void RELAPACK(stgsyl_rec)(const char *, const int *, const int *,
     int *);
 
 
+/** STGSYL solves the generalized Sylvester equation.
+ *
+ * This routine is functionally equivalent to LAPACK's stgsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/dc/d67/stgsyl_8f.html
+ * */
 void RELAPACK(stgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
@@ -112,6 +118,7 @@ void RELAPACK(stgsyl)(
 }
 
 
+/** stgsyl's recursive vompute kernel */
 static void RELAPACK(stgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,

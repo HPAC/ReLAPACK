@@ -7,6 +7,12 @@ void RELAPACK(chetrf_rec)(const char *, const int *, const int *, int *,
     float *, const int *, int *, float *, const int *, int *);
 
 
+/** CHETRF computes the factorization of a complex Hermitian matrix A using the Bunch-Kaufman diagonal pivoting method.
+ *
+ * This routine is functionally equivalent to LAPACK's chetrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/da/dc1/chetrf_8f.html
+ * */
 void RELAPACK(chetrf)(
     const char *uplo, const int *n,
     float *A, const int *ldA, int *ipiv,
@@ -63,7 +69,8 @@ void RELAPACK(chetrf)(
 #endif
 }
 
-void RELAPACK(chetrf_rec)(
+/** chetrf's recursive compute kernel */
+static void RELAPACK(chetrf_rec)(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     float *A, const int *ldA, int *ipiv,
     float *Work, const int *ldWork, int *info

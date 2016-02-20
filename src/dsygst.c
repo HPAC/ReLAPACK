@@ -3,6 +3,12 @@
 #include "stdlib.h"
 #endif
 
+/** DSYGST reduces a real symmetric-definite generalized eigenproblem to standard form.
+ *
+ * This routine is functionally equivalent to LAPACK's dsygst.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/dc/d04/dsygst_8f.html
+ * */
 static void RELAPACK(dsygst_rec)(const int *, const char *, const int *,
     double *, const int *, const double *, const int *,
     double *, const int *, int *);
@@ -55,6 +61,7 @@ void RELAPACK(dsygst)(
 }
 
 
+/** dsygst's recursive compute kernel */
 static void RELAPACK(dsygst_rec)(
     const int *itype, const char *uplo, const int *n,
     double *A, const int *ldA, const double *B, const int *ldB,

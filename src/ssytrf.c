@@ -7,6 +7,12 @@ void RELAPACK(ssytrf_rec)(const char *, const int *, const int *, int *,
     float *, const int *, int *, float *, const int *, int *);
 
 
+/** SSYTRF computes the factorization of a complex symmetric matrix A using the Bunch-Kaufman diagonal pivoting method.
+ *
+ * This routine is functionally equivalent to LAPACK's ssytrf.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/da/de9/ssytrf_8f.html
+ * */
 void RELAPACK(ssytrf)(
     const char *uplo, const int *n,
     float *A, const int *ldA, int *ipiv,
@@ -63,7 +69,8 @@ void RELAPACK(ssytrf)(
 #endif
 }
 
-void RELAPACK(ssytrf_rec)(
+/** ssytrf's recursive compute kernel */
+static void RELAPACK(ssytrf_rec)(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     float *A, const int *ldA, int *ipiv,
     float *Work, const int *ldWork, int *info

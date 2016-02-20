@@ -4,6 +4,12 @@ static void RELAPACK(dtrtri_rec)(const char *, const char *, const int *,
     double *, const int *, int *);
 
 
+/** DTRTRI computes the inverse of a complex upper or lower triangular matrix A.
+ *
+ * This routine is functionally equivalent to LAPACK's dtrtri.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d5/dba/dtrtri_8f.html
+ * */
 void RELAPACK(dtrtri)(
     const char *uplo, const char *diag, const int *n,
     double *A, const int *ldA,
@@ -46,6 +52,7 @@ void RELAPACK(dtrtri)(
 }
 
 
+/** dtrtri's recursive compute kernel */
 static void RELAPACK(dtrtri_rec)(
     const char *uplo, const char *diag, const int *n,
     double *A, const int *ldA,

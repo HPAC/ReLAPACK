@@ -8,6 +8,12 @@ static void RELAPACK(dtgsyl_rec)(const char *, const int *, const int *,
     int *, int *);
 
 
+/** DTGSYL solves the generalized Sylvester equation.
+ *
+ * This routine is functionally equivalent to LAPACK's dtgsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/db/d88/dtgsyl_8f.html
+ * */
 void RELAPACK(dtgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
@@ -112,6 +118,7 @@ void RELAPACK(dtgsyl)(
 }
 
 
+/** dtgsyl's recursive vompute kernel */
 static void RELAPACK(dtgsyl_rec)(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,

@@ -5,6 +5,12 @@ static void RELAPACK(ztrsyl_rec)(const char *, const char *, const int *,
     const int *, double *, const int *, double *, int *);
 
 
+/** ZTRSYL solves the complex Sylvester matrix equation.
+ *
+ * This routine is functionally equivalent to LAPACK's ztrsyl.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d1/d36/ztrsyl_8f.html
+ * */
 void RELAPACK(ztrsyl)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
@@ -49,6 +55,7 @@ void RELAPACK(ztrsyl)(
 }
 
 
+/** ztrsyl's recursive compute kernel */
 static void RELAPACK(ztrsyl_rec)(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,

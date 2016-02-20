@@ -4,6 +4,12 @@ static void RELAPACK(zlauum_rec)(const char *, const int *, double *,
     const int *, int *);
 
 
+/** ZLAUUM computes the product U * U**H or L**H * L, where the triangular factor U or L is stored in the upper or lower triangular part of the array A.
+ *
+ * This routine is functionally equivalent to LAPACK's zlauum.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d8/d45/zlauum_8f.html
+ * */
 void RELAPACK(zlauum)(
     const char *uplo, const int *n,
     double *A, const int *ldA,
@@ -33,6 +39,7 @@ void RELAPACK(zlauum)(
 }
 
 
+/** zlauum's recursive compute kernel */
 static void RELAPACK(zlauum_rec)(
     const char *uplo, const int *n,
     double *A, const int *ldA,

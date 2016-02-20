@@ -3,6 +3,12 @@
 #include "stdlib.h"
 #endif
 
+/** CHEGST reduces a complex Hermitian-definite generalized eigenproblem to standard form.
+ *
+ * This routine is functionally equivalent to LAPACK's chegst.
+ * For details on its interface, see
+ * http://www.netlib.org/lapack/explore-html/d7/d2a/chegst_8f.html
+ * */
 static void RELAPACK(chegst_rec)(const int *, const char *, const int *,
     float *, const int *, const float *, const int *,
     float *, const int *, int *);
@@ -55,6 +61,7 @@ void RELAPACK(chegst)(
 }
 
 
+/** chegst's recursive compute kernel */
 static void RELAPACK(chegst_rec)(
     const int *itype, const char *uplo, const int *n,
     float *A, const int *ldA, const float *B, const int *ldB,
