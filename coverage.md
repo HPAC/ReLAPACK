@@ -4,6 +4,33 @@ This file lists all LAPACK compute routines that are covered by recursive
 algorithms in ReLAPACK, it also lists all of LAPACK's blocked algorithms which
 are not (yet) part of ReLAPACK.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Coverage of ReLAPACK](#coverage-of-relapack)
+  - [List of covered LAPACK routines](#list-of-covered-lapack-routines)
+    - [`xlauum`](#xlauum)
+    - [`xsygst`](#xsygst)
+    - [`xtrtri`](#xtrtri)
+    - [`xpotrf`](#xpotrf)
+    - [`xsytrf`](#xsytrf)
+    - [`xgetrf`](#xgetrf)
+    - [`xtrsyl`](#xtrsyl)
+    - [`xtgsyl`](#xtgsyl)
+  - [Not covered yet](#not-covered-yet)
+    - [`xpstrf`](#xpstrf)
+  - [Not covered: extra FLOPs](#not-covered-extra-flops)
+    - [QR decomposition (and related)](#qr-decomposition-and-related)
+    - [Symmetric reduction to tridiagonal](#symmetric-reduction-to-tridiagonal)
+    - [Symmetric reduction to bidiagonal](#symmetric-reduction-to-bidiagonal)
+    - [Reduction to upper Hessenberg](#reduction-to-upper-hessenberg)
+  - [Not covered: Banded](#not-covered-banded)
+    - [Banded Cholesky decomposition](#banded-cholesky-decomposition)
+    - [Banded LU decomposition](#banded-lu-decomposition)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 List of covered LAPACK routines
 -------------------------------
