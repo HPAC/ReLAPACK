@@ -1,6 +1,7 @@
 #include "test.h"
 
 datatype *A[2], *B[2], *C[2], *Work, scale[2];
+int info;
 
 #define xlascl XPREF(LAPACK(lascl))
 void xlascl(const char *, const int *, const int *, const datatype *, const

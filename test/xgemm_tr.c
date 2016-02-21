@@ -1,6 +1,7 @@
 #include "test.h"
 
 datatype *A[2], *B[2], *C[2], *Ctmp;
+int info;
 
 void pre() {
     x2matgen(n, n, A[0], A[1]);

@@ -1,8 +1,8 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include "config.h"
 #include "../config.h"
+#include "config.h"
 
 #if BLAS_UNDERSCORE
 #define BLAS(routine) routine ## _
@@ -22,9 +22,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-int i, n, n2, err_bound, fail, info;
-double error;
 
 #define CAT(A, B) A ## B
 #define XCAT(A, B) CAT(A, B)
@@ -108,6 +105,10 @@ const int iFOUR[]  = {4};
 
 void tests();
 
+// global variables (used in tests() pre() and post())
+int i, n, n2, fail;
+double error;
+
 int main(int argc, char* argv[]) {
     n = TEST_SIZE;
     n2 = (3 * n) / 4;
@@ -115,7 +116,7 @@ int main(int argc, char* argv[]) {
 
     tests();
 
-	return fail;
+    return fail;
 }
 
 #endif /* TEST_H */
