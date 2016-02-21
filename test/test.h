@@ -25,7 +25,6 @@
 
 #define CAT(A, B) A ## B
 #define XCAT(A, B) CAT(A, B)
-
 #define XLAPACK(X) LAPACK(X)
 #define XRELAPACK(X) XCAT(RELAPACK_, X)
 #define STR(X) #X
@@ -45,16 +44,16 @@
 
 // data type stuff
 #define XPREF(A) XCAT(DT_PREFIX, A)
-#define xmalloc  XPREF(malloc)
-#define x2matgen XPREF(2matgen)
-#define x2vecerr XPREF(2vecerr)
-#define datatype XPREF(datatype_)
+#define xmalloc   XPREF(malloc)
+#define x2matgen  XPREF(2matgen)
+#define x2vecerr  XPREF(2vecerr)
+#define datatype  XPREF(datatype_)
 #define ERR_BOUND XPREF(ERR_BOUND_)
-#define MONE XPREF(MONE)
-#define ZERO XPREF(ZERO)
-#define ONE XPREF(ONE)
-#define x1 XPREF(DT_MULT)
-#define xCTRANS XPREF(CTRANS)
+#define MONE      XPREF(MONE)
+#define ZERO      XPREF(ZERO)
+#define ONE       XPREF(ONE)
+#define x1        XPREF(DT_MULT)
+#define xCTRANS   XPREF(CTRANS)
 
 #define sdatatype_ float
 #define ddatatype_ double
@@ -83,18 +82,18 @@
 #define zCTRANS "C"
 
 // some constants
-const float  sMONE[]  = {-1};
-const double dMONE[]  = {-1};
-const float  cMONE[]  = {-1, 0};
-const double zMONE[]  = {-1, 0};
-const float  sZERO[]  = {0};
-const double dZERO[]  = {0};
-const float  cZERO[]  = {0, 0};
-const double zZERO[]  = {0, 0};
-const float  sONE[]   = {1};
-const double dONE[]   = {1};
-const float  cONE[]   = {1, 0};
-const double zONE[]   = {1, 0};
+const float  sMONE[] = {-1};
+const double dMONE[] = {-1};
+const float  cMONE[] = {-1, 0};
+const double zMONE[] = {-1, 0};
+const float  sZERO[] = {0};
+const double dZERO[] = {0};
+const float  cZERO[] = {0, 0};
+const double zZERO[] = {0, 0};
+const float  sONE[]  = {1};
+const double dONE[]  = {1};
+const float  cONE[]  = {1, 0};
+const double zONE[]  = {1, 0};
 
 const int iMONE[]  = {-1};
 const int iZERO[]  = {0};
