@@ -4,7 +4,7 @@ static void RELAPACK_dpotrf_rec(const char *, const int *, double *,
     const int *, int *);
 
 
-/** DPOTRF computes the Cholesky factorization of a complex Hermitian positive definite matrix A.
+/** DPOTRF computes the Cholesky factorization of a real symmetric positive definite matrix A.
  *
  * This routine is functionally equivalent to LAPACK's dpotrf.
  * For details on its interface, see
@@ -53,8 +53,8 @@ static void RELAPACK_dpotrf_rec(
     }
 
     // Constants
-    const double ONE[]  = {1};
-    const double MONE[] = {-1};
+    const double ONE[]  = { 1 };
+    const double MONE[] = { -1 };
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

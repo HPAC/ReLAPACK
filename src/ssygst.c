@@ -75,12 +75,12 @@ static void RELAPACK_ssygst_rec(
     }
 
     // Constants
-    const float ZERO[]  = {0};
-    const float ONE[]   = {1};
-    const float MONE[]  = {-1};
-    const float HALF[]  = {.5};
-    const float MHALF[] = {-.5};
-    const int  iONE[]   = {1};
+    const float ZERO[]  = { 0 };
+    const float ONE[]   = { 1 };
+    const float MONE[]  = { -1 };
+    const float HALF[]  = { .5 };
+    const float MHALF[] = { -.5 };
+    const int  iONE[]   = { 1 };
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

@@ -73,7 +73,7 @@ void RELAPACK_dtgsyl(
     const char cleantrans = notran ? 'N' : 'T';
 
     // Constants
-    const double ZERO[] = {0};
+    const double ZERO[] = { 0 };
 
     int isolve = 1;
     int ifunc  = 0;
@@ -136,15 +136,15 @@ static void RELAPACK_dtgsyl_rec(
     }
 
     // Constants
-    const double ONE[]  = {1};
-    const double MONE[] = {-1};
-    const int   iONE[]  = {1};
+    const double ONE[]  = { 1 };
+    const double MONE[] = { -1 };
+    const int   iONE[]  = { 1 };
 
     // Outputs
-    double scale1[] = {1};
-    double scale2[] = {1};
-    int    info1[]  = {0};
-    int    info2[]  = {0};
+    double scale1[] = { 1 };
+    double scale2[] = { 1 };
+    int    info1[]  = { 0 };
+    int    info2[]  = { 0 };
 
     if (*m > *n) {
         int m1 = REC_SPLIT(*m);

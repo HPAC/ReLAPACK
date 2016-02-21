@@ -93,9 +93,9 @@ static void RELAPACK_dsytrf_rec(
     int info1, info2;
 
     // Constants
-    const double ONE[]  = {1};
-    const double MONE[] = {-1};
-    const int   iONE[]  = {1};
+    const double ONE[]  = { 1 };
+    const double MONE[] = { -1 };
+    const int   iONE[]  = { 1 };
 
     const int n_rest = *n_full - *n;
 

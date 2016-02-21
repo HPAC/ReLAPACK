@@ -93,9 +93,9 @@ static void RELAPACK_csytrf_rec(
     int info1, info2;
 
     // Constants
-    const float ONE[]  = {1, 0};
-    const float MONE[] = {-1, 0};
-    const int  iONE[]  = {1};
+    const float ONE[]  = { 1, 0 };
+    const float MONE[] = { -1, 0 };
+    const int  iONE[]  = { 1 };
 
     const int n_rest = *n_full - *n;
 

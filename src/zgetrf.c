@@ -35,8 +35,8 @@ void RELAPACK_zgetrf(
     // Right remainder
     if (*m < *n) {
         // Constants
-        const double ONE[]  = {1, 0};
-        const int   iONE[] = {1};
+        const double ONE[]  = { 1, 0 };
+        const int   iONE[] = { 1 };
 
         // Splitting
         const int rn = *n - *m;
@@ -67,9 +67,9 @@ static void RELAPACK_zgetrf_rec(
     }
 
     // Constants
-    const double ONE[]  = {1, 0};
-    const double MONE[] = {-1, 0};
-    const int   iONE[]  = {1};
+    const double ONE[]  = { 1, 0 };
+    const double MONE[] = { -1, 0 };
+    const int   iONE[]  = { 1 };
 
     // Splitting
     const int mn = MIN(*m, *n);

@@ -4,7 +4,7 @@ static void RELAPACK_spotrf_rec(const char *, const int *, float *,
     const int *, int *);
 
 
-/** SPOTRF computes the Cholesky factorization of a complex Hermitian positive definite matrix A.
+/** SPOTRF computes the Cholesky factorization of a real symmetric positive definite matrix A.
  *
  * This routine is functionally equivalent to LAPACK's spotrf.
  * For details on its interface, see
@@ -53,8 +53,8 @@ static void RELAPACK_spotrf_rec(
     }
 
     // Constants
-    const float ONE[]  = {1};
-    const float MONE[] = {-1};
+    const float ONE[]  = { 1 };
+    const float MONE[] = { -1 };
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

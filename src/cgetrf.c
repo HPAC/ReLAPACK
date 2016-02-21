@@ -35,8 +35,8 @@ void RELAPACK_cgetrf(
     // Right remainder
     if (*m < *n) {
         // Constants
-        const float ONE[] = {1, 0};
-        const int  iONE[] = {1};
+        const float ONE[] = { 1, 0 };
+        const int  iONE[] = { 1 };
 
         // Splitting
         const int rn = *n - *m;
@@ -67,9 +67,9 @@ static void RELAPACK_cgetrf_rec(
     }
 
     // Constants
-    const float ONE[]  = {1, 0};
-    const float MONE[] = {-1, 0};
-    const int  iONE[]  = {1};
+    const float ONE[]  = { 1, 0 };
+    const float MONE[] = { -1, 0 };
+    const int  iONE[]  = { 1 };
 
     // Splitting
     const int mn = MIN(*m, *n);
