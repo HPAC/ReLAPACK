@@ -1,12 +1,19 @@
 #ifndef RELAPACK_CONFIG_H
 #define RELAPACK_CONFIG_H
 
+// ReLAPACK configuration file.
+// See also config.md
+
+
 ///////////////////////////
 // FORTRAN obect symbols //
 ///////////////////////////
 
+// FORTRAN routines within RELAPACK have a trailing underscore
 #define FORTRAN_UNDERSCORE 1
+// BLAS routines linked against have a trailing underscore
 #define BLAS_UNDERSCORE FORTRAN_UNDERSCORE
+// LAPACK routines linked against have a trailing underscore
 #define LAPACK_UNDERSCORE FORTRAN_UNDERSCORE
 
 
@@ -15,15 +22,18 @@
 ////////////////////////////
 
 #define ALLOW_MALLOC 1
-#define XSYTRF_ALLOW_MALLOC ALLOW_MALLOC
+// allow malloc in xsygst for improved performance
 #define XSYGST_ALLOW_MALLOC ALLOW_MALLOC
+// allow malloc in xsytrf if the passed work buffer is too small
+#define XSYTRF_ALLOW_MALLOC ALLOW_MALLOC
 
 
 ////////////////////////////////
 // LAPACK routine replacement //
 ////////////////////////////////
+// The following macros specify which routines are included in the library under
+// LAPACK's symbol names: 1 included, 0 not incdlued
 
-// individual crossover sizes
 #define INCLUDE_XLAUUM 1
 #define INCLUDE_SLAUUM INCLUDE_XLAUUM
 #define INCLUDE_DLAUUM INCLUDE_XLAUUM

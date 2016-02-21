@@ -2,23 +2,21 @@ include make.inc
 
 .PHONY: test
 
-LIB = librelapack.a
-
 CSRC = $(wildcard src/*.c)
 FSRC = $(wildcard src/*.f)
 OBJS = $(CSRC:%.c=%.o) $(FSRC:%.f=%.o)
 
 OBJS = $(CSRC:%.c=%.o) $(FSRC:%.f=%.o)
 
-$(LIB): $(OBJS)
+$(LIBNAME): $(OBJS)
 	$(AR) -r $@ $^
 
 %.o: %.c config.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test: $(LIB)
+test: $(LIBNAME)
 	cd test; make
 
 clean:
-	rm -f $(LIB) $(OBJS)
+	rm -f $(LIBNAME) $(OBJS)
 	cd test; make clean

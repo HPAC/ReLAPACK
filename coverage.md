@@ -1,5 +1,9 @@
 Coverage of ReLAPACK
 ====================
+This file lists all LAPACK compute routines that are covered by recursive
+algorithms in ReLAPACK, it also lists all of LAPACK's blocked algorithms which
+are not (yet) part of ReLAPACK.
+
 
 List of covered LAPACK routines
 -------------------------------
@@ -87,6 +91,22 @@ Operations:
 * A R - L B = C, D R - L E = F -> L, R
 * A^T R + D^T L = C, R B^T - L E^T = -F -> L, R
 
+
+Not covered yet
+---------------
+The following operation is implemented as a blocked algorithm in LAPACK but
+currently not yet covered in ReLAPACK as a recursive algorithm
+
+### `xpstrf`
+Cholesky decomposition of a positive semidefinite matrix with complete pivoting.
+
+Routines: `spstrf`, `dpstrf`, `cpstrf`, `zpstrf`
+
+Operations:
+* P L L^T P^T = A
+* P U^T U P^T = A
+
+
 Not covered: extra FLOPs
 ------------------------
 The following routines are not covered because recursive variants would require
@@ -131,6 +151,7 @@ Operation: Q T P^T = A
 Routines: `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
 
 Operation: Q H Q^T = A
+
 
 Not covered: Banded
 -------------------
