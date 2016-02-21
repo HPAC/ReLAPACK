@@ -8,12 +8,7 @@ FC = gfortran
 FFLAGS = -O3 -Wall
 AR = ar
 
-# TESTING CONFIGURATION
-
-# BLAS / LAPACK link line (for test)
-LINK_TEST = -L$(HOME)/phd/software/lapack/ -L$(HOME)/phd/software/blas/ -llapack -lblas -lgfortran
-
-# test matrix size
-TEST_SIZE = 100
+# BLAS / LAPACK link line for test (relative to test/)
+LINK_TEST = -L../lapack/ -L../blas/ -llapack -lblas -lgfortran
 
 # vim: ft=make

@@ -3,6 +3,16 @@
 #include <time.h>
 #include <math.h>
 
+///////////////////////
+// matrix generation //
+///////////////////////
+// Each routine x2matgen is passed the size (m, n) of the desired matrix and
+// geneartes two copies of such a matrix in in its output arguments A and B.
+// The generated matrices is filled with random entries in [0, 1[ (+i*[0, 1[ in
+// the complex case).  Then m is added to the diagonal; this is numerically
+// favorable for routines working with triangular and symmetric matrices.  For
+// the same reason the imaginary part of the diagonal is set to 0.
+
 void s2matgen(const int m, const int n, float *A, float *B) {
     srand(time(NULL) + (size_t) A);
     for (int i = 0; i < m; i++)
@@ -34,6 +44,14 @@ void z2matgen(const int m, const int n, double *A, double *B) {
             A[2* (i + m * j) + 1] = B[2 * (i + m * j) + 1] = ((double) rand() / RAND_MAX) * (i != j);
         }
 }
+
+////////////////////////
+// error computations //
+////////////////////////
+// Each routine x2vecerrr is passed a vector lengh n and two vectors x and y.
+// It returns the maximum of the element-wise error between these two vectors.
+// This error is the minimum of the absolute difference and the relative
+// differene with respect to y.
 
 double i2vecerr(const int n, const int *x, const int *y) {
     double error = 0;

@@ -33,5 +33,6 @@ For an overview of the configuration options see [config.md](config.md).
 Testing
 -------
 ReLAPACK's test suite compares its routines numerically with LAPACK's
-counterparts.  The test are located int `test/` and started by running `make
-test`.
+counterparts.  To set up the test located int `test/` you need to specify link
+flags for BLAS and LAPACK (version 3.5.0 or newer) in `make.inc`; then `make
+test` runs the tests.  For details, see [test/README.md](test/README.md).
