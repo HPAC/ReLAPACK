@@ -36,3 +36,9 @@ ReLAPACK's test suite compares its routines numerically with LAPACK's
 counterparts.  To set up the test located int `test/` you need to specify link
 flags for BLAS and LAPACK (version 3.5.0 or newer) in `make.inc`; then `make
 test` runs the tests.  For details, see [test/README.md](test/README.md).
+
+Examples
+--------
+Since ReLAPACK replaces parts of LAPACK, any LAPACK example involving the
+covered routines applies directly to ReLAPACK.  A few separate examples are
+given in `examples/`. For details, see [examples/README.md](examples/README.md).
