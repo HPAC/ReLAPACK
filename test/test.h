@@ -2,7 +2,21 @@
 #define TEST_H
 
 #include "config.h"
-#include "../src/relapack.h"
+#include "../config.h"
+
+#if BLAS_UNDERSCORE
+#define BLAS(routine) routine ## _
+#else
+#define BLAS(routine) routine
+#endif
+
+#if LAPACK_UNDERSCORE
+#define LAPACK(routine) routine ## _
+#else
+#define LAPACK(routine) routine
+#endif
+
+#include "../inc/relapack.h"
 #include "lapack.h"
 #include "util.h"
 #include <stdlib.h>
@@ -16,6 +30,7 @@ double error;
 #define XCAT(A, B) CAT(A, B)
 
 #define XLAPACK(X) LAPACK(X)
+#define XRELAPACK(X) XCAT(RELAPACK_, X)
 #define STR(X) #X
 #define XSTR(X) STR(X)
 #define PRE pre
@@ -24,7 +39,7 @@ double error;
 #define TEST(...) \
     PRE(); \
     i = 0; \
-    XCAT(RELAPACK_, ROUTINE)(__VA_ARGS__); \
+    XRELAPACK(ROUTINE)(__VA_ARGS__); \
     i = 1; \
     XLAPACK(ROUTINE)(__VA_ARGS__); \
     POST(); \

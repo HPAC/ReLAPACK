@@ -3,12 +3,6 @@
 
 #include "../config.h"
 
-#if LAPACK_UNDERSCORE
-#define LAPACK(routine) routine ## _
-#else
-#define LAPACK(routine) routine
-#endif
-
 void LAPACK(slauum)(const char *, const int *, float *, const int *, int *);
 void LAPACK(dlauum)(const char *, const int *, double *, const int *, int *);
 void LAPACK(clauum)(const char *, const int *, float *, const int *, int *);

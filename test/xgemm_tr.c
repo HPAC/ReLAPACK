@@ -15,6 +15,11 @@ void post() {
 #define ROUTINE XPREF(gemm_tr_rec)
 
 #define xlacpy XPREF(LAPACK(lacpy))
+#define xgemm XPREF(BLAS(gemm))
+
+extern void xlacpy(const char *, const int *, const int *, const datatype *, const int *, datatype *, const int *);
+extern void xgemm(const char *, const char *, const int *, const int *, const int *, const datatype *, const datatype *, const int *, const datatype *, const int *, const datatype *, const datatype *, const int*);
+void XRELAPACK(ROUTINE)(const char *, const char *, const char *, const int *, const int *, const datatype *, const datatype *, const int *, const datatype *, const int *, const datatype *, datatype *, const int *);
 
 void XLAPACK(ROUTINE)(
     const char *transA, const char *transB, const char *uplo,
@@ -24,7 +29,7 @@ void XLAPACK(ROUTINE)(
     const datatype *beta, datatype *C, const int *ldC
 ) {
     xlacpy(uplo, n, n, C, ldC, Ctmp, n);
-    XPREF(BLAS(gemm))(transA, transB, n, n, k, alpha, A, ldA, B, ldB, beta, Ctmp, n);
+    xgemm(transA, transB, n, n, k, alpha, A, ldA, B, ldB, beta, Ctmp, n);
     xlacpy(uplo, n, n, Ctmp, ldC, C, n);
 }
 

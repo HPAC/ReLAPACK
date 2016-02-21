@@ -1,8 +1,6 @@
 #ifndef TEST_UTIL_H
 #define TEST_UTIL_H
 
-#include "../src/util.h"
-
 void s2matgen(int, int, float *, float *);
 void d2matgen(int, int, double *, double *);
 void c2matgen(int, int, float *, float *);
