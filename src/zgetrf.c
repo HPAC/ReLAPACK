@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(zgetrf_rec)(const int *, const int *, double *,
+static void RELAPACK_zgetrf_rec(const int *, const int *, double *,
     const int *, int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(zgetrf_rec)(const int *, const int *, double *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/dd/dd1/zgetrf_8f.html
  * */
-void RELAPACK(zgetrf)(
+void RELAPACK_zgetrf(
     const int *m, const int *n,
     double *A, const int *ldA, int *ipiv,
     int *info
@@ -30,7 +30,7 @@ void RELAPACK(zgetrf)(
         return;
     }
 
-    RELAPACK(zgetrf_rec)(m, n, A, ldA, ipiv, info);
+    RELAPACK_zgetrf_rec(m, n, A, ldA, ipiv, info);
 
     // Right remainder
     if (*m < *n) {
@@ -54,7 +54,7 @@ void RELAPACK(zgetrf)(
 
 
 /** zgetrf's recursive compute kernel */
-static void RELAPACK(zgetrf_rec)(
+static void RELAPACK_zgetrf_rec(
     const int *m, const int *n,
     double *A, const int *ldA, int *ipiv,
     int *info
@@ -90,7 +90,7 @@ static void RELAPACK(zgetrf_rec)(
     int *const ipiv_B = ipiv + n1;
 
     // recursion(A_TL, ipiv_T)
-    RELAPACK(zgetrf_rec)(m, &n1, A_TL, ldA, ipiv_T, info);
+    RELAPACK_zgetrf_rec(m, &n1, A_TL, ldA, ipiv_T, info);
     // apply pivots to A_TR
     LAPACK(zlaswp)(&n2, A_TR, ldA, iONE, &n1, ipiv_T, iONE);
 
@@ -100,7 +100,7 @@ static void RELAPACK(zgetrf_rec)(
     BLAS(zgemm)("N", "N", &rm, &n2, &n1, MONE, A_BL, ldA, A_TR, ldA, ONE, A_BR, ldA);
 
     // recursion(A_BR, ipiv_B)
-    RELAPACK(zgetrf_rec)(&rm, &n2, A_BR, ldA, ipiv_B, info);
+    RELAPACK_zgetrf_rec(&rm, &n2, A_BR, ldA, ipiv_B, info);
     if (*info)
         *info += n1;
     // apply pivots to A_BL

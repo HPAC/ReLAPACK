@@ -1,12 +1,26 @@
 #ifndef RELAPACK_INT_H
 #define RELAPACK_INT_H
 
+#include "../config.h"
+
 #include "../inc/relapack.h"
+
+#if FORTRAN_UNDERSCORE
+#define FORTRAN(routine) routine ## _
+#else
+#define FORTRAN(routine) routine
+#endif
 
 #if BLAS_UNDERSCORE
 #define BLAS(routine) routine ## _
 #else
 #define BLAS(routine) routine
+#endif
+
+#if LAPACK_UNDERSCORE
+#define LAPACK(routine) routine ## _
+#else
+#define LAPACK(routine) routine
 #endif
 
 #include "lapack.h"
@@ -15,39 +29,28 @@
 
 
 // sytrf helper routines
-void RELAPACK(sgemm_tr_rec)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
-void RELAPACK(dgemm_tr_rec)(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
-void RELAPACK(cgemm_tr_rec)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
-void RELAPACK(zgemm_tr_rec)(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
+void RELAPACK_sgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+void RELAPACK_dgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
+void RELAPACK_cgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
+void RELAPACK_zgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
 
-void LAPACK(ssytrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(dsytrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
-void LAPACK(csytrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(chetrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(zsytrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
-void LAPACK(zhetrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
-void LAPACK(ssytrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(dsytrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
-void LAPACK(csytrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(chetrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
-void LAPACK(zsytrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
-void LAPACK(zhetrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void FORTRAN(relapack_ssytrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void FORTRAN(relapack_dsytrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void FORTRAN(relapack_csytrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void FORTRAN(relapack_chetrf_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void FORTRAN(relapack_zsytrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void FORTRAN(relapack_zhetrf_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void FORTRAN(relapack_ssytrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void FORTRAN(relapack_dsytrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void FORTRAN(relapack_csytrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void FORTRAN(relapack_chetrf_rook_rec2)(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
+void FORTRAN(relapack_zsytrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
+void FORTRAN(relapack_zhetrf_rook_rec2)(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
 
 // trsyl helper routines
-#ifdef RELAPACK_AS_LAPACK
-#define STRSY2 LAPACK(strsy2)
-#define DTRSY2 LAPACK(dtrsy2)
-#define CTRSY2 LAPACK(ctrsy2)
-#define ZTRSY2 LAPACK(ztrsy2)
-#else
-#define STRSY2 LAPACK(strsyl)
-#define DTRSY2 LAPACK(dtrsyl)
-#define CTRSY2 LAPACK(ctrsyl)
-#define ZTRSY2 LAPACK(ztrsyl)
-#endif
-void STRSY2(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void DTRSY2(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-void CTRSY2(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void ZTRSY2(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+void FORTRAN(relapack_strsyl_rec2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void FORTRAN(relapack_dtrsyl_rec2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+void FORTRAN(relapack_ctrsyl_rec2)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void FORTRAN(relapack_ztrsyl_rec2)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 
 #endif /*  RELAPACK_INT_H */

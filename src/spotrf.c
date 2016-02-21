@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(spotrf_rec)(const char *, const int *, float *,
+static void RELAPACK_spotrf_rec(const char *, const int *, float *,
     const int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(spotrf_rec)(const char *, const int *, float *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d0/da2/spotrf_8f.html
  * */
-void RELAPACK(spotrf)(
+void RELAPACK_spotrf(
     const char *uplo, const int *n,
     float *A, const int *ldA,
     int *info
@@ -35,12 +35,12 @@ void RELAPACK(spotrf)(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
-    RELAPACK(spotrf_rec)(&cleanuplo, n, A, ldA, info);
+    RELAPACK_spotrf_rec(&cleanuplo, n, A, ldA, info);
 }
 
 
 /** spotrf's recursive compute kernel */
-static void RELAPACK(spotrf_rec)(
+static void RELAPACK_spotrf_rec(
     const char *uplo, const int *n,
     float *A, const int *ldA,
     int *info
@@ -68,7 +68,7 @@ static void RELAPACK(spotrf_rec)(
     float *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    RELAPACK(spotrf_rec)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK_spotrf_rec(uplo, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
@@ -85,7 +85,7 @@ static void RELAPACK(spotrf_rec)(
     }
 
     // recursion(A_BR)
-    RELAPACK(spotrf_rec)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK_spotrf_rec(uplo, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

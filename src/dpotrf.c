@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(dpotrf_rec)(const char *, const int *, double *,
+static void RELAPACK_dpotrf_rec(const char *, const int *, double *,
     const int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(dpotrf_rec)(const char *, const int *, double *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d0/d8a/dpotrf_8f.html
  * */
-void RELAPACK(dpotrf)(
+void RELAPACK_dpotrf(
     const char *uplo, const int *n,
     double *A, const int *ldA,
     int *info
@@ -35,12 +35,12 @@ void RELAPACK(dpotrf)(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
-    RELAPACK(dpotrf_rec)(&cleanuplo, n, A, ldA, info);
+    RELAPACK_dpotrf_rec(&cleanuplo, n, A, ldA, info);
 }
 
 
 /** dpotrf's recursive compute kernel */
-static void RELAPACK(dpotrf_rec)(
+static void RELAPACK_dpotrf_rec(
     const char *uplo, const int *n,
     double *A, const int *ldA,
     int *info
@@ -68,7 +68,7 @@ static void RELAPACK(dpotrf_rec)(
     double *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    RELAPACK(dpotrf_rec)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK_dpotrf_rec(uplo, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
@@ -85,7 +85,7 @@ static void RELAPACK(dpotrf_rec)(
     }
 
     // recursion(A_BR)
-    RELAPACK(dpotrf_rec)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK_dpotrf_rec(uplo, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

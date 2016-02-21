@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(ztrsyl_rec)(const char *, const char *, const int *,
+static void RELAPACK_ztrsyl_rec(const char *, const char *, const int *,
     const int *, const int *, const double *, const int *, const double *,
     const int *, double *, const int *, double *, int *);
 
@@ -11,7 +11,7 @@ static void RELAPACK(ztrsyl_rec)(const char *, const char *, const int *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d1/d36/ztrsyl_8f.html
  * */
-void RELAPACK(ztrsyl)(
+void RELAPACK_ztrsyl(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
@@ -51,12 +51,12 @@ void RELAPACK(ztrsyl)(
     const char cleantranA = notransA ? 'N' : 'C';
     const char cleantranB = notransB ? 'N' : 'C';
 
-    RELAPACK(ztrsyl_rec)(&cleantranA, &cleantranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
+    RELAPACK_ztrsyl_rec(&cleantranA, &cleantranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
 }
 
 
 /** ztrsyl's recursive compute kernel */
-static void RELAPACK(ztrsyl_rec)(
+static void RELAPACK_ztrsyl_rec(
     const char *tranA, const char *tranB, const int *isgn,
     const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
@@ -66,7 +66,7 @@ static void RELAPACK(ztrsyl_rec)(
 
     if (*m <= MAX(CROSSOVER_ZTRSYL, 1) && *n <= MAX(CROSSOVER_ZTRSYL, 1)) {
         // Unblocked
-        ZTRSY2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
+        FORTRAN(relapack_ztrsyl_rec2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;
     }
 
@@ -99,21 +99,21 @@ static void RELAPACK(ztrsyl_rec)(
 
         if (*tranA == 'N') {
             // recusion(A_BR, B, C_B)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale1, info1);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale1, info1);
             // C_T = C_T - A_TR * C_B
             BLAS(zgemm)("N", "N", &m1, n, &m2, MONE, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
             // recusion(A_TL, B, C_T)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale2, info2);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m2, n, C_B, ldC, info);
         } else {
             // recusion(A_TL, B, C_T)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale1, info1);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale1, info1);
             // C_B = C_B - A_TR' * C_T
             BLAS(zgemm)("C", "N", &m2, n, &m1, MONE, A_TR, ldA, C_T, ldC, scale1, C_B, ldC);
             // recusion(A_BR, B, C_B)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale2, info2);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m1, n, C_B, ldC, info);
@@ -134,21 +134,21 @@ static void RELAPACK(ztrsyl_rec)(
 
         if (*tranB == 'N') {
             // recusion(A, B_TL, C_L)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale1, info1);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale1, info1);
             // C_R = C_R -/+ C_L * B_TR
             BLAS(zgemm)("N", "N", m, &n2, &n1, MSGN, C_L, ldC, B_TR, ldB, scale1, C_R, ldC);
             // recusion(A, B_BR, C_R)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale2, info2);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n1, C_L, ldC, info);
         } else {
             // recusion(A, B_BR, C_R)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale1, info1);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale1, info1);
             // C_L = C_L -/+ C_R * B_TR'
             BLAS(zgemm)("N", "C", m, &n1, &n2, MSGN, C_R, ldC, B_TR, ldB, scale1, C_L, ldC);
             // recusion(A, B_TL, C_L)
-            RELAPACK(ztrsyl_rec)(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale2, info2);
+            RELAPACK_ztrsyl_rec(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n2, C_R, ldC, info);

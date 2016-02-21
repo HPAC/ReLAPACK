@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(strtri_rec)(const char *, const char *, const int *,
+static void RELAPACK_strtri_rec(const char *, const char *, const int *,
     float *, const int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(strtri_rec)(const char *, const char *, const int *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/de/d76/strtri_8f.html
  * */
-void RELAPACK(strtri)(
+void RELAPACK_strtri(
     const char *uplo, const char *diag, const int *n,
     float *A, const int *ldA,
     int *info
@@ -48,12 +48,12 @@ void RELAPACK(strtri)(
                 return;
             }
 
-    RELAPACK(strtri_rec)(&cleanuplo, &cleandiag, n, A, ldA, info);
+    RELAPACK_strtri_rec(&cleanuplo, &cleandiag, n, A, ldA, info);
 }
 
 
 /** strtri's recursive compute kernel */
-static void RELAPACK(strtri_rec)(
+static void RELAPACK_strtri_rec(
     const char *uplo, const char *diag, const int *n,
     float *A, const int *ldA,
     int *info
@@ -81,7 +81,7 @@ static void RELAPACK(strtri_rec)(
     float *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    RELAPACK(strtri_rec)(uplo, diag, &n1, A_TL, ldA, info);
+    RELAPACK_strtri_rec(uplo, diag, &n1, A_TL, ldA, info);
     if (*info)
         return;
 
@@ -98,7 +98,7 @@ static void RELAPACK(strtri_rec)(
     }
 
     // recursion(A_BR)
-    RELAPACK(strtri_rec)(uplo, diag, &n2, A_BR, ldA, info);
+    RELAPACK_strtri_rec(uplo, diag, &n2, A_BR, ldA, info);
     if (*info)
         *info += n1;
 }

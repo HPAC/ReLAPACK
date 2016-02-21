@@ -9,12 +9,12 @@
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d7/d2a/chegst_8f.html
  * */
-static void RELAPACK(chegst_rec)(const int *, const char *, const int *,
+static void RELAPACK_chegst_rec(const int *, const char *, const int *,
     float *, const int *, const float *, const int *,
     float *, const int *, int *);
 
 
-void RELAPACK(chegst)(
+void RELAPACK_chegst(
     const int *itype, const char *uplo, const int *n,
     float *A, const int *ldA, const float *B, const int *ldB,
     int *info
@@ -52,7 +52,7 @@ void RELAPACK(chegst)(
 #endif
 
     // recursive kernel
-    RELAPACK(chegst_rec)(itype, &cleanuplo, n, A, ldA, B, ldB, Work, &lWork, info);
+    RELAPACK_chegst_rec(itype, &cleanuplo, n, A, ldA, B, ldB, Work, &lWork, info);
 
     // Free work space
 #if XSYGST_ALLOW_MALLOC
@@ -62,7 +62,7 @@ void RELAPACK(chegst)(
 
 
 /** chegst's recursive compute kernel */
-static void RELAPACK(chegst_rec)(
+static void RELAPACK_chegst_rec(
     const int *itype, const char *uplo, const int *n,
     float *A, const int *ldA, const float *B, const int *ldB,
     float *Work, const int *lWork, int *info
@@ -101,7 +101,7 @@ static void RELAPACK(chegst_rec)(
     const float *const B_BR = B + 2 * *ldB * n1 + 2 * n1;
 
     // recursion(A_TL, B_TL)
-    RELAPACK(chegst_rec)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, Work, lWork, info);
+    RELAPACK_chegst_rec(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, Work, lWork, info);
 
     if (*itype == 1)
         if (*uplo == 'L') {
@@ -201,5 +201,5 @@ static void RELAPACK(chegst_rec)(
         }
 
     // recursion(A_BR, B_BR)
-    RELAPACK(chegst_rec)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, Work, lWork, info);
+    RELAPACK_chegst_rec(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, Work, lWork, info);
 }

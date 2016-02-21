@@ -21,18 +21,18 @@ void pre() {
 
     for (int i = 0; i < n; i++) {
         // set diagonal
-        A[0][x1 * (i + n * i)] = 
+        A[0][x1 * (i + n * i)] =
         A[1][x1 * (i + n * i)] = (datatype) rand() / RAND_MAX;
-        E[0][x1 * (i + n * i)] = 
+        E[0][x1 * (i + n * i)] =
         E[1][x1 * (i + n * i)] = (datatype) rand() / RAND_MAX;
         // clear first subdiagonal
-        A[0][x1 * (i + 1 + n * i)] = 
+        A[0][x1 * (i + 1 + n * i)] =
         A[1][x1 * (i + 1 + n * i)] =
-        B[0][x1 * (i + 1 + n * i)] = 
+        B[0][x1 * (i + 1 + n * i)] =
         B[1][x1 * (i + 1 + n * i)] =
-        A[0][x1 * (i + 1 + n * i) + x1 - 1] = 
+        A[0][x1 * (i + 1 + n * i) + x1 - 1] =
         A[1][x1 * (i + 1 + n * i) + x1 - 1] =
-        B[0][x1 * (i + 1 + n * i) + x1 - 1] = 
+        B[0][x1 * (i + 1 + n * i) + x1 - 1] =
         B[1][x1 * (i + 1 + n * i) + x1 - 1] = 0;
     }
 }
@@ -51,17 +51,17 @@ void post() {
 void tests() {
     lWork = 2 * n * n;
     A[0] = xmalloc(n * n);
-	A[1] = xmalloc(n * n);
+    A[1] = xmalloc(n * n);
     B[0] = xmalloc(n * n);
-	B[1] = xmalloc(n * n);
+    B[1] = xmalloc(n * n);
     C[0] = xmalloc(n * n);
-	C[1] = xmalloc(n * n);
+    C[1] = xmalloc(n * n);
     D[0] = xmalloc(n * n);
-	D[1] = xmalloc(n * n);
+    D[1] = xmalloc(n * n);
     E[0] = xmalloc(n * n);
-	E[1] = xmalloc(n * n);
+    E[1] = xmalloc(n * n);
     F[0] = xmalloc(n * n);
-	F[1] = xmalloc(n * n);
+    F[1] = xmalloc(n * n);
     Work = xmalloc(lWork);
     iWork = imalloc(n + n + 2);
 

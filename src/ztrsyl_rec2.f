@@ -1,27 +1,27 @@
-* CTRSY2 solves the complex Sylvester matrix equation (unblocked algorithm)
+* RELAPACK_ZTRSYL_REC2 solves the complex Sylvester matrix equation (unblocked algorithm)
 *
-* This routine is an exact copy of LAPACK's ctrsyl.f.
+* This routine is an exact copy of LAPACK's ctrsyl.
 * It serves as an unblocked kernel in the recursive algorithms.
-      SUBROUTINE CTRSY2( TRANA, TRANB, ISGN, M, N, A, LDA, B, LDB, C,
-     $                   LDC, SCALE, INFO )
+      SUBROUTINE RELAPACK_ZTRSYL_REC2( TRANA, TRANB, ISGN, M, N, A, LDA,
+     $                                 B, LDB, C, LDC, SCALE, INFO )
       CHARACTER          TRANA, TRANB
       INTEGER            INFO, ISGN, LDA, LDB, LDC, M, N
-      REAL               SCALE
-      COMPLEX            A( LDA, * ), B( LDB, * ), C( LDC, * )
-      REAL               ONE
-      PARAMETER          ( ONE = 1.0E+0 )
+      DOUBLE PRECISION   SCALE
+      COMPLEX*16         A( LDA, * ), B( LDB, * ), C( LDC, * )
+      DOUBLE PRECISION   ONE
+      PARAMETER          ( ONE = 1.0D+0 )
       LOGICAL            NOTRNA, NOTRNB
       INTEGER            J, K, L
-      REAL               BIGNUM, DA11, DB, EPS, SCALOC, SGN, SMIN,
+      DOUBLE PRECISION   BIGNUM, DA11, DB, EPS, SCALOC, SGN, SMIN,
      $                   SMLNUM
-      COMPLEX            A11, SUML, SUMR, VEC, X11
-      REAL               DUM( 1 )
+      COMPLEX*16         A11, SUML, SUMR, VEC, X11
+      DOUBLE PRECISION   DUM( 1 )
       LOGICAL            LSAME
-      REAL               CLANGE, SLAMCH
-      COMPLEX            CDOTC, CDOTU, CLADIV
-      EXTERNAL           LSAME, CLANGE, SLAMCH, CDOTC, CDOTU, CLADIV
-      EXTERNAL           CSSCAL, SLABAD, XERBLA
-      INTRINSIC          ABS, AIMAG, CMPLX, CONJG, MAX, MIN, REAL
+      DOUBLE PRECISION   DLAMCH, ZLANGE
+      COMPLEX*16         ZDOTC, ZDOTU, ZLADIV
+      EXTERNAL           LSAME, DLAMCH, ZLANGE, ZDOTC, ZDOTU, ZLADIV
+      EXTERNAL           DLABAD, XERBLA, ZDSCAL
+      INTRINSIC          ABS, DBLE, DCMPLX, DCONJG, DIMAG, MAX, MIN
       NOTRNA = LSAME( TRANA, 'N' )
       NOTRNB = LSAME( TRANB, 'N' )
       INFO = 0
@@ -43,45 +43,45 @@
          INFO = -11
       END IF
       IF( INFO.NE.0 ) THEN
-         CALL XERBLA( 'CTRSY2', -INFO )
+         CALL XERBLA( 'ZTRSY2', -INFO )
          RETURN
       END IF
       SCALE = ONE
       IF( M.EQ.0 .OR. N.EQ.0 )
      $   RETURN
-      EPS = SLAMCH( 'P' )
-      SMLNUM = SLAMCH( 'S' )
+      EPS = DLAMCH( 'P' )
+      SMLNUM = DLAMCH( 'S' )
       BIGNUM = ONE / SMLNUM
-      CALL SLABAD( SMLNUM, BIGNUM )
-      SMLNUM = SMLNUM*REAL( M*N ) / EPS
+      CALL DLABAD( SMLNUM, BIGNUM )
+      SMLNUM = SMLNUM*DBLE( M*N ) / EPS
       BIGNUM = ONE / SMLNUM
-      SMIN = MAX( SMLNUM, EPS*CLANGE( 'M', M, M, A, LDA, DUM ),
-     $       EPS*CLANGE( 'M', N, N, B, LDB, DUM ) )
+      SMIN = MAX( SMLNUM, EPS*ZLANGE( 'M', M, M, A, LDA, DUM ),
+     $       EPS*ZLANGE( 'M', N, N, B, LDB, DUM ) )
       SGN = ISGN
       IF( NOTRNA .AND. NOTRNB ) THEN
          DO 30 L = 1, N
             DO 20 K = M, 1, -1
-               SUML = CDOTU( M-K, A( K, MIN( K+1, M ) ), LDA,
+               SUML = ZDOTU( M-K, A( K, MIN( K+1, M ) ), LDA,
      $                C( MIN( K+1, M ), L ), 1 )
-               SUMR = CDOTU( L-1, C( K, 1 ), LDC, B( 1, L ), 1 )
+               SUMR = ZDOTU( L-1, C( K, 1 ), LDC, B( 1, L ), 1 )
                VEC = C( K, L ) - ( SUML+SGN*SUMR )
                SCALOC = ONE
                A11 = A( K, K ) + SGN*B( L, L )
-               DA11 = ABS( REAL( A11 ) ) + ABS( AIMAG( A11 ) )
+               DA11 = ABS( DBLE( A11 ) ) + ABS( DIMAG( A11 ) )
                IF( DA11.LE.SMIN ) THEN
                   A11 = SMIN
                   DA11 = SMIN
                   INFO = 1
                END IF
-               DB = ABS( REAL( VEC ) ) + ABS( AIMAG( VEC ) )
+               DB = ABS( DBLE( VEC ) ) + ABS( DIMAG( VEC ) )
                IF( DA11.LT.ONE .AND. DB.GT.ONE ) THEN
                   IF( DB.GT.BIGNUM*DA11 )
      $               SCALOC = ONE / DB
                END IF
-               X11 = CLADIV( VEC*CMPLX( SCALOC ), A11 )
+               X11 = ZLADIV( VEC*DCMPLX( SCALOC ), A11 )
                IF( SCALOC.NE.ONE ) THEN
                   DO 10 J = 1, N
-                     CALL CSSCAL( M, SCALOC, C( 1, J ), 1 )
+                     CALL ZDSCAL( M, SCALOC, C( 1, J ), 1 )
    10             CONTINUE
                   SCALE = SCALE*SCALOC
                END IF
@@ -91,26 +91,26 @@
       ELSE IF( .NOT.NOTRNA .AND. NOTRNB ) THEN
          DO 60 L = 1, N
             DO 50 K = 1, M
-               SUML = CDOTC( K-1, A( 1, K ), 1, C( 1, L ), 1 )
-               SUMR = CDOTU( L-1, C( K, 1 ), LDC, B( 1, L ), 1 )
+               SUML = ZDOTC( K-1, A( 1, K ), 1, C( 1, L ), 1 )
+               SUMR = ZDOTU( L-1, C( K, 1 ), LDC, B( 1, L ), 1 )
                VEC = C( K, L ) - ( SUML+SGN*SUMR )
                SCALOC = ONE
-               A11 = CONJG( A( K, K ) ) + SGN*B( L, L )
-               DA11 = ABS( REAL( A11 ) ) + ABS( AIMAG( A11 ) )
+               A11 = DCONJG( A( K, K ) ) + SGN*B( L, L )
+               DA11 = ABS( DBLE( A11 ) ) + ABS( DIMAG( A11 ) )
                IF( DA11.LE.SMIN ) THEN
                   A11 = SMIN
                   DA11 = SMIN
                   INFO = 1
                END IF
-               DB = ABS( REAL( VEC ) ) + ABS( AIMAG( VEC ) )
+               DB = ABS( DBLE( VEC ) ) + ABS( DIMAG( VEC ) )
                IF( DA11.LT.ONE .AND. DB.GT.ONE ) THEN
                   IF( DB.GT.BIGNUM*DA11 )
      $               SCALOC = ONE / DB
                END IF
-               X11 = CLADIV( VEC*CMPLX( SCALOC ), A11 )
+               X11 = ZLADIV( VEC*DCMPLX( SCALOC ), A11 )
                IF( SCALOC.NE.ONE ) THEN
                   DO 40 J = 1, N
-                     CALL CSSCAL( M, SCALOC, C( 1, J ), 1 )
+                     CALL ZDSCAL( M, SCALOC, C( 1, J ), 1 )
    40             CONTINUE
                   SCALE = SCALE*SCALOC
                END IF
@@ -120,27 +120,27 @@
       ELSE IF( .NOT.NOTRNA .AND. .NOT.NOTRNB ) THEN
          DO 90 L = N, 1, -1
             DO 80 K = 1, M
-               SUML = CDOTC( K-1, A( 1, K ), 1, C( 1, L ), 1 )
-               SUMR = CDOTC( N-L, C( K, MIN( L+1, N ) ), LDC,
+               SUML = ZDOTC( K-1, A( 1, K ), 1, C( 1, L ), 1 )
+               SUMR = ZDOTC( N-L, C( K, MIN( L+1, N ) ), LDC,
      $                B( L, MIN( L+1, N ) ), LDB )
-               VEC = C( K, L ) - ( SUML+SGN*CONJG( SUMR ) )
+               VEC = C( K, L ) - ( SUML+SGN*DCONJG( SUMR ) )
                SCALOC = ONE
-               A11 = CONJG( A( K, K )+SGN*B( L, L ) )
-               DA11 = ABS( REAL( A11 ) ) + ABS( AIMAG( A11 ) )
+               A11 = DCONJG( A( K, K )+SGN*B( L, L ) )
+               DA11 = ABS( DBLE( A11 ) ) + ABS( DIMAG( A11 ) )
                IF( DA11.LE.SMIN ) THEN
                   A11 = SMIN
                   DA11 = SMIN
                   INFO = 1
                END IF
-               DB = ABS( REAL( VEC ) ) + ABS( AIMAG( VEC ) )
+               DB = ABS( DBLE( VEC ) ) + ABS( DIMAG( VEC ) )
                IF( DA11.LT.ONE .AND. DB.GT.ONE ) THEN
                   IF( DB.GT.BIGNUM*DA11 )
      $               SCALOC = ONE / DB
                END IF
-               X11 = CLADIV( VEC*CMPLX( SCALOC ), A11 )
+               X11 = ZLADIV( VEC*DCMPLX( SCALOC ), A11 )
                IF( SCALOC.NE.ONE ) THEN
                   DO 70 J = 1, N
-                     CALL CSSCAL( M, SCALOC, C( 1, J ), 1 )
+                     CALL ZDSCAL( M, SCALOC, C( 1, J ), 1 )
    70             CONTINUE
                   SCALE = SCALE*SCALOC
                END IF
@@ -150,28 +150,28 @@
       ELSE IF( NOTRNA .AND. .NOT.NOTRNB ) THEN
          DO 120 L = N, 1, -1
             DO 110 K = M, 1, -1
-               SUML = CDOTU( M-K, A( K, MIN( K+1, M ) ), LDA,
+               SUML = ZDOTU( M-K, A( K, MIN( K+1, M ) ), LDA,
      $                C( MIN( K+1, M ), L ), 1 )
-               SUMR = CDOTC( N-L, C( K, MIN( L+1, N ) ), LDC,
+               SUMR = ZDOTC( N-L, C( K, MIN( L+1, N ) ), LDC,
      $                B( L, MIN( L+1, N ) ), LDB )
-               VEC = C( K, L ) - ( SUML+SGN*CONJG( SUMR ) )
+               VEC = C( K, L ) - ( SUML+SGN*DCONJG( SUMR ) )
                SCALOC = ONE
-               A11 = A( K, K ) + SGN*CONJG( B( L, L ) )
-               DA11 = ABS( REAL( A11 ) ) + ABS( AIMAG( A11 ) )
+               A11 = A( K, K ) + SGN*DCONJG( B( L, L ) )
+               DA11 = ABS( DBLE( A11 ) ) + ABS( DIMAG( A11 ) )
                IF( DA11.LE.SMIN ) THEN
                   A11 = SMIN
                   DA11 = SMIN
                   INFO = 1
                END IF
-               DB = ABS( REAL( VEC ) ) + ABS( AIMAG( VEC ) )
+               DB = ABS( DBLE( VEC ) ) + ABS( DIMAG( VEC ) )
                IF( DA11.LT.ONE .AND. DB.GT.ONE ) THEN
                   IF( DB.GT.BIGNUM*DA11 )
      $               SCALOC = ONE / DB
                END IF
-               X11 = CLADIV( VEC*CMPLX( SCALOC ), A11 )
+               X11 = ZLADIV( VEC*DCMPLX( SCALOC ), A11 )
                IF( SCALOC.NE.ONE ) THEN
                   DO 100 J = 1, N
-                     CALL CSSCAL( M, SCALOC, C( 1, J ), 1 )
+                     CALL ZDSCAL( M, SCALOC, C( 1, J ), 1 )
   100             CONTINUE
                   SCALE = SCALE*SCALOC
                END IF

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #endif
 
-void RELAPACK(dsytrf_rook_rec)(const char *, const int *, const int *, int *,
+static void RELAPACK_dsytrf_rook_rec(const char *, const int *, const int *, int *,
     double *, const int *, int *, double *, const int *, int *);
 
 
@@ -13,7 +13,7 @@ void RELAPACK(dsytrf_rook_rec)(const char *, const int *, const int *, int *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/db/df4/dsytrf__rook_8f.html
  * */
-void RELAPACK(dsytrf_rook)(
+void RELAPACK_dsytrf_rook(
     const char *uplo, const int *n,
     double *A, const int *ldA, int *ipiv,
     double *Work, const int *lWork, int *info
@@ -61,7 +61,7 @@ void RELAPACK(dsytrf_rook)(
 #endif
 
     int nout;
-    RELAPACK(dsytrf_rook_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
+    RELAPACK_dsytrf_rook_rec(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
 
 #if XSYTRF_ALLOW_MALLOC
     if (cleanWork != Work)
@@ -70,7 +70,7 @@ void RELAPACK(dsytrf_rook)(
 }
 
 /** dsytrf_rook's recursive compute kernel */
-static void RELAPACK(dsytrf_rook_rec)(
+static void RELAPACK_dsytrf_rook_rec(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     double *A, const int *ldA, int *ipiv,
     double *Work, const int *ldWork, int *info
@@ -85,7 +85,7 @@ static void RELAPACK(dsytrf_rook_rec)(
             LAPACK(dsytf2)(uplo, n, A, ldA, ipiv, info);
             *n_out = *n;
         } else
-            LAPACK(dsytrf_rook_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
+            FORTRAN(relapack_dsytrf_rook_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 
@@ -108,7 +108,7 @@ static void RELAPACK(dsytrf_rook_rec)(
 
         // recursion(A_L)
         int n1_out;
-        RELAPACK(dsytrf_rook_rec)(uplo, n_full, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
+        RELAPACK_dsytrf_rook_rec(uplo, n_full, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
         n1 = n1_out;
 
         // Splitting (continued)
@@ -136,12 +136,12 @@ static void RELAPACK(dsytrf_rook_rec)(
         int *const ipiv_B = ipiv + n1;
 
         // A_BR = A_BR - A_BL Work_BL'
-        RELAPACK(dgemm_tr_rec)("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
+        RELAPACK_dgemm_tr_rec("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
         BLAS(dgemm)("N", "T", &n_rest, &n2, &n1, MONE, A_BL_B, ldA, Work_BL, ldWork, ONE, A_BR_B, ldA);
 
         // recursion(A_BR)
         int n2_out;
-        RELAPACK(dsytrf_rook_rec)(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, &ldWork_BR, &info2);
+        RELAPACK_dsytrf_rook_rec(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, &ldWork_BR, &info2);
 
         if (n2_out != n2) {
             // undo 1 column of updates
@@ -182,7 +182,7 @@ static void RELAPACK(dsytrf_rook_rec)(
 
         // recursion(A_R)
         int n2_out;
-        RELAPACK(dsytrf_rook_rec)(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
+        RELAPACK_dsytrf_rook_rec(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
         const int n2_diff = n2 - n2_out;
         n2 = n2_out;
 
@@ -207,12 +207,12 @@ static void RELAPACK(dsytrf_rook_rec)(
         double *const Work_TR = Work + *ldWork * (top ? n2_diff : n1) + n_rest;
 
         // A_TL = A_TL - A_TR Work_TR'
-        RELAPACK(dgemm_tr_rec)("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
+        RELAPACK_dgemm_tr_rec("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
         BLAS(dgemm)("N", "T", &n_rest, &n1, &n2, MONE, A_TR_T, ldA, Work_TR, ldWork, ONE, A_TL_T, ldA);
 
         // recursion(A_TL)
         int n1_out;
-        RELAPACK(dsytrf_rook_rec)(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, &ldWork_L, &info1);
+        RELAPACK_dsytrf_rook_rec(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, &ldWork_L, &info1);
 
         if (n1_out != n1) {
             // undo 1 column of updates

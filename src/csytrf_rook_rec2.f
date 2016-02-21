@@ -4,8 +4,8 @@
 * It serves as an unblocked kernel in the recursive algorithms.
 * The blocked BLAS Level 3 updates were removed and moved to the
 * recursive algorithm.
-      SUBROUTINE CSYTRF_ROOK_REC2( UPLO, N, NB, KB, A, LDA, IPIV, W,
-     $                             LDW, INFO )
+      SUBROUTINE RELAPACK_CSYTRF_ROOK_REC2( UPLO, N, NB, KB, A, LDA,
+     $                                      IPIV, W, LDW, INFO )
       CHARACTER          UPLO
       INTEGER            INFO, KB, LDA, LDW, N, NB
       INTEGER            IPIV( * )

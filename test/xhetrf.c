@@ -16,7 +16,7 @@ void post() {
 void tests() {
     const int lWork = n * n;
     A[0] = xmalloc(n * n);
-	A[1] = xmalloc(n * n);
+    A[1] = xmalloc(n * n);
     ipiv[0] = imalloc(n);
     ipiv[1] = imalloc(n);
     Work = xmalloc(lWork);

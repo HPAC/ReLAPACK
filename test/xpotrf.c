@@ -12,7 +12,7 @@ void post() {
 
 void tests() {
     A[0] = xmalloc(n * n);
-	A[1] = xmalloc(n * n);
+    A[1] = xmalloc(n * n);
 
     #define ROUTINE XPREF(potrf)
 

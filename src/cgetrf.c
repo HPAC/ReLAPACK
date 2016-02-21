@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(cgetrf_rec)(const int *, const int *, float *,
+static void RELAPACK_cgetrf_rec(const int *, const int *, float *,
     const int *, int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(cgetrf_rec)(const int *, const int *, float *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d9/dfb/cgetrf_8f.html
  */
-void RELAPACK(cgetrf)(
+void RELAPACK_cgetrf(
     const int *m, const int *n,
     float *A, const int *ldA, int *ipiv,
     int *info
@@ -30,7 +30,7 @@ void RELAPACK(cgetrf)(
         return;
     }
 
-    RELAPACK(cgetrf_rec)(m, n, A, ldA, ipiv, info);
+    RELAPACK_cgetrf_rec(m, n, A, ldA, ipiv, info);
 
     // Right remainder
     if (*m < *n) {
@@ -54,7 +54,7 @@ void RELAPACK(cgetrf)(
 
 
 /** cgetrf's recursive compute kernel */
-static void RELAPACK(cgetrf_rec)(
+static void RELAPACK_cgetrf_rec(
     const int *m, const int *n,
     float *A, const int *ldA, int *ipiv,
     int *info
@@ -90,7 +90,7 @@ static void RELAPACK(cgetrf_rec)(
     int *const ipiv_B = ipiv + n1;
 
     // recursion(A_TL, ipiv_T)
-    RELAPACK(cgetrf_rec)(m, &n1, A_TL, ldA, ipiv_T, info);
+    RELAPACK_cgetrf_rec(m, &n1, A_TL, ldA, ipiv_T, info);
     // apply pivots to A_TR
     LAPACK(claswp)(&n2, A_TR, ldA, iONE, &n1, ipiv_T, iONE);
 
@@ -100,7 +100,7 @@ static void RELAPACK(cgetrf_rec)(
     BLAS(cgemm)("N", "N", &rm, &n2, &n1, MONE, A_BL, ldA, A_TR, ldA, ONE, A_BR, ldA);
 
     // recursion(A_BR, ipiv_B)
-    RELAPACK(cgetrf_rec)(&rm, &n2, A_BR, ldA, ipiv_B, info);
+    RELAPACK_cgetrf_rec(&rm, &n2, A_BR, ldA, ipiv_B, info);
     if (*info)
         *info += n1;
     // apply pivots to A_BL

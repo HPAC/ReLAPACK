@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(clauum_rec)(const char *, const int *, float *,
+static void RELAPACK_clauum_rec(const char *, const int *, float *,
     const int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(clauum_rec)(const char *, const int *, float *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d2/d36/clauum_8f.html
  * */
-void RELAPACK(clauum)(
+void RELAPACK_clauum(
     const char *uplo, const int *n,
     float *A, const int *ldA,
     int *info
@@ -35,12 +35,12 @@ void RELAPACK(clauum)(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
-    RELAPACK(clauum_rec)(&cleanuplo, n, A, ldA, info);
+    RELAPACK_clauum_rec(&cleanuplo, n, A, ldA, info);
 }
 
 
 /** clauum's recursive compute kernel */
-static void RELAPACK(clauum_rec)(
+static void RELAPACK_clauum_rec(
     const char *uplo, const int *n,
     float *A, const int *ldA,
     int *info
@@ -67,7 +67,7 @@ static void RELAPACK(clauum_rec)(
     float *const A_BR = A + 2 * *ldA * n1 + 2 * n1;
 
     // recursion(A_TL)
-    RELAPACK(clauum_rec)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK_clauum_rec(uplo, &n1, A_TL, ldA, info);
 
     if (*uplo == 'L') {
         // A_TL = A_TL + A_BL' * A_BL
@@ -82,5 +82,5 @@ static void RELAPACK(clauum_rec)(
     }
 
     // recursion(A_BR)
-    RELAPACK(clauum_rec)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK_clauum_rec(uplo, &n2, A_BR, ldA, info);
 }

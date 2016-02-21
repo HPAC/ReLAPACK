@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(zgemm_tr2)(const char *, const char *, const char *,
+static void RELAPACK_zgemm_tr2(const char *, const char *, const char *,
     const int *, const int *, const double *, const double *, const int *,
     const double *, const int *, const double *, double *, const int *);
 
@@ -11,7 +11,7 @@ static void RELAPACK(zgemm_tr2)(const char *, const char *, const char *,
  * zgemm(transA, transB, n, n, k, alpha, A, ldA, B, ldB, beta, C, ldC)
  * but only updates teh triangular part of C specified by uplo.
  * */
-void RELAPACK(zgemm_tr_rec)(
+void RELAPACK_zgemm_tr_rec(
     const char *transA, const char *transB, const char *uplo,
     const int *n, const int *k,
     const double *alpha, const double *A, const int *ldA,
@@ -21,7 +21,7 @@ void RELAPACK(zgemm_tr_rec)(
 
     if (*n <= MAX(CROSSOVER_ZGEMM_TR, 1)) {
         // Unblocked
-        RELAPACK(zgemm_tr2)(transA, transB, uplo, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
+        RELAPACK_zgemm_tr2(transA, transB, uplo, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
         return;
     }
 
@@ -46,7 +46,7 @@ void RELAPACK(zgemm_tr_rec)(
     double *const C_BR = C + 2 * *ldC * n1 + 2 * n1;
 
     // recursion(z_TL)
-    RELAPACK(zgemm_tr_rec)(transA, transB, uplo, &n1, k, alpha, A_T, ldA, B_L, ldB, beta, C_TL, ldC);
+    RELAPACK_zgemm_tr_rec(transA, transB, uplo, &n1, k, alpha, A_T, ldA, B_L, ldB, beta, C_TL, ldC);
 
     if (*uplo == 'L')
         // C_BL = alpha A_B B_L + beta C_BL
@@ -56,12 +56,12 @@ void RELAPACK(zgemm_tr_rec)(
         BLAS(zgemm)(transA, transB, &n1, &n2, k, alpha, A_T, ldA, B_R, ldB, beta, C_TR, ldC);
 
     // recursion(z_BR)
-    RELAPACK(zgemm_tr_rec)(transA, transB, uplo, &n2, k, alpha, A_B, ldA, B_R, ldB, beta, C_BR, ldC);
+    RELAPACK_zgemm_tr_rec(transA, transB, uplo, &n2, k, alpha, A_B, ldA, B_R, ldB, beta, C_BR, ldC);
 }
 
 
 /** zgemm_tr's unblocked compute kernel */
-static void RELAPACK(zgemm_tr2)(
+static void RELAPACK_zgemm_tr2(
     const char *transA, const char *transB, const char *uplo,
     const int *n, const int *k,
     const double *alpha, const double *A, const int *ldA,

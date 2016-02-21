@@ -9,12 +9,12 @@
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/dc/d68/zhegst_8f.html
  * */
-static void RELAPACK(zhegst_rec)(const int *, const char *, const int *,
+static void RELAPACK_zhegst_rec(const int *, const char *, const int *,
     double *, const int *, const double *, const int *,
     double *, const int *, int *);
 
 
-void RELAPACK(zhegst)(
+void RELAPACK_zhegst(
     const int *itype, const char *uplo, const int *n,
     double *A, const int *ldA, const double *B, const int *ldB,
     int *info
@@ -52,7 +52,7 @@ void RELAPACK(zhegst)(
 #endif
 
     // recursive kernel
-    RELAPACK(zhegst_rec)(itype, &cleanuplo, n, A, ldA, B, ldB, Work, &lWork, info);
+    RELAPACK_zhegst_rec(itype, &cleanuplo, n, A, ldA, B, ldB, Work, &lWork, info);
 
     // Free work space
 #if XSYGST_ALLOW_MALLOC
@@ -62,7 +62,7 @@ void RELAPACK(zhegst)(
 
 
 /** zhegst's recursive compute kernel */
-static void RELAPACK(zhegst_rec)(
+static void RELAPACK_zhegst_rec(
     const int *itype, const char *uplo, const int *n,
     double *A, const int *ldA, const double *B, const int *ldB,
     double *Work, const int *lWork, int *info
@@ -101,7 +101,7 @@ static void RELAPACK(zhegst_rec)(
     const double *const B_BR = B + 2 * *ldB * n1 + 2 * n1;
 
     // recursion(A_TL, B_TL)
-    RELAPACK(zhegst_rec)(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, Work, lWork, info);
+    RELAPACK_zhegst_rec(itype, uplo, &n1, A_TL, ldA, B_TL, ldB, Work, lWork, info);
 
     if (*itype == 1)
         if (*uplo == 'L') {
@@ -201,5 +201,5 @@ static void RELAPACK(zhegst_rec)(
         }
 
     // recursion(A_BR, B_BR)
-    RELAPACK(zhegst_rec)(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, Work, lWork, info);
+    RELAPACK_zhegst_rec(itype, uplo, &n2, A_BR, ldA, B_BR, ldB, Work, lWork, info);
 }

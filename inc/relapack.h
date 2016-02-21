@@ -1,66 +1,52 @@
 #ifndef RELAPACK_H
 #define RELAPACK_H
 
-#include "../config.h"
+void RELAPACK_slauum(const char *, const int *, float *, const int *, int *);
+void RELAPACK_dlauum(const char *, const int *, double *, const int *, int *);
+void RELAPACK_clauum(const char *, const int *, float *, const int *, int *);
+void RELAPACK_zlauum(const char *, const int *, double *, const int *, int *);
 
-#if LAPACK_UNDERSCORE
-#define LAPACK(routine) routine ## _
-#else
-#define LAPACK(routine) routine
-#endif
+void RELAPACK_strtri(const char *, const char *, const int *, float *, const int *, int *);
+void RELAPACK_dtrtri(const char *, const char *, const int *, double *, const int *, int *);
+void RELAPACK_ctrtri(const char *, const char *, const int *, float *, const int *, int *);
+void RELAPACK_ztrtri(const char *, const char *, const int *, double *, const int *, int *);
 
-#if RELAPACK_AS_LAPACK
-#define RELAPACK(routine) LAPACK(routine)
-#else
-#define RELAPACK(routine) RELAPACK_ ## routine
-#endif
+void RELAPACK_spotrf(const char *, const int *, float *, const int *, int *);
+void RELAPACK_dpotrf(const char *, const int *, double *, const int *, int *);
+void RELAPACK_cpotrf(const char *, const int *, float *, const int *, int *);
+void RELAPACK_zpotrf(const char *, const int *, double *, const int *, int *);
 
-void RELAPACK(slauum)(const char *, const int *, float *, const int *, int *);
-void RELAPACK(dlauum)(const char *, const int *, double *, const int *, int *);
-void RELAPACK(clauum)(const char *, const int *, float *, const int *, int *);
-void RELAPACK(zlauum)(const char *, const int *, double *, const int *, int *);
+void RELAPACK_ssytrf(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK_dsytrf(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK_csytrf(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK_chetrf(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK_zsytrf(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK_zhetrf(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK_ssytrf_rook(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK_dsytrf_rook(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK_csytrf_rook(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK_chetrf_rook(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
+void RELAPACK_zsytrf_rook(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK_zhetrf_rook(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
 
-void RELAPACK(strtri)(const char *, const char *, const int *, float *, const int *, int *);
-void RELAPACK(dtrtri)(const char *, const char *, const int *, double *, const int *, int *);
-void RELAPACK(ctrtri)(const char *, const char *, const int *, float *, const int *, int *);
-void RELAPACK(ztrtri)(const char *, const char *, const int *, double *, const int *, int *);
+void RELAPACK_sgetrf(const int *, const int *, float *, const int *, int *, int *);
+void RELAPACK_dgetrf(const int *, const int *, double *, const int *, int *, int *);
+void RELAPACK_cgetrf(const int *, const int *, float *, const int *, int *, int *);
+void RELAPACK_zgetrf(const int *, const int *, double *, const int *, int *, int *);
 
-void RELAPACK(spotrf)(const char *, const int *, float *, const int *, int *);
-void RELAPACK(dpotrf)(const char *, const int *, double *, const int *, int *);
-void RELAPACK(cpotrf)(const char *, const int *, float *, const int *, int *);
-void RELAPACK(zpotrf)(const char *, const int *, double *, const int *, int *);
+void RELAPACK_ssygst(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
+void RELAPACK_dsygst(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
+void RELAPACK_chegst(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
+void RELAPACK_zhegst(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 
-void RELAPACK(ssytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(dsytrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
-void RELAPACK(csytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(chetrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(zsytrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
-void RELAPACK(zhetrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
-void RELAPACK(ssytrf_rook)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(dsytrf_rook)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
-void RELAPACK(csytrf_rook)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(chetrf_rook)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
-void RELAPACK(zsytrf_rook)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
-void RELAPACK(zhetrf_rook)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
+void RELAPACK_strsyl(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void RELAPACK_dtrsyl(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
+void RELAPACK_ctrsyl(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
+void RELAPACK_ztrsyl(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
 
-void RELAPACK(sgetrf)(const int *, const int *, float *, const int *, int *, int *);
-void RELAPACK(dgetrf)(const int *, const int *, double *, const int *, int *, int *);
-void RELAPACK(cgetrf)(const int *, const int *, float *, const int *, int *, int *);
-void RELAPACK(zgetrf)(const int *, const int *, double *, const int *, int *, int *);
-
-void RELAPACK(ssygst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
-void RELAPACK(dsygst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
-void RELAPACK(chegst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
-void RELAPACK(zhegst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
-
-void RELAPACK(strsyl)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void RELAPACK(dtrsyl)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-void RELAPACK(ctrsyl)(const char *, const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, int *);
-void RELAPACK(ztrsyl)(const char *, const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, int *);
-
-void RELAPACK(stgsyl)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, const int *, int *, int *); 
-void RELAPACK(dtgsyl)(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, const int *, int *, int *); 
-void RELAPACK(ctgsyl)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, const int *, int *, int *); 
-void RELAPACK(ztgsyl)(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, const int *, int *, int *); 
+void RELAPACK_stgsyl(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, const int *, int *, int *);
+void RELAPACK_dtgsyl(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, const int *, int *, int *);
+void RELAPACK_ctgsyl(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, const int *, int *, int *);
+void RELAPACK_ztgsyl(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, const int *, int *, int *);
 
 #endif /*  RELAPACK_H */

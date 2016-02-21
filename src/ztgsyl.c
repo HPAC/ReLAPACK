@@ -1,7 +1,7 @@
 #include "relapack.h"
 #include <math.h>
 
-static void RELAPACK(ztgsyl_rec)(const char *, const int *, const int *,
+static void RELAPACK_ztgsyl_rec(const char *, const int *, const int *,
     const int *, const double *, const int *, const double *, const int *,
     double *, const int *, const double *, const int *, const double *,
     const int *, double *, const int *, double *, double *, double *, int *);
@@ -13,7 +13,7 @@ static void RELAPACK(ztgsyl_rec)(const char *, const int *, const int *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/db/d68/ztgsyl_8f.html
  * */
-void RELAPACK(ztgsyl)(
+void RELAPACK_ztgsyl(
     const char *trans, const int *ijob, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
     double *C, const int *ldC,
@@ -90,7 +90,7 @@ void RELAPACK(ztgsyl)(
         *scale = 1;
         double dscale = 0;
         double dsum   = 1;
-        RELAPACK(ztgsyl_rec)(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, info);
+        RELAPACK_ztgsyl_rec(&cleantrans, &ifunc, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, &dsum, &dscale, info);
         if (dscale != 0) {
             if (*ijob == 1 || *ijob == 3)
                 *dif = sqrt(2 * *m * *n) / (dscale * sqrt(dsum));
@@ -117,7 +117,7 @@ void RELAPACK(ztgsyl)(
 
 
 /** ztgsyl's recursive vompute kernel */
-static void RELAPACK(ztgsyl_rec)(
+static void RELAPACK_ztgsyl_rec(
     const char *trans, const int *ifunc, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
     double *C, const int *ldC,
@@ -172,13 +172,13 @@ static void RELAPACK(ztgsyl_rec)(
 
         if (*trans == 'N') {
             // recursion(A_BR, B, C_B, D_BR, E, F_B)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale1, dsum, dscale, info1);
+            RELAPACK_ztgsyl_rec(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale1, dsum, dscale, info1);
             // C_T = C_T - A_TR * C_B
             BLAS(zgemm)("N", "N", &m1, n, &m2, MONE, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
             // F_T = F_T - D_TR * C_B
             BLAS(zgemm)("N", "N", &m1, n, &m2, MONE, D_TR, ldD, C_B, ldC, scale1, F_T, ldF);
             // recursion(A_TL, B, C_T, D_TL, E, F_T)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, D_TL, ldD, E, ldE, F_T, ldF, scale2, dsum, dscale, info2);
+            RELAPACK_ztgsyl_rec(trans, ifunc, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, D_TL, ldD, E, ldE, F_T, ldF, scale2, dsum, dscale, info2);
             // apply scale
             if (scale2[0] != 1) {
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m2, n, C_B, ldC, info);
@@ -186,7 +186,7 @@ static void RELAPACK(ztgsyl_rec)(
             }
         } else {
             // recursion(A_TL, B, C_T, D_TL, E, F_T)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, D_TL, ldD, E, ldE, F_T, ldF, scale1, dsum, dscale, info1);
+            RELAPACK_ztgsyl_rec(trans, ifunc, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, D_TL, ldD, E, ldE, F_T, ldF, scale1, dsum, dscale, info1);
             // apply scale
             if (scale1[0] != 1)
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale1, &m2, n, F_B, ldF, info);
@@ -195,7 +195,7 @@ static void RELAPACK(ztgsyl_rec)(
             // C_B = C_B - D_TR^H * F_T
             BLAS(zgemm)("C", "N", &m2, n, &m1, MONE, D_TR, ldD, F_T, ldC, ONE, C_B, ldC);
             // recursion(A_BR, B, C_B, D_BR, E, F_B)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale2, dsum, dscale, info2);
+            RELAPACK_ztgsyl_rec(trans, ifunc, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, D_BR, ldD, E, ldE, F_B, ldF, scale2, dsum, dscale, info2);
             // apply scale
             if (scale2[0] != 1) {
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, &m1, n, C_T, ldC, info);
@@ -228,13 +228,13 @@ static void RELAPACK(ztgsyl_rec)(
 
         if (*trans == 'N') {
             // recursion(A, B_TL, C_L, D, E_TL, F_L)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale1, dsum, dscale, info1);
+            RELAPACK_ztgsyl_rec(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale1, dsum, dscale, info1);
             // C_R = C_R + F_L * B_TR
             BLAS(zgemm)("N", "N", m, &n2, &n1, ONE, F_L, ldF, B_TR, ldB, scale1, C_R, ldC);
             // F_R = F_R + F_L * E_TR
             BLAS(zgemm)("N", "N", m, &n2, &n1, ONE, F_L, ldF, E_TR, ldE, scale1, F_R, ldF);
             // recursion(A, B_BR, C_R, D, E_BR, F_R)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, D, ldD, E_BR, ldE, F_R, ldF, scale2, dsum, dscale, info2);
+            RELAPACK_ztgsyl_rec(trans, ifunc, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, D, ldD, E_BR, ldE, F_R, ldF, scale2, dsum, dscale, info2);
             // apply scale
             if (scale2[0] != 1) {
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n1, C_L, ldC, info);
@@ -242,7 +242,7 @@ static void RELAPACK(ztgsyl_rec)(
             }
         } else {
             // recursion(A, B_BR, C_R, D, E_BR, F_R)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, D, ldD, E_BR, ldE, F_R, ldF, scale1, dsum, dscale, info1);
+            RELAPACK_ztgsyl_rec(trans, ifunc, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, D, ldD, E_BR, ldE, F_R, ldF, scale1, dsum, dscale, info1);
             // apply scale
             if (scale1[0] != 1)
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale1, m, &n1, C_L, ldC, info);
@@ -251,7 +251,7 @@ static void RELAPACK(ztgsyl_rec)(
             // F_L = F_L + F_R * E_TR
             BLAS(zgemm)("N", "C", m, &n1, &n2, ONE, F_R, ldF, E_TR, ldB, ONE, F_L, ldF);
             // recursion(A, B_TL, C_L, D, E_TL, F_L)
-            RELAPACK(ztgsyl_rec)(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale2, dsum, dscale, info2);
+            RELAPACK_ztgsyl_rec(trans, ifunc, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, D, ldD, E_TL, ldE, F_L, ldF, scale2, dsum, dscale, info2);
             // apply scale
             if (scale2[0] != 1) {
                 LAPACK(zlascl)("G", iONE, iONE, ONE, scale2, m, &n2, C_R, ldC, info);

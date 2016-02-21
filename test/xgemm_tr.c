@@ -30,11 +30,11 @@ void XLAPACK(ROUTINE)(
 
 void tests() {
     A[0] = xmalloc(n * n);
-	A[1] = xmalloc(n * n);
+    A[1] = xmalloc(n * n);
     B[0] = xmalloc(n * n);
-	B[1] = xmalloc(n * n);
+    B[1] = xmalloc(n * n);
     C[0] = xmalloc(n * n);
-	C[1] = xmalloc(n * n);
+    C[1] = xmalloc(n * n);
     Ctmp = xmalloc(n * n);
 
     TEST("N", "N", "L", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);

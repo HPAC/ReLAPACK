@@ -1,6 +1,6 @@
 #include "relapack.h"
 
-static void RELAPACK(dlauum_rec)(const char *, const int *, double *,
+static void RELAPACK_dlauum_rec(const char *, const int *, double *,
     const int *, int *);
 
 
@@ -10,7 +10,7 @@ static void RELAPACK(dlauum_rec)(const char *, const int *, double *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d0/dc2/dlauum_8f.html
  * */
-void RELAPACK(dlauum)(
+void RELAPACK_dlauum(
     const char *uplo, const int *n,
     double *A, const int *ldA,
     int *info
@@ -35,12 +35,12 @@ void RELAPACK(dlauum)(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
-    RELAPACK(dlauum_rec)(&cleanuplo, n, A, ldA, info);
+    RELAPACK_dlauum_rec(&cleanuplo, n, A, ldA, info);
 }
 
 
 /** dlauum's recursive compute kernel */
-static void RELAPACK(dlauum_rec)(
+static void RELAPACK_dlauum_rec(
     const char *uplo, const int *n,
     double *A, const int *ldA,
     int *info
@@ -67,7 +67,7 @@ static void RELAPACK(dlauum_rec)(
     double *const A_BR = A + *ldA * n1 + n1;
 
     // recursion(A_TL)
-    RELAPACK(dlauum_rec)(uplo, &n1, A_TL, ldA, info);
+    RELAPACK_dlauum_rec(uplo, &n1, A_TL, ldA, info);
 
     if (*uplo == 'L') {
         // A_TL = A_TL + A_BL' * A_BL
@@ -82,5 +82,5 @@ static void RELAPACK(dlauum_rec)(
     }
 
     // recursion(A_BR)
-    RELAPACK(dlauum_rec)(uplo, &n2, A_BR, ldA, info);
+    RELAPACK_dlauum_rec(uplo, &n2, A_BR, ldA, info);
 }

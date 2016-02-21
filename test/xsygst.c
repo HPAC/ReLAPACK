@@ -13,9 +13,9 @@ void post() {
 
 void tests() {
     A[0] = xmalloc(n * n);
-	A[1] = xmalloc(n * n);
+    A[1] = xmalloc(n * n);
     B[0] = xmalloc(n * n);
-	B[1] = xmalloc(n * n);
+    B[1] = xmalloc(n * n);
 
     #define ROUTINE XPREF(sygst)
 

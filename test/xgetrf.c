@@ -15,7 +15,7 @@ void post() {
 
 void tests() {
     A[0] = xmalloc(n * n);
-	A[1] = xmalloc(n * n);
+    A[1] = xmalloc(n * n);
     ipiv[0] = imalloc(n);
     ipiv[1] = imalloc(n);
 

@@ -12,17 +12,19 @@
 int i, n, n2, err_bound, fail, info;
 double error;
 
+#define CAT(A, B) A ## B
+#define XCAT(A, B) CAT(A, B)
+
 #define XLAPACK(X) LAPACK(X)
-#define XRELAPACK(X) RELAPACK(X)
-#define XSTR(X) STR(X)
 #define STR(X) #X
+#define XSTR(X) STR(X)
 #define PRE pre
 #define POST post
 
 #define TEST(...) \
     PRE(); \
     i = 0; \
-    XRELAPACK(ROUTINE)(__VA_ARGS__); \
+    XCAT(RELAPACK_, ROUTINE)(__VA_ARGS__); \
     i = 1; \
     XLAPACK(ROUTINE)(__VA_ARGS__); \
     POST(); \
@@ -30,8 +32,6 @@ double error;
     printf("%s(%s)\t%g\n", XSTR(ROUTINE), #__VA_ARGS__, error);
 
 // data type stuff
-#define CAT(A, B) A ## B
-#define XCAT(A, B) CAT(A, B)
 #define XPREF(A) XCAT(DT_PREFIX, A)
 #define xmalloc  XPREF(malloc)
 #define x2matgen XPREF(2matgen)
@@ -44,9 +44,9 @@ double error;
 #define x1 XPREF(DT_MULT)
 #define xCTRANS XPREF(CTRANS)
 
-#define sdatatype_ float 
+#define sdatatype_ float
 #define ddatatype_ double
-#define cdatatype_ float 
+#define cdatatype_ float
 #define zdatatype_ double
 
 #define sERR_BOUND_ SINGLE_ERR_BOUND

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #endif
 
-void RELAPACK(zsytrf_rec)(const char *, const int *, const int *, int *,
+static void RELAPACK_zsytrf_rec(const char *, const int *, const int *, int *,
     double *, const int *, int *, double *, const int *, int *);
 
 
@@ -13,7 +13,7 @@ void RELAPACK(zsytrf_rec)(const char *, const int *, const int *, int *,
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/da/d94/zsytrf_8f.html
  * */
-void RELAPACK(zsytrf)(
+void RELAPACK_zsytrf(
     const char *uplo, const int *n,
     double *A, const int *ldA, int *ipiv,
     double *Work, const int *lWork, int *info
@@ -61,7 +61,7 @@ void RELAPACK(zsytrf)(
 #endif
 
     int nout;
-    RELAPACK(zsytrf_rec)(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
+    RELAPACK_zsytrf_rec(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
 
 #if XSYTRF_ALLOW_MALLOC
     if (cleanWork != Work)
@@ -71,7 +71,7 @@ void RELAPACK(zsytrf)(
 
 
 /** zsytrf's recursive compute kernel */
-static void RELAPACK(zsytrf_rec)(
+static void RELAPACK_zsytrf_rec(
     const char *uplo, const int *n_full, const int *n, int *n_out,
     double *A, const int *ldA, int *ipiv,
     double *Work, const int *ldWork, int *info
@@ -86,7 +86,7 @@ static void RELAPACK(zsytrf_rec)(
             LAPACK(zsytf2)(uplo, n, A, ldA, ipiv, info);
             *n_out = *n;
         } else
-            LAPACK(zsytrf_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
+            FORTRAN(relapack_zsytrf_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 
@@ -109,7 +109,7 @@ static void RELAPACK(zsytrf_rec)(
 
         // recursion(A_L)
         int n1_out;
-        RELAPACK(zsytrf_rec)(uplo, n_full, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
+        RELAPACK_zsytrf_rec(uplo, n_full, &n1, &n1_out, A, ldA, ipiv, Work_L, ldWork, &info1);
         n1 = n1_out;
 
         // Splitting (continued)
@@ -137,12 +137,12 @@ static void RELAPACK(zsytrf_rec)(
         int *const ipiv_B = ipiv + n1;
 
         // A_BR = A_BR - A_BL Work_BL'
-        RELAPACK(zgemm_tr_rec)("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
+        RELAPACK_zgemm_tr_rec("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
         BLAS(zgemm)("N", "T", &n_rest, &n2, &n1, MONE, A_BL_B, ldA, Work_BL, ldWork, ONE, A_BR_B, ldA);
 
         // recursion(A_BR)
         int n2_out;
-        RELAPACK(zsytrf_rec)(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, &ldWork_BR, &info2);
+        RELAPACK_zsytrf_rec(uplo, &n_full2, &n2, &n2_out, A_BR, ldA, ipiv_B, Work_BR, &ldWork_BR, &info2);
 
         if (n2_out != n2) {
             // undo 1 column of updates
@@ -183,7 +183,7 @@ static void RELAPACK(zsytrf_rec)(
 
         // recursion(A_R)
         int n2_out;
-        RELAPACK(zsytrf_rec)(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
+        RELAPACK_zsytrf_rec(uplo, n_full, &n2, &n2_out, A, ldA, ipiv, Work_R, ldWork, &info2);
         const int n2_diff = n2 - n2_out;
         n2 = n2_out;
 
@@ -208,12 +208,12 @@ static void RELAPACK(zsytrf_rec)(
         double *const Work_TR = Work + 2 * *ldWork * (top ? n2_diff : n1) + 2 * n_rest;
 
         // A_TL = A_TL - A_TR Work_TR'
-        RELAPACK(zgemm_tr_rec)("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
+        RELAPACK_zgemm_tr_rec("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
         BLAS(zgemm)("N", "T", &n_rest, &n1, &n2, MONE, A_TR_T, ldA, Work_TR, ldWork, ONE, A_TL_T, ldA);
 
         // recursion(A_TL)
         int n1_out;
-        RELAPACK(zsytrf_rec)(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, &ldWork_L, &info1);
+        RELAPACK_zsytrf_rec(uplo, &n_full1, &n1, &n1_out, A, ldA, ipiv, Work_L, &ldWork_L, &info1);
 
         if (n1_out != n1) {
             // undo 1 column of updates
