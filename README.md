@@ -19,6 +19,13 @@ Installation
 To compile with the default configuration, simply run `make` to create the
 library `librelapack.a`.  
 
+### Dependencies
+ReLAPACK builds on top of [BLAS](http://www.netlib.org/blas/) and unblocked
+kernels from [LAPACK](http://www.netlib.org/lapack/).  There are many optimized
+and machine specific implementations of these libraries, which are commonly
+provided by hardware vendors or available as open source (e.g.,
+[OpenBLAS](http://www.openblas.net/)).
+
 Configuration
 -------------
 For an overview of the configuration options see [config.md](config.md).
