@@ -6,8 +6,8 @@ Recursive LAPACK Collection
 ReLAPACK offers a collection of recursive algorithms for many of LAPACK's
 compute kernels.  Since it preserves LAPACK's established interfaces, ReLAPACK
 integrates effortlessly into existing application codes.  ReLAPACK's routines
-not only to outperform reference LAPACK but also improve upon the performance of
-tuned implementations, such as OpenBLAS and MKL.
+not only outperform the reference LAPACK but also improve upon the performance
+of tuned implementations, such as OpenBLAS and MKL.
 
 Coverage
 --------
