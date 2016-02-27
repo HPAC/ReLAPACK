@@ -72,7 +72,8 @@ static void RELAPACK_dgemm_tr2(
     const int incB = (*transB == 'T') ? *ldB : 1;
     const int incC = 1;
 
-    for (int i = 0; i < *n; i++) {
+    int i;
+    for (i = 0; i < *n; i++) {
         // A_0
         // A_i
         const double *const A_0 = A;

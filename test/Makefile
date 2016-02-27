@@ -1,6 +1,14 @@
 include ../make.inc
 
-ROUTINES = $(shell echo {s,d,c,z}{lauum,potrf,sytrf,getrf,trsyl,tgsyl,gemm_tr} {s,d}sygst {c,z}{hegst,hetrf})
+ROUTINES = \
+	slauum dlauum clauum zlauum \
+	spotrf dpotrf cpotrf zpotrf \
+	ssygst dsygst chegst zhegst \
+	ssytrf dsytrf csytrf chetrf zsytrf zhetrf \
+	sgetrf dgetrf cgetrf zgetrf \
+	strsyl dtrsyl ctrsyl ztrsyl \
+	stgsyl dtgsyl ctgsyl ztgsyl \
+	sgemm_tr dgemm_tr cgemm_tr zgemm_tr
 
 TESTS = $(ROUTINES:%=%.pass)  # these are just dummies
 EXES = $(ROTUINES:%=%.x)
@@ -27,4 +35,4 @@ z%.x: x%.c util.o ../$(LIBNAME) config.h test.h
 	$(CC) $(CFLAGS) -DDT_PREFIX=z $< util.o -o $@ $(LINK_TEST) ../librelapack.a
 
 clean:
-	rm -f *.x
+	rm -f util.o *.x

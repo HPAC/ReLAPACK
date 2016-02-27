@@ -87,7 +87,8 @@ void RELAPACK_stgsyl(
     }
 
     float scale2;
-    for (int iround = 1; iround <= isolve; iround++) {
+    int iround;
+    for (iround = 1; iround <= isolve; iround++) {
         *scale = 1;
         float dscale = 0;
         float dsum   = 1;

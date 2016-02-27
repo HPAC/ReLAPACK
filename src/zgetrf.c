@@ -106,6 +106,7 @@ static void RELAPACK_zgetrf_rec(
     // apply pivots to A_BL
     LAPACK(zlaswp)(&n1, A_BL, ldA, iONE, &n2, ipiv_B, iONE);
     // shift pivots
-    for (int i = 0; i < n2; i++)
+    int i;
+    for (i = 0; i < n2; i++)
         ipiv_B[i] += n1;
 }

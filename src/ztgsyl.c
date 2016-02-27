@@ -86,7 +86,8 @@ void RELAPACK_ztgsyl(
     }
 
     double scale2;
-    for (int iround = 1; iround <= isolve; iround++) {
+    int iround;
+    for (iround = 1; iround <= isolve; iround++) {
         *scale = 1;
         double dscale = 0;
         double dsum   = 1;

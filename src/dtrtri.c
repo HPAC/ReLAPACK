@@ -41,12 +41,14 @@ void RELAPACK_dtrtri(
     const char cleandiag = nounit ? 'N' : 'U';
 
     // check for singularity
-    if (nounit)
-        for (int i = 0; i < *n; i++)
+    if (nounit) {
+        int i;
+        for (i = 0; i < *n; i++)
             if (A[i + *ldA * i] == 0) {
                 *info = i;
                 return;
             }
+    }
 
     RELAPACK_dtrtri_rec(&cleanuplo, &cleandiag, n, A, ldA, info);
 }

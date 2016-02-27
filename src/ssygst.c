@@ -82,6 +82,9 @@ static void RELAPACK_ssygst_rec(
     const float MHALF[] = { -.5 };
     const int  iONE[]   = { 1 };
 
+    // Loop iterator
+    int i;
+
     // Splitting
     const int n1 = REC_SPLIT(*n);
     const int n2 = *n - n1;
@@ -111,7 +114,7 @@ static void RELAPACK_ssygst_rec(
                 // T = -1/2 * B_BL * A_TL
                 BLAS(ssymm)("R", "L", &n2, &n1, MHALF, A_TL, ldA, B_BL, ldB, ZERO, Work, &n2);
                 // A_BL = A_BL + T
-                for (int i = 0; i < n1; i++)
+                for (i = 0; i < n1; i++)
                     BLAS(saxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             } else
                 // A_BL = A_BL - 1/2 B_BL * A_TL
@@ -120,7 +123,7 @@ static void RELAPACK_ssygst_rec(
             BLAS(ssyr2k)("L", "N", &n2, &n1, MONE, A_BL, ldA, B_BL, ldB, ONE, A_BR, ldA);
             if (*lWork > n2 * n1)
                 // A_BL = A_BL + T
-                for (int i = 0; i < n1; i++)
+                for (i = 0; i < n1; i++)
                     BLAS(saxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             else
                 // A_BL = A_BL - 1/2 B_BL * A_TL
@@ -134,7 +137,7 @@ static void RELAPACK_ssygst_rec(
                 // T = -1/2 * A_TL * B_TR
                 BLAS(ssymm)("L", "U", &n1, &n2, MHALF, A_TL, ldA, B_TR, ldB, ZERO, Work, &n1);
                 // A_TR = A_BL + T
-                for (int i = 0; i < n2; i++)
+                for (i = 0; i < n2; i++)
                     BLAS(saxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             } else
                 // A_TR = A_TR - 1/2 A_TL * B_TR
@@ -143,7 +146,7 @@ static void RELAPACK_ssygst_rec(
             BLAS(ssyr2k)("U", "T", &n2, &n1, MONE, A_TR, ldA, B_TR, ldB, ONE, A_BR, ldA);
             if (*lWork > n2 * n1)
                 // A_TR = A_BL + T
-                for (int i = 0; i < n2; i++)
+                for (i = 0; i < n2; i++)
                     BLAS(saxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             else
                 // A_TR = A_TR - 1/2 A_TL * B_TR
@@ -159,7 +162,7 @@ static void RELAPACK_ssygst_rec(
                 // T = 1/2 * A_BR * B_BL
                 BLAS(ssymm)("L", "L", &n2, &n1, HALF, A_BR, ldA, B_BL, ldB, ZERO, Work, &n2);
                 // A_BL = A_BL + T
-                for (int i = 0; i < n1; i++)
+                for (i = 0; i < n1; i++)
                     BLAS(saxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             } else
                 // A_BL = A_BL + 1/2 A_BR * B_BL
@@ -168,7 +171,7 @@ static void RELAPACK_ssygst_rec(
             BLAS(ssyr2k)("L", "T", &n1, &n2, ONE, A_BL, ldA, B_BL, ldB, ONE, A_TL, ldA);
             if (*lWork > n2 * n1)
                 // A_BL = A_BL + T
-                for (int i = 0; i < n1; i++)
+                for (i = 0; i < n1; i++)
                     BLAS(saxpy)(&n2, ONE, Work + n2 * i, iONE, A_BL + *ldA * i, iONE);
             else
                 // A_BL = A_BL + 1/2 A_BR * B_BL
@@ -182,7 +185,7 @@ static void RELAPACK_ssygst_rec(
                 // T = 1/2 * B_TR * A_BR
                 BLAS(ssymm)("R", "U", &n1, &n2, HALF, A_BR, ldA, B_TR, ldB, ZERO, Work, &n1);
                 // A_TR = A_TR + T
-                for (int i = 0; i < n2; i++)
+                for (i = 0; i < n2; i++)
                     BLAS(saxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             } else
                 // A_TR = A_TR + 1/2 B_TR A_BR
@@ -191,7 +194,7 @@ static void RELAPACK_ssygst_rec(
             BLAS(ssyr2k)("U", "N", &n1, &n2, ONE, A_TR, ldA, B_TR, ldB, ONE, A_TL, ldA);
             if (*lWork > n2 * n1)
                 // A_TR = A_TR + T
-                for (int i = 0; i < n2; i++)
+                for (i = 0; i < n2; i++)
                     BLAS(saxpy)(&n1, ONE, Work + n1 * i, iONE, A_TR + *ldA * i, iONE);
             else
                 // A_TR = A_TR + 1/2 B_TR * A_BR
