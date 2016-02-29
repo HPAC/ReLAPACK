@@ -66,7 +66,7 @@ static void RELAPACK_ztrsyl_rec(
 
     if (*m <= MAX(CROSSOVER_ZTRSYL, 1) && *n <= MAX(CROSSOVER_ZTRSYL, 1)) {
         // Unblocked
-        FORTRAN(relapack_ztrsyl_rec2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
+        RELAPACK_ztrsyl_rec2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;
     }
 

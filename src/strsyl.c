@@ -68,7 +68,7 @@ static void RELAPACK_strsyl_rec(
 
     if (*m <= MAX(CROSSOVER_STRSYL, 1) && *n <= MAX(CROSSOVER_STRSYL, 1)) {
         // Unblocked
-        FORTRAN(relapack_strsyl_rec2)(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
+        RELAPACK_strsyl_rec2(tranA, tranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
         return;
     }
 

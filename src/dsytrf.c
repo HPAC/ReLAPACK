@@ -86,7 +86,7 @@ static void RELAPACK_dsytrf_rec(
             LAPACK(dsytf2)(uplo, n, A, ldA, ipiv, info);
             *n_out = *n;
         } else
-            FORTRAN(relapack_dsytrf_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
+            RELAPACK_dsytrf_rec2(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 

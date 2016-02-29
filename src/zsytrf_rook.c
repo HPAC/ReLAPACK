@@ -85,7 +85,7 @@ static void RELAPACK_zsytrf_rook_rec(
             LAPACK(zsytf2)(uplo, n, A, ldA, ipiv, info);
             *n_out = *n;
         } else
-            FORTRAN(relapack_zsytrf_rook_rec2)(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
+            RELAPACK_zsytrf_rook_rec2(uplo, n_full, n, n_out, A, ldA, ipiv, Work, ldWork, info);
         return;
     }
 

@@ -2,11 +2,8 @@ include make.inc
 
 .PHONY: test
 
-CSRC = $(wildcard src/*.c)
-FSRC = $(wildcard src/*.f)
-OBJS = $(CSRC:%.c=%.o) $(FSRC:%.f=%.o)
-
-OBJS = $(CSRC:%.c=%.o) $(FSRC:%.f=%.o)
+SRC = $(wildcard src/*.c)
+OBJS = $(SRC:%.c=%.o)
 
 $(LIBNAME): $(OBJS)
 	$(AR) -r $@ $^
