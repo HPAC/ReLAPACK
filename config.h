@@ -5,16 +5,14 @@
 // See also config.md
 
 
-///////////////////////////
-// FORTRAN obect symbols //
-///////////////////////////
+///////////////////////////////
+// BLAS/LAPACK obect symbols //
+///////////////////////////////
 
-// FORTRAN routines within RELAPACK have a trailing underscore
-#define FORTRAN_UNDERSCORE 1
 // BLAS routines linked against have a trailing underscore
-#define BLAS_UNDERSCORE FORTRAN_UNDERSCORE
+#define BLAS_UNDERSCORE 1
 // LAPACK routines linked against have a trailing underscore
-#define LAPACK_UNDERSCORE FORTRAN_UNDERSCORE
+#define LAPACK_UNDERSCORE BLAS_UNDERSCORE
 
 
 ////////////////////////////

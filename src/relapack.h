@@ -5,12 +5,6 @@
 
 #include "../inc/relapack.h"
 
-#if FORTRAN_UNDERSCORE
-#define FORTRAN(routine) routine ## _
-#else
-#define FORTRAN(routine) routine
-#endif
-
 #if BLAS_UNDERSCORE
 #define BLAS(routine) routine ## _
 #else
