@@ -14,22 +14,22 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
+static int c__1 = 1;
 
 /** RELAPACK_ZTRSYL_REC2 solves the complex Sylvester matrix equation (unblocked algorithm)
  *
  * This routine is an exact copy of LAPACK's ztrsyl.
  * It serves as an unblocked kernel in the recursive algorithms. 
  * */
-/* Subroutine */ void RELAPACK_ztrsyl_rec2(char *trana, char *tranb, integer 
-	*isgn, integer *m, integer *n, doublecomplex *a, integer *lda, 
-	doublecomplex *b, integer *ldb, doublecomplex *c__, integer *ldc, 
-	doublereal *scale, integer *info, ftnlen trana_len, ftnlen tranb_len)
+/* Subroutine */ void RELAPACK_ztrsyl_rec2(char *trana, char *tranb, int 
+	*isgn, int *m, int *n, doublecomplex *a, int *lda, 
+	doublecomplex *b, int *ldb, doublecomplex *c__, int *ldc, 
+	double *scale, int *info, ftnlen trana_len, ftnlen tranb_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
 	    i__3, i__4;
-    doublereal d__1, d__2;
+    double d__1, d__2;
     doublecomplex z__1, z__2, z__3, z__4;
 
     /* Builtin functions */
@@ -37,32 +37,32 @@ static integer c__1 = 1;
     void d_cnjg(doublecomplex *, doublecomplex *);
 
     /* Local variables */
-    static integer j, k, l;
+    static int j, k, l;
     static doublecomplex a11;
-    static doublereal db;
+    static double db;
     static doublecomplex x11;
-    static doublereal da11;
+    static double da11;
     static doublecomplex vec;
-    static doublereal dum[1], eps, sgn, smin;
+    static double dum[1], eps, sgn, smin;
     static doublecomplex suml, sumr;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *, 
-	    doublecomplex *, integer *, doublecomplex *, integer *), zdotu_(
-	    doublecomplex *, integer *, doublecomplex *, integer *, 
-	    doublecomplex *, integer *);
-    extern /* Subroutine */ int dlabad_(doublereal *, doublereal *);
-    extern doublereal dlamch_(char *, ftnlen);
-    static doublereal scaloc;
-    extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
-    extern doublereal zlange_(char *, integer *, integer *, doublecomplex *, 
-	    integer *, doublereal *, ftnlen);
-    static doublereal bignum;
-    extern /* Subroutine */ int zdscal_(integer *, doublereal *, 
-	    doublecomplex *, integer *);
-    extern /* Double Complex */ VOID zladiv_(doublecomplex *, doublecomplex *,
+    extern int lsame_(char *, char *, ftnlen, ftnlen);
+    extern /* Double Complex */ doublecomplex zdotc_(int *, 
+	    doublecomplex *, int *, doublecomplex *, int *), zdotu_(
+	    int *, doublecomplex *, int *, 
+	    doublecomplex *, int *);
+    extern /* Subroutine */ int dlabad_(double *, double *);
+    extern double dlamch_(char *, ftnlen);
+    static double scaloc;
+    extern /* Subroutine */ int xerbla_(char *, int *, ftnlen);
+    extern double zlange_(char *, int *, int *, doublecomplex *, 
+	    int *, double *, ftnlen);
+    static double bignum;
+    extern /* Subroutine */ int zdscal_(int *, double *, 
+	    doublecomplex *, int *);
+    extern /* Double Complex */ doublecomplex zladiv_(doublecomplex *,
 	     doublecomplex *);
-    static logical notrna, notrnb;
-    static doublereal smlnum;
+    static int notrna, notrnb;
+    static double smlnum;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -109,14 +109,14 @@ static integer c__1 = 1;
     smlnum = dlamch_("S", (ftnlen)1);
     bignum = 1. / smlnum;
     dlabad_(&smlnum, &bignum);
-    smlnum = smlnum * (doublereal) (*m * *n) / eps;
+    smlnum = smlnum * (double) (*m * *n) / eps;
     bignum = 1. / smlnum;
 /* Computing MAX */
     d__1 = smlnum, d__2 = eps * zlange_("M", m, m, &a[a_offset], lda, dum, (
 	    ftnlen)1), d__1 = max(d__1,d__2), d__2 = eps * zlange_("M", n, n, 
 	    &b[b_offset], ldb, dum, (ftnlen)1);
     smin = max(d__1,d__2);
-    sgn = (doublereal) (*isgn);
+    sgn = (double) (*isgn);
     if (notrna && notrnb) {
 	i__1 = *n;
 	for (l = 1; l <= i__1; ++l) {
@@ -126,11 +126,11 @@ static integer c__1 = 1;
 		i__3 = k + 1;
 /* Computing MIN */
 		i__4 = k + 1;
-		zdotu_(&z__1, &i__2, &a[k + min(i__3,*m) * a_dim1], lda, &c__[
+		z__1 = zdotu_(&i__2, &a[k + min(i__3,*m) * a_dim1], lda, &c__[
 			min(i__4,*m) + l * c_dim1], &c__1);
 		suml.r = z__1.r, suml.i = z__1.i;
 		i__2 = l - 1;
-		zdotu_(&z__1, &i__2, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
+		z__1 = zdotu_(&i__2, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
 			, &c__1);
 		sumr.r = z__1.r, sumr.i = z__1.i;
 		i__2 = k + l * c_dim1;
@@ -161,7 +161,7 @@ static integer c__1 = 1;
 		z__3.r = scaloc, z__3.i = 0.;
 		z__2.r = vec.r * z__3.r - vec.i * z__3.i, z__2.i = vec.r * 
 			z__3.i + vec.i * z__3.r;
-		zladiv_(&z__1, &z__2, &a11);
+		z__1 = zladiv_(&z__2, &a11);
 		x11.r = z__1.r, x11.i = z__1.i;
 		if (scaloc != 1.) {
 		    i__2 = *n;
@@ -183,11 +183,11 @@ static integer c__1 = 1;
 	    i__2 = *m;
 	    for (k = 1; k <= i__2; ++k) {
 		i__3 = k - 1;
-		zdotc_(&z__1, &i__3, &a[k * a_dim1 + 1], &c__1, &c__[l * 
+		z__1 = zdotc_(&i__3, &a[k * a_dim1 + 1], &c__1, &c__[l * 
 			c_dim1 + 1], &c__1);
 		suml.r = z__1.r, suml.i = z__1.i;
 		i__3 = l - 1;
-		zdotu_(&z__1, &i__3, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
+		z__1 = zdotu_(&i__3, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
 			, &c__1);
 		sumr.r = z__1.r, sumr.i = z__1.i;
 		i__3 = k + l * c_dim1;
@@ -218,7 +218,7 @@ static integer c__1 = 1;
 		z__3.r = scaloc, z__3.i = 0.;
 		z__2.r = vec.r * z__3.r - vec.i * z__3.i, z__2.i = vec.r * 
 			z__3.i + vec.i * z__3.r;
-		zladiv_(&z__1, &z__2, &a11);
+		z__1 = zladiv_(&z__2, &a11);
 		x11.r = z__1.r, x11.i = z__1.i;
 		if (scaloc != 1.) {
 		    i__3 = *n;
@@ -239,7 +239,7 @@ static integer c__1 = 1;
 	    i__1 = *m;
 	    for (k = 1; k <= i__1; ++k) {
 		i__2 = k - 1;
-		zdotc_(&z__1, &i__2, &a[k * a_dim1 + 1], &c__1, &c__[l * 
+		z__1 = zdotc_(&i__2, &a[k * a_dim1 + 1], &c__1, &c__[l * 
 			c_dim1 + 1], &c__1);
 		suml.r = z__1.r, suml.i = z__1.i;
 		i__2 = *n - l;
@@ -247,7 +247,7 @@ static integer c__1 = 1;
 		i__3 = l + 1;
 /* Computing MIN */
 		i__4 = l + 1;
-		zdotc_(&z__1, &i__2, &c__[k + min(i__3,*n) * c_dim1], ldc, &b[
+		z__1 = zdotc_(&i__2, &c__[k + min(i__3,*n) * c_dim1], ldc, &b[
 			l + min(i__4,*n) * b_dim1], ldb);
 		sumr.r = z__1.r, sumr.i = z__1.i;
 		i__2 = k + l * c_dim1;
@@ -280,7 +280,7 @@ static integer c__1 = 1;
 		z__3.r = scaloc, z__3.i = 0.;
 		z__2.r = vec.r * z__3.r - vec.i * z__3.i, z__2.i = vec.r * 
 			z__3.i + vec.i * z__3.r;
-		zladiv_(&z__1, &z__2, &a11);
+		z__1 = zladiv_(&z__2, &a11);
 		x11.r = z__1.r, x11.i = z__1.i;
 		if (scaloc != 1.) {
 		    i__2 = *n;
@@ -304,7 +304,7 @@ static integer c__1 = 1;
 		i__2 = k + 1;
 /* Computing MIN */
 		i__3 = k + 1;
-		zdotu_(&z__1, &i__1, &a[k + min(i__2,*m) * a_dim1], lda, &c__[
+		z__1 = zdotu_(&i__1, &a[k + min(i__2,*m) * a_dim1], lda, &c__[
 			min(i__3,*m) + l * c_dim1], &c__1);
 		suml.r = z__1.r, suml.i = z__1.i;
 		i__1 = *n - l;
@@ -312,7 +312,7 @@ static integer c__1 = 1;
 		i__2 = l + 1;
 /* Computing MIN */
 		i__3 = l + 1;
-		zdotc_(&z__1, &i__1, &c__[k + min(i__2,*n) * c_dim1], ldc, &b[
+		z__1 = zdotc_(&i__1, &c__[k + min(i__2,*n) * c_dim1], ldc, &b[
 			l + min(i__3,*n) * b_dim1], ldb);
 		sumr.r = z__1.r, sumr.i = z__1.i;
 		i__1 = k + l * c_dim1;
@@ -344,7 +344,7 @@ static integer c__1 = 1;
 		z__3.r = scaloc, z__3.i = 0.;
 		z__2.r = vec.r * z__3.r - vec.i * z__3.i, z__2.i = vec.r * 
 			z__3.i + vec.i * z__3.r;
-		zladiv_(&z__1, &z__2, &a11);
+		z__1 = zladiv_(&z__2, &a11);
 		x11.r = z__1.r, x11.i = z__1.i;
 		if (scaloc != 1.) {
 		    i__1 = *n;
@@ -362,5 +362,4 @@ static integer c__1 = 1;
 	}
     }
     return;
-} /* relapack_ztrsyl_rec2__ */
-
+}

@@ -14,9 +14,9 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
-static real c_b8 = -1.f;
-static real c_b9 = 1.f;
+static int c__1 = 1;
+static float c_b8 = -1.f;
+static float c_b9 = 1.f;
 
 /** SSYTRF_REC2 computes a partial factorization of a real symmetric matrix using the Bunch-Kaufman diagon al pivoting method.
  *
@@ -25,33 +25,33 @@ static real c_b9 = 1.f;
  * The blocked BLAS Level 3 updates were removed and moved to the
  * recursive algorithm. 
  * */
-/* Subroutine */ void RELAPACK_ssytrf_rec2(char *uplo, integer *n, integer *
-	nb, integer *kb, real *a, integer *lda, integer *ipiv, real *w, 
-	integer *ldw, integer *info, ftnlen uplo_len)
+/* Subroutine */ void RELAPACK_ssytrf_rec2(char *uplo, int *n, int *
+	nb, int *kb, float *a, int *lda, int *ipiv, float *w, 
+	int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, w_dim1, w_offset, i__1, i__2;
-    real r__1, r__2, r__3;
+    int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2;
+    float r__1, r__2, r__3;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    double sqrt(double);
 
     /* Local variables */
-    static integer j, k;
-    static real t, r1, d11, d21, d22;
-    static integer jj, kk, jp, kp, kw, kkw, imax, jmax;
-    static real alpha;
+    static int j, k;
+    static float t, r1, d11, d21, d22;
+    static int jj, kk, jp, kp, kw, kkw, imax, jmax;
+    static float alpha;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *), 
-	    sgemv_(char *, integer *, integer *, real *, real *, integer *, 
-	    real *, integer *, real *, real *, integer *, ftnlen);
-    static integer kstep;
-    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *, 
-	    integer *), sswap_(integer *, real *, integer *, real *, integer *
+    extern /* Subroutine */ int sscal_(int *, float *, float *, int *), 
+	    sgemv_(char *, int *, int *, float *, float *, int *, 
+	    float *, int *, float *, float *, int *, ftnlen);
+    static int kstep;
+    extern /* Subroutine */ int scopy_(int *, float *, int *, float *, 
+	    int *), sswap_(int *, float *, int *, float *, int *
 	    );
-    static real absakk;
-    extern integer isamax_(integer *, real *, integer *);
-    static real colmax, rowmax;
+    static float absakk;
+    extern int isamax_(int *, float *, int *);
+    static float colmax, rowmax;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -348,5 +348,4 @@ L120:
 	*kb = k - 1;
     }
     return;
-} /* relapack_ssytrf_rec2__ */
-
+}

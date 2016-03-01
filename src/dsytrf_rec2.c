@@ -14,9 +14,9 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
-static doublereal c_b8 = -1.;
-static doublereal c_b9 = 1.;
+static int c__1 = 1;
+static double c_b8 = -1.;
+static double c_b9 = 1.;
 
 /** DSYTRF_REC2 computes a partial factorization of a real symmetric matrix using the Bunch-Kaufman diagon al pivoting method.
  *
@@ -25,34 +25,34 @@ static doublereal c_b9 = 1.;
  * The blocked BLAS Level 3 updates were removed and moved to the
  * recursive algorithm. 
  * */
-/* Subroutine */ void RELAPACK_dsytrf_rec2(char *uplo, integer *n, integer *
-	nb, integer *kb, doublereal *a, integer *lda, integer *ipiv, 
-	doublereal *w, integer *ldw, integer *info, ftnlen uplo_len)
+/* Subroutine */ void RELAPACK_dsytrf_rec2(char *uplo, int *n, int *
+	nb, int *kb, double *a, int *lda, int *ipiv, 
+	double *w, int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, w_dim1, w_offset, i__1, i__2;
-    doublereal d__1, d__2, d__3;
+    int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2;
+    double d__1, d__2, d__3;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    double sqrt(double);
 
     /* Local variables */
-    static integer j, k;
-    static doublereal t, r1, d11, d21, d22;
-    static integer jj, kk, jp, kp, kw, kkw, imax, jmax;
-    static doublereal alpha;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *);
+    static int j, k;
+    static double t, r1, d11, d21, d22;
+    static int jj, kk, jp, kp, kw, kkw, imax, jmax;
+    static double alpha;
+    extern /* Subroutine */ int dscal_(int *, double *, double *, 
+	    int *);
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, ftnlen), dcopy_(integer *, 
-	    doublereal *, integer *, doublereal *, integer *), dswap_(integer 
-	    *, doublereal *, integer *, doublereal *, integer *);
-    static integer kstep;
-    static doublereal absakk;
-    extern integer idamax_(integer *, doublereal *, integer *);
-    static doublereal colmax, rowmax;
+    extern /* Subroutine */ int dgemv_(char *, int *, int *, 
+	    double *, double *, int *, double *, int *, 
+	    double *, double *, int *, ftnlen), dcopy_(int *, 
+	    double *, int *, double *, int *), dswap_(int 
+	    *, double *, int *, double *, int *);
+    static int kstep;
+    static double absakk;
+    extern int idamax_(int *, double *, int *);
+    static double colmax, rowmax;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -349,5 +349,4 @@ L120:
 	*kb = k - 1;
     }
     return;
-} /* relapack_dsytrf_rec2__ */
-
+}

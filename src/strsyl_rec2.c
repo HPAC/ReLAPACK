@@ -14,54 +14,49 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
-static logical c_false = FALSE_;
-static integer c__2 = 2;
-static real c_b26 = 1.f;
-static real c_b30 = 0.f;
-static logical c_true = TRUE_;
+static int c__1 = 1;
+static int c_false = FALSE_;
+static int c__2 = 2;
+static float c_b26 = 1.f;
+static float c_b30 = 0.f;
+static int c_true = TRUE_;
 
-/** RELAPACK_STRSYL_REC2 solves the real Sylvester matrix equation (unblocked algorithm)
- *
- * This routine is an exact copy of LAPACK's strsyl.
- * It serves as an unblocked kernel in the recursive algorithms. 
- * */
-/* Subroutine */ void RELAPACK_strsyl_rec2(char *trana, char *tranb, integer 
-	*isgn, integer *m, integer *n, real *a, integer *lda, real *b, 
-	integer *ldb, real *c__, integer *ldc, real *scale, integer *info, 
-	ftnlen trana_len, ftnlen tranb_len)
+void RELAPACK_strsyl_rec2(char *trana, char *tranb, int *isgn, int 
+	*m, int *n, float *a, int *lda, float *b, int *ldb, float *
+	c__, int *ldc, float *scale, int *info, ftnlen trana_len, 
+	ftnlen tranb_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
 	    i__3, i__4;
-    real r__1, r__2;
+    float r__1, r__2;
 
     /* Local variables */
-    static integer j, k, l;
-    static real x[4]	/* was [2][2] */;
-    static integer k1, k2, l1, l2;
-    static real a11, db, da11, vec[4]	/* was [2][2] */, dum[1], eps, sgn;
-    static integer ierr;
-    static real smin;
-    extern doublereal sdot_(integer *, real *, integer *, real *, integer *);
-    static real suml, sumr;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *);
-    static integer knext, lnext;
-    static real xnorm;
-    extern /* Subroutine */ int slaln2_(logical *, integer *, integer *, real 
-	    *, real *, real *, integer *, real *, real *, real *, integer *, 
-	    real *, real *, real *, integer *, real *, real *, integer *), 
-	    slasy2_(logical *, logical *, integer *, integer *, integer *, 
-	    real *, integer *, real *, integer *, real *, integer *, real *, 
-	    real *, integer *, real *, integer *), slabad_(real *, real *);
-    static real scaloc;
-    extern doublereal slamch_(char *, ftnlen), slange_(char *, integer *, 
-	    integer *, real *, integer *, real *, ftnlen);
-    extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
-    static real bignum;
-    static logical notrna, notrnb;
-    static real smlnum;
+    static int j, k, l;
+    static float x[4]	/* was [2][2] */;
+    static int k1, k2, l1, l2;
+    static float a11, db, da11, vec[4]	/* was [2][2] */, dum[1], eps, sgn;
+    static int ierr;
+    static float smin;
+    extern float sdot_(int *, float *, int *, float *, int *);
+    static float suml, sumr;
+    extern int lsame_(char *, char *, ftnlen, ftnlen);
+    extern /* Subroutine */ int sscal_(int *, float *, float *, int *);
+    static int knext, lnext;
+    static float xnorm;
+    extern /* Subroutine */ int slaln2_(int *, int *, int *, float 
+	    *, float *, float *, int *, float *, float *, float *, int *, 
+	    float *, float *, float *, int *, float *, float *, int *), 
+	    slasy2_(int *, int *, int *, int *, int *, 
+	    float *, int *, float *, int *, float *, int *, float *, 
+	    float *, int *, float *, int *), slabad_(float *, float *);
+    static float scaloc;
+    extern float slamch_(char *, ftnlen), slange_(char *, int *, 
+	    int *, float *, int *, float *, ftnlen);
+    extern /* Subroutine */ int xerbla_(char *, int *, ftnlen);
+    static float bignum;
+    static int notrna, notrnb;
+    static float smlnum;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -99,7 +94,7 @@ static logical c_true = TRUE_;
     }
     if (*info != 0) {
 	i__1 = -(*info);
-	xerbla_("STRSY2", &i__1, (ftnlen)6);
+	xerbla_("STRSYL", &i__1, (ftnlen)6);
 	return;
     }
     *scale = 1.f;
@@ -110,14 +105,14 @@ static logical c_true = TRUE_;
     smlnum = slamch_("S", (ftnlen)1);
     bignum = 1.f / smlnum;
     slabad_(&smlnum, &bignum);
-    smlnum = smlnum * (real) (*m * *n) / eps;
+    smlnum = smlnum * (float) (*m * *n) / eps;
     bignum = 1.f / smlnum;
 /* Computing MAX */
     r__1 = smlnum, r__2 = eps * slange_("M", m, m, &a[a_offset], lda, dum, (
 	    ftnlen)1), r__1 = max(r__1,r__2), r__2 = eps * slange_("M", n, n, 
 	    &b[b_offset], ldb, dum, (ftnlen)1);
     smin = dmax(r__1,r__2);
-    sgn = (real) (*isgn);
+    sgn = (float) (*isgn);
     if (notrna && notrnb) {
 	lnext = 1;
 	i__1 = *n;
@@ -1031,6 +1026,4 @@ L250:
 	    ;
 	}
     }
-    return;
-} /* relapack_strsyl_rec2__ */
-
+}

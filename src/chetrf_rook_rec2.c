@@ -15,7 +15,7 @@
 /* Table of constant values */
 
 static complex c_b1 = {1.f,0.f};
-static integer c__1 = 1;
+static int c__1 = 1;
 
 /** CHETRF_ROOK_REC2 computes a partial factorization of a complex Hermitian indefinite matrix using the boun ded Bunch-Kaufman ("rook") diagonal pivoting method
  *
@@ -24,45 +24,45 @@ static integer c__1 = 1;
  * The blocked BLAS Level 3 updates were removed and moved to the
  * recursive algorithm. 
  * */
-/* Subroutine */ void RELAPACK_chetrf_rook_rec2(char *uplo, integer *n, 
-	integer *nb, integer *kb, complex *a, integer *lda, integer *ipiv, 
-	complex *w, integer *ldw, integer *info, ftnlen uplo_len)
+/* Subroutine */ void RELAPACK_chetrf_rook_rec2(char *uplo, int *n, 
+	int *nb, int *kb, complex *a, int *lda, int *ipiv, 
+	complex *w, int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, w_dim1, w_offset, i__1, i__2, i__3, i__4;
-    real r__1, r__2;
+    int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2, i__3, i__4;
+    float r__1, r__2;
     complex q__1, q__2, q__3, q__4, q__5;
 
     /* Builtin functions */
-    double sqrt(doublereal), r_imag(complex *);
+    double sqrt(double), r_imag(complex *);
     void r_cnjg(complex *, complex *), c_div(complex *, complex *, complex *);
 
     /* Local variables */
-    static integer j, k, p;
-    static real t, r1;
+    static int j, k, p;
+    static float t, r1;
     static complex d11, d21, d22;
-    static integer ii, jj, kk, kp, kw, jp1, jp2, kkw;
+    static int ii, jj, kk, kp, kw, jp1, jp2, kkw;
     static logical done;
-    static integer imax, jmax;
-    static real alpha;
+    static int imax, jmax;
+    static float alpha;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int cgemv_(char *, integer *, integer *, complex *
-	    , complex *, integer *, complex *, integer *, complex *, complex *
-	    , integer *, ftnlen);
-    static real sfmin;
-    extern /* Subroutine */ int ccopy_(integer *, complex *, integer *, 
-	    complex *, integer *);
-    static integer itemp;
-    extern /* Subroutine */ int cswap_(integer *, complex *, integer *, 
-	    complex *, integer *);
-    static integer kstep;
-    static real stemp, absakk;
-    extern /* Subroutine */ int clacgv_(integer *, complex *, integer *);
-    extern integer icamax_(integer *, complex *, integer *);
-    extern doublereal slamch_(char *, ftnlen);
-    extern /* Subroutine */ int csscal_(integer *, real *, complex *, integer 
+    extern /* Subroutine */ int cgemv_(char *, int *, int *, complex *
+	    , complex *, int *, complex *, int *, complex *, complex *
+	    , int *, ftnlen);
+    static float sfmin;
+    extern /* Subroutine */ int ccopy_(int *, complex *, int *, 
+	    complex *, int *);
+    static int itemp;
+    extern /* Subroutine */ int cswap_(int *, complex *, int *, 
+	    complex *, int *);
+    static int kstep;
+    static float stemp, absakk;
+    extern /* Subroutine */ int clacgv_(int *, complex *, int *);
+    extern int icamax_(int *, complex *, int *);
+    extern double slamch_(char *, ftnlen);
+    extern /* Subroutine */ int csscal_(int *, float *, complex *, int 
 	    *);
-    static real colmax, rowmax;
+    static float colmax, rowmax;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -658,5 +658,4 @@ L120:
 	*kb = k - 1;
     }
     return;
-} /* relapack_chetrf_rook_rec2__ */
-
+}

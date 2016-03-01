@@ -14,58 +14,53 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
-static logical c_false = FALSE_;
-static integer c__2 = 2;
-static doublereal c_b26 = 1.;
-static doublereal c_b30 = 0.;
-static logical c_true = TRUE_;
+static int c__1 = 1;
+static int c_false = FALSE_;
+static int c__2 = 2;
+static double c_b26 = 1.;
+static double c_b30 = 0.;
+static int c_true = TRUE_;
 
-/** RELAPACK_DTRSYL_REC2 solves the real Sylvester matrix equation (unblocked algorithm)
- *
- * This routine is an exact copy of LAPACK's dtrsyl.
- * It serves as an unblocked kernel in the recursive algorithms. 
- * */
-/* Subroutine */ void RELAPACK_dtrsyl_rec2(char *trana, char *tranb, integer 
-	*isgn, integer *m, integer *n, doublereal *a, integer *lda, 
-	doublereal *b, integer *ldb, doublereal *c__, integer *ldc, 
-	doublereal *scale, integer *info, ftnlen trana_len, ftnlen tranb_len)
+int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int 
+	*m, int *n, double *a, int *lda, double *b, int *
+	ldb, double *c__, int *ldc, double *scale, int *info, 
+	ftnlen trana_len, ftnlen tranb_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
 	    i__3, i__4;
-    doublereal d__1, d__2;
+    double d__1, d__2;
 
     /* Local variables */
-    static integer j, k, l;
-    static doublereal x[4]	/* was [2][2] */;
-    static integer k1, k2, l1, l2;
-    static doublereal a11, db, da11, vec[4]	/* was [2][2] */, dum[1], eps,
+    static int j, k, l;
+    static double x[4]	/* was [2][2] */;
+    static int k1, k2, l1, l2;
+    static double a11, db, da11, vec[4]	/* was [2][2] */, dum[1], eps,
 	     sgn;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
-	    integer *);
-    static integer ierr;
-    static doublereal smin, suml, sumr;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    static integer knext, lnext;
-    static doublereal xnorm;
-    extern /* Subroutine */ int dlaln2_(logical *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *, doublereal *,
-	     doublereal *, doublereal *, integer *, doublereal *, doublereal *
-	    , doublereal *, integer *, doublereal *, doublereal *, integer *),
-	     dlasy2_(logical *, logical *, integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *), dlabad_(doublereal *, doublereal *);
-    extern doublereal dlamch_(char *, ftnlen), dlange_(char *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, ftnlen);
-    static doublereal scaloc;
-    extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
-    static doublereal bignum;
-    static logical notrna, notrnb;
-    static doublereal smlnum;
+    extern double ddot_(int *, double *, int *, double *, 
+	    int *);
+    static int ierr;
+    static double smin, suml, sumr;
+    extern /* Subroutine */ int dscal_(int *, double *, double *, 
+	    int *);
+    extern int lsame_(char *, char *, ftnlen, ftnlen);
+    static int knext, lnext;
+    static double xnorm;
+    extern /* Subroutine */ int dlaln2_(int *, int *, int *, 
+	    double *, double *, double *, int *, double *,
+	     double *, double *, int *, double *, double *
+	    , double *, int *, double *, double *, int *),
+	     dlasy2_(int *, int *, int *, int *, int *, 
+	    double *, int *, double *, int *, double *, 
+	    int *, double *, double *, int *, double *, 
+	    int *), dlabad_(double *, double *);
+    extern double dlamch_(char *, ftnlen), dlange_(char *, int *, 
+	    int *, double *, int *, double *, ftnlen);
+    static double scaloc;
+    extern /* Subroutine */ int xerbla_(char *, int *, ftnlen);
+    static double bignum;
+    static int notrna, notrnb;
+    static double smlnum;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -103,25 +98,25 @@ static logical c_true = TRUE_;
     }
     if (*info != 0) {
 	i__1 = -(*info);
-	xerbla_("DTRSY2", &i__1, (ftnlen)6);
-	return;
+	xerbla_("DTRSYL", &i__1, (ftnlen)6);
+	return 0;
     }
     *scale = 1.;
     if (*m == 0 || *n == 0) {
-	return;
+	return 0;
     }
     eps = dlamch_("P", (ftnlen)1);
     smlnum = dlamch_("S", (ftnlen)1);
     bignum = 1. / smlnum;
     dlabad_(&smlnum, &bignum);
-    smlnum = smlnum * (doublereal) (*m * *n) / eps;
+    smlnum = smlnum * (double) (*m * *n) / eps;
     bignum = 1. / smlnum;
 /* Computing MAX */
     d__1 = smlnum, d__2 = eps * dlange_("M", m, m, &a[a_offset], lda, dum, (
 	    ftnlen)1), d__1 = max(d__1,d__2), d__2 = eps * dlange_("M", n, n, 
 	    &b[b_offset], ldb, dum, (ftnlen)1);
     smin = max(d__1,d__2);
-    sgn = (doublereal) (*isgn);
+    sgn = (double) (*isgn);
     if (notrna && notrnb) {
 	lnext = 1;
 	i__1 = *n;
@@ -1035,6 +1030,5 @@ L240:
 	    ;
 	}
     }
-    return;
-} /* relapack_dtrsyl_rec2__ */
-
+    return 0;
+}

@@ -15,7 +15,7 @@
 /* Table of constant values */
 
 static doublecomplex c_b1 = {1.,0.};
-static integer c__1 = 1;
+static int c__1 = 1;
 
 /** ZSYTRF_REC2 computes a partial factorization of a complex symmetric matrix using the Bunch-Kaufman diagon al pivoting method.
  *
@@ -24,37 +24,37 @@ static integer c__1 = 1;
  * The blocked BLAS Level 3 updates were removed and moved to the
  * recursive algorithm. 
  * */
-/* Subroutine */ void RELAPACK_zsytrf_rec2(char *uplo, integer *n, integer *
-	nb, integer *kb, doublecomplex *a, integer *lda, integer *ipiv, 
-	doublecomplex *w, integer *ldw, integer *info, ftnlen uplo_len)
+/* Subroutine */ void RELAPACK_zsytrf_rec2(char *uplo, int *n, int *
+	nb, int *kb, doublecomplex *a, int *lda, int *ipiv, 
+	doublecomplex *w, int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, w_dim1, w_offset, i__1, i__2, i__3, i__4;
-    doublereal d__1, d__2, d__3, d__4;
+    int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2, i__3, i__4;
+    double d__1, d__2, d__3, d__4;
     doublecomplex z__1, z__2, z__3;
 
     /* Builtin functions */
-    double sqrt(doublereal), d_imag(doublecomplex *);
+    double sqrt(double), d_imag(doublecomplex *);
     void z_div(doublecomplex *, doublecomplex *, doublecomplex *);
 
     /* Local variables */
-    static integer j, k;
+    static int j, k;
     static doublecomplex t, r1, d11, d21, d22;
-    static integer jj, kk, jp, kp, kw, kkw, imax, jmax;
-    static doublereal alpha;
+    static int jj, kk, jp, kp, kw, kkw, imax, jmax;
+    static double alpha;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
-	    doublecomplex *, integer *);
-    static integer kstep;
-    extern /* Subroutine */ int zgemv_(char *, integer *, integer *, 
-	    doublecomplex *, doublecomplex *, integer *, doublecomplex *, 
-	    integer *, doublecomplex *, doublecomplex *, integer *, ftnlen), 
-	    zcopy_(integer *, doublecomplex *, integer *, doublecomplex *, 
-	    integer *), zswap_(integer *, doublecomplex *, integer *, 
-	    doublecomplex *, integer *);
-    static doublereal absakk, colmax;
-    extern integer izamax_(integer *, doublecomplex *, integer *);
-    static doublereal rowmax;
+    extern /* Subroutine */ int zscal_(int *, doublecomplex *, 
+	    doublecomplex *, int *);
+    static int kstep;
+    extern /* Subroutine */ int zgemv_(char *, int *, int *, 
+	    doublecomplex *, doublecomplex *, int *, doublecomplex *, 
+	    int *, doublecomplex *, doublecomplex *, int *, ftnlen), 
+	    zcopy_(int *, doublecomplex *, int *, doublecomplex *, 
+	    int *), zswap_(int *, doublecomplex *, int *, 
+	    doublecomplex *, int *);
+    static double absakk, colmax;
+    extern int izamax_(int *, doublecomplex *, int *);
+    static double rowmax;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -449,5 +449,4 @@ L120:
 	*kb = k - 1;
     }
     return;
-} /* relapack_zsytrf_rec2__ */
-
+}

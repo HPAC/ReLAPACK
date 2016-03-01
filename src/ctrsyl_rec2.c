@@ -14,53 +14,53 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
+static int c__1 = 1;
 
 /** RELAPACK_CTRSYL_REC2 solves the complex Sylvester matrix equation (unblocked algorithm)
  *
  * This routine is an exact copy of LAPACK's ctrsyl.
  * It serves as an unblocked kernel in the recursive algorithms. 
  * */
-/* Subroutine */ void RELAPACK_ctrsyl_rec2(char *trana, char *tranb, integer 
-	*isgn, integer *m, integer *n, complex *a, integer *lda, complex *b, 
-	integer *ldb, complex *c__, integer *ldc, real *scale, integer *info, 
+/* Subroutine */ void RELAPACK_ctrsyl_rec2(char *trana, char *tranb, int 
+	*isgn, int *m, int *n, complex *a, int *lda, complex *b, 
+	int *ldb, complex *c__, int *ldc, float *scale, int *info, 
 	ftnlen trana_len, ftnlen tranb_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
 	    i__3, i__4;
-    real r__1, r__2;
+    float r__1, r__2;
     complex q__1, q__2, q__3, q__4;
 
     /* Builtin functions */
-    double r_imag(complex *);
+    float r_imag(complex *);
     void r_cnjg(complex *, complex *);
 
     /* Local variables */
-    static integer j, k, l;
+    static int j, k, l;
     static complex a11;
-    static real db;
+    static float db;
     static complex x11;
-    static real da11;
+    static float da11;
     static complex vec;
-    static real dum[1], eps, sgn, smin;
+    static float dum[1], eps, sgn, smin;
     static complex suml, sumr;
-    extern /* Complex */ VOID cdotc_(complex *, integer *, complex *, integer 
-	    *, complex *, integer *);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Complex */ VOID cdotu_(complex *, integer *, complex *, integer 
-	    *, complex *, integer *);
-    extern /* Subroutine */ int slabad_(real *, real *);
-    extern doublereal clange_(char *, integer *, integer *, complex *, 
-	    integer *, real *, ftnlen);
-    extern /* Complex */ VOID cladiv_(complex *, complex *, complex *);
-    static real scaloc;
-    extern doublereal slamch_(char *, ftnlen);
-    extern /* Subroutine */ int csscal_(integer *, real *, complex *, integer 
-	    *), xerbla_(char *, integer *, ftnlen);
-    static real bignum;
-    static logical notrna, notrnb;
-    static real smlnum;
+    extern /* Complex */ complex cdotc_(int *, complex *, int 
+	    *, complex *, int *);
+    extern int lsame_(char *, char *, ftnlen, ftnlen);
+    extern /* Complex */ complex cdotu_(int *, complex *, int 
+	    *, complex *, int *);
+    extern /* Subroutine */ int slabad_(float *, float *);
+    extern float clange_(char *, int *, int *, complex *, 
+	    int *, float *, ftnlen);
+    extern /* Complex */ complex cladiv_(complex *, complex *);
+    static float scaloc;
+    extern float slamch_(char *, ftnlen);
+    extern /* Subroutine */ int csscal_(int *, float *, complex *, int 
+	    *), xerbla_(char *, int *, ftnlen);
+    static float bignum;
+    static int notrna, notrnb;
+    static float smlnum;
 
     /* Parameter adjustments */
     a_dim1 = *lda;
@@ -107,14 +107,14 @@ static integer c__1 = 1;
     smlnum = slamch_("S", (ftnlen)1);
     bignum = 1.f / smlnum;
     slabad_(&smlnum, &bignum);
-    smlnum = smlnum * (real) (*m * *n) / eps;
+    smlnum = smlnum * (float) (*m * *n) / eps;
     bignum = 1.f / smlnum;
 /* Computing MAX */
     r__1 = smlnum, r__2 = eps * clange_("M", m, m, &a[a_offset], lda, dum, (
 	    ftnlen)1), r__1 = max(r__1,r__2), r__2 = eps * clange_("M", n, n, 
 	    &b[b_offset], ldb, dum, (ftnlen)1);
     smin = dmax(r__1,r__2);
-    sgn = (real) (*isgn);
+    sgn = (float) (*isgn);
     if (notrna && notrnb) {
 	i__1 = *n;
 	for (l = 1; l <= i__1; ++l) {
@@ -124,11 +124,11 @@ static integer c__1 = 1;
 		i__3 = k + 1;
 /* Computing MIN */
 		i__4 = k + 1;
-		cdotu_(&q__1, &i__2, &a[k + min(i__3,*m) * a_dim1], lda, &c__[
+		q__1 = cdotu_(&i__2, &a[k + min(i__3,*m) * a_dim1], lda, &c__[
 			min(i__4,*m) + l * c_dim1], &c__1);
 		suml.r = q__1.r, suml.i = q__1.i;
 		i__2 = l - 1;
-		cdotu_(&q__1, &i__2, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
+		q__1 = cdotu_(&i__2, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
 			, &c__1);
 		sumr.r = q__1.r, sumr.i = q__1.i;
 		i__2 = k + l * c_dim1;
@@ -159,7 +159,7 @@ static integer c__1 = 1;
 		q__3.r = scaloc, q__3.i = 0.f;
 		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
 			q__3.i + vec.i * q__3.r;
-		cladiv_(&q__1, &q__2, &a11);
+		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
 		if (scaloc != 1.f) {
 		    i__2 = *n;
@@ -181,11 +181,11 @@ static integer c__1 = 1;
 	    i__2 = *m;
 	    for (k = 1; k <= i__2; ++k) {
 		i__3 = k - 1;
-		cdotc_(&q__1, &i__3, &a[k * a_dim1 + 1], &c__1, &c__[l * 
+		q__1 = cdotc_(&i__3, &a[k * a_dim1 + 1], &c__1, &c__[l * 
 			c_dim1 + 1], &c__1);
 		suml.r = q__1.r, suml.i = q__1.i;
 		i__3 = l - 1;
-		cdotu_(&q__1, &i__3, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
+		q__1 = cdotu_(&i__3, &c__[k + c_dim1], ldc, &b[l * b_dim1 + 1]
 			, &c__1);
 		sumr.r = q__1.r, sumr.i = q__1.i;
 		i__3 = k + l * c_dim1;
@@ -216,7 +216,7 @@ static integer c__1 = 1;
 		q__3.r = scaloc, q__3.i = 0.f;
 		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
 			q__3.i + vec.i * q__3.r;
-		cladiv_(&q__1, &q__2, &a11);
+		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
 		if (scaloc != 1.f) {
 		    i__3 = *n;
@@ -237,7 +237,7 @@ static integer c__1 = 1;
 	    i__1 = *m;
 	    for (k = 1; k <= i__1; ++k) {
 		i__2 = k - 1;
-		cdotc_(&q__1, &i__2, &a[k * a_dim1 + 1], &c__1, &c__[l * 
+		q__1 = cdotc_(&i__2, &a[k * a_dim1 + 1], &c__1, &c__[l * 
 			c_dim1 + 1], &c__1);
 		suml.r = q__1.r, suml.i = q__1.i;
 		i__2 = *n - l;
@@ -245,7 +245,7 @@ static integer c__1 = 1;
 		i__3 = l + 1;
 /* Computing MIN */
 		i__4 = l + 1;
-		cdotc_(&q__1, &i__2, &c__[k + min(i__3,*n) * c_dim1], ldc, &b[
+		q__1 = cdotc_(&i__2, &c__[k + min(i__3,*n) * c_dim1], ldc, &b[
 			l + min(i__4,*n) * b_dim1], ldb);
 		sumr.r = q__1.r, sumr.i = q__1.i;
 		i__2 = k + l * c_dim1;
@@ -278,7 +278,7 @@ static integer c__1 = 1;
 		q__3.r = scaloc, q__3.i = 0.f;
 		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
 			q__3.i + vec.i * q__3.r;
-		cladiv_(&q__1, &q__2, &a11);
+		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
 		if (scaloc != 1.f) {
 		    i__2 = *n;
@@ -302,7 +302,7 @@ static integer c__1 = 1;
 		i__2 = k + 1;
 /* Computing MIN */
 		i__3 = k + 1;
-		cdotu_(&q__1, &i__1, &a[k + min(i__2,*m) * a_dim1], lda, &c__[
+		q__1 = cdotu_(&i__1, &a[k + min(i__2,*m) * a_dim1], lda, &c__[
 			min(i__3,*m) + l * c_dim1], &c__1);
 		suml.r = q__1.r, suml.i = q__1.i;
 		i__1 = *n - l;
@@ -310,7 +310,7 @@ static integer c__1 = 1;
 		i__2 = l + 1;
 /* Computing MIN */
 		i__3 = l + 1;
-		cdotc_(&q__1, &i__1, &c__[k + min(i__2,*n) * c_dim1], ldc, &b[
+		q__1 = cdotc_(&i__1, &c__[k + min(i__2,*n) * c_dim1], ldc, &b[
 			l + min(i__3,*n) * b_dim1], ldb);
 		sumr.r = q__1.r, sumr.i = q__1.i;
 		i__1 = k + l * c_dim1;
@@ -342,7 +342,7 @@ static integer c__1 = 1;
 		q__3.r = scaloc, q__3.i = 0.f;
 		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
 			q__3.i + vec.i * q__3.r;
-		cladiv_(&q__1, &q__2, &a11);
+		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
 		if (scaloc != 1.f) {
 		    i__1 = *n;
@@ -360,5 +360,4 @@ static integer c__1 = 1;
 	}
     }
     return;
-} /* relapack_ctrsyl_rec2__ */
-
+}
