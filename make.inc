@@ -7,6 +7,6 @@ CFLAGS = -O3 -std=c99 -Wpedantic
 AR = ar
 
 # BLAS / LAPACK link line for test (relative to test/)
-LINK_TEST = -L../lapack/ -L../blas/ -llapack -lblas -lgfortran
+LINK_TEST = -L../lapack/ -L../blas/ -llapack -lblas -lgfortran -lm
 
 # vim: ft=make

@@ -23,16 +23,16 @@ test: util.o $(TESTS)
 	@./$< > /dev/null && echo " pass" || (echo " FAIL" && ./$<)
 
 s%.x: x%.c util.o ../$(LIBNAME) config.h test.h
-	$(CC) $(CFLAGS) -DDT_PREFIX=s $< util.o -o $@ $(LINK_TEST) ../librelapack.a
+	$(CC) $(CFLAGS) -DDT_PREFIX=s $< util.o -o $@ $(LINK_TEST) ../librelapack.a $(LINK_TEST)
 
 d%.x: x%.c util.o ../$(LIBNAME) config.h test.h
-	$(CC) $(CFLAGS) -DDT_PREFIX=d $< util.o -o $@ $(LINK_TEST) ../librelapack.a
+	$(CC) $(CFLAGS) -DDT_PREFIX=d $< util.o -o $@ $(LINK_TEST) ../librelapack.a $(LINK_TEST)
 
 c%.x: x%.c util.o ../$(LIBNAME) config.h test.h
-	$(CC) $(CFLAGS) -DDT_PREFIX=c $< util.o -o $@ $(LINK_TEST) ../librelapack.a
+	$(CC) $(CFLAGS) -DDT_PREFIX=c $< util.o -o $@ $(LINK_TEST) ../librelapack.a $(LINK_TEST)
 
 z%.x: x%.c util.o ../$(LIBNAME) config.h test.h
-	$(CC) $(CFLAGS) -DDT_PREFIX=z $< util.o -o $@ $(LINK_TEST) ../librelapack.a
+	$(CC) $(CFLAGS) -DDT_PREFIX=z $< util.o -o $@ $(LINK_TEST) ../librelapack.a $(LINK_TEST)
 
 clean:
 	rm -f util.o *.x
