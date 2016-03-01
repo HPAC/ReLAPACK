@@ -9,10 +9,12 @@ integrates effortlessly into existing application codes.  ReLAPACK's routines
 not only outperform the reference LAPACK but also improve upon the performance
 of tuned implementations, such as OpenBLAS and MKL.
 
+
 Coverage
 --------
 For a detailed list of covered operations and an overview of operations to which
 recursion is not efficiently applicable, see [coverage.md](coverage.md).
+
 
 Installation
 ------------
@@ -26,9 +28,11 @@ and machine specific implementations of these libraries, which are commonly
 provided by hardware vendors or available as open source (e.g.,
 [OpenBLAS](http://www.openblas.net/)).
 
+
 Configuration
 -------------
 For an overview of the configuration options see [config.md](config.md).
+
 
 Testing
 -------
@@ -36,6 +40,7 @@ ReLAPACK's test suite compares its routines numerically with LAPACK's
 counterparts.  To set up the test located int `test/` you need to specify link
 flags for BLAS and LAPACK (version 3.5.0 or newer) in `make.inc`; then `make
 test` runs the tests.  For details, see [test/README.md](test/README.md).
+
 
 Examples
 --------

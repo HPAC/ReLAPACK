@@ -1,12 +1,15 @@
 RELAPACK Configuration
 ======================
+
 ReLAPACK has two configuration files: `make.inc`, which is included by the
 Makefile, and `config.h` which is included in the source files.
+
 
 Build and Testing Environment
 -----------------------------
 The build environment (compilers and flags) and the test configuration (linker
 flags for BLAS and LAPACK, and the test matrix size) are specified in `make.inc`
+
 
 Routine Selection
 -----------------
@@ -22,12 +25,14 @@ LAPACK routines. By setting `RELAPACK_AS_LAPACK` to 0 in `config.h`, they will
 receive the prefix `RELAPACK_`; e.g. the LU decomposition `dgetrf` would become
 `RELAPACK_dgetrf`.
 
+
 Crossover Size
 --------------
 The crossover size determines below which matrix sizes ReLAPACK's recursive
 algorithms switch to LAPACK's unblocked routines to avoid tiny BLAS Level 3
 routines.  The crossover size is set in `config.h` and can be chosen either
 globally for the entire library, by operation, or individually by routine.
+
 
 Allowing Temporary Buffers
 --------------------------
@@ -50,10 +55,10 @@ affected routines are:
    redundant computations.  It thereby performs about 30% less FLOPs than
    LAPACK.
 
+
 FORTRAN symbol names
 --------------------
-ReLAPACK not only uses FORTRAN routines internally (small modifications of
-original LAPACK routines to enable recursion) but is also commonly linked to
-BLAS and LAPACK with standard FORTRAN interfaces.  Since FORTRAN compilers
-commonly append an underscore to their symbol names, ReLAPACK has configuration
-switches in `config.h` to adjust the library's symbol names.
+ReLAPACK is commonly linked to
+BLAS and LAPACK with standard FORTRAN interfaces.  Since these libraries usually
+have an underscore to their symbol names, ReLAPACK has configuration switches in
+`config.h` to adjust the corresponding routine names.
