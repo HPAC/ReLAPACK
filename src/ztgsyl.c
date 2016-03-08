@@ -72,7 +72,7 @@ void RELAPACK_ztgsyl(
     const char cleantrans = notran ? 'N' : 'C';
 
     // Constants
-    const double ZERO[] = { 0, 0 };
+    const double ZERO[] = { 0., 0. };
 
     int isolve = 1;
     int ifunc  = 0;
@@ -135,13 +135,13 @@ static void RELAPACK_ztgsyl_rec(
     }
 
     // Constants
-    const double ONE[]  = { 1, 0 };
-    const double MONE[] = { -1, 0 };
-    const int   iONE[]  = { 1 };
+    const double ONE[]  = { 1., 0. };
+    const double MONE[] = { -1., 0. };
+    const int   iONE[]  = { 1. };
 
     // Outputs
-    double scale1[] = { 1, 0 };
-    double scale2[] = { 1, 0 };
+    double scale1[] = { 1., 0. };
+    double scale2[] = { 1., 0. };
     int    info1[]  = { 0 };
     int    info2[]  = { 0 };
 

@@ -53,7 +53,7 @@ static void RELAPACK_slauum_rec(
     }
 
     // Constants
-    const float ONE[] = { 1 };
+    const float ONE[] = { 1. };
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

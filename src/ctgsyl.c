@@ -72,7 +72,7 @@ void RELAPACK_ctgsyl(
     const char cleantrans = notran ? 'N' : 'C';
 
     // Constants
-    const float ZERO[] = { 0, 0 };
+    const float ZERO[] = { 0., 0. };
 
     int isolve = 1;
     int ifunc  = 0;
@@ -135,13 +135,13 @@ static void RELAPACK_ctgsyl_rec(
     }
 
     // Constants
-    const float ONE[]  = { 1, 0 };
-    const float MONE[] = { -1, 0 };
-    const int  iONE[]  = { 1 };
+    const float ONE[]  = { 1., 0. };
+    const float MONE[] = { -1., 0. };
+    const int  iONE[]  = { 1. };
 
     // Outputs
-    float scale1[] = { 1, 0 };
-    float scale2[] = { 1, 0 };
+    float scale1[] = { 1., 0. };
+    float scale2[] = { 1., 0. };
     int   info1[]  = { 0 };
     int   info2[]  = { 0 };
 

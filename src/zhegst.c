@@ -75,12 +75,12 @@ static void RELAPACK_zhegst_rec(
     }
 
     // Constants
-    const double ZERO[]  = { 0, 0 };
-    const double ONE[]   = { 1, 0 };
-    const double MONE[]  = { -1, 0 };
-    const double HALF[]  = { .5, 0 };
-    const double MHALF[] = { -.5, 0 };
-    const int   iONE[]   = { 1 };
+    const double ZERO[]  = { 0., 0. };
+    const double ONE[]   = { 1., 0. };
+    const double MONE[]  = { -1., 0. };
+    const double HALF[]  = { .5, 0. };
+    const double MHALF[] = { -.5, 0. };
+    const int   iONE[]   = { 1. };
 
     // Loop iterator
     int i;

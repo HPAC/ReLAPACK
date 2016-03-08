@@ -53,8 +53,8 @@ static void RELAPACK_dpotrf_rec(
     }
 
     // Constants
-    const double ONE[]  = { 1 };
-    const double MONE[] = { -1 };
+    const double ONE[]  = { 1. };
+    const double MONE[] = { -1. };
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

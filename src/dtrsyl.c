@@ -73,14 +73,14 @@ static void RELAPACK_dtrsyl_rec(
     }
 
     // Constants
-    const double ONE[]  = { 1 };
-    const double MONE[] = { -1 };
+    const double ONE[]  = { 1. };
+    const double MONE[] = { -1. };
     const double MSGN[] = { -*isgn };
-    const int   iONE[]  = { 1 };
+    const int   iONE[]  = { 1. };
 
     // Outputs
-    double scale1[] = { 1 };
-    double scale2[] = { 1 };
+    double scale1[] = { 1. };
+    double scale2[] = { 1. };
     int    info1[]  = { 0 };
     int    info2[]  = { 0 };
 

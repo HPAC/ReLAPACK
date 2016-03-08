@@ -68,8 +68,8 @@ static void RELAPACK_ctrtri_rec(
     }
 
     // Constants
-    const float ONE[]  = { 1, 0 };
-    const float MONE[] = { -1, 0 };
+    const float ONE[]  = { 1., 0. };
+    const float MONE[] = { -1., 0. };
 
     // Splitting
     const int n1 = REC_SPLIT(*n);

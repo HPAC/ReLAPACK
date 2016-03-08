@@ -76,11 +76,11 @@ static void RELAPACK_dsygst_rec(
 
     // Constants
     const double ZERO[]  = { 0 };
-    const double ONE[]   = { 1 };
-    const double MONE[]  = { -1 };
+    const double ONE[]   = { 1. };
+    const double MONE[]  = { -1. };
     const double HALF[]  = { .5 };
     const double MHALF[] = { -.5 };
-    const int   iONE[]   = { 1 };
+    const int   iONE[]   = { 1. };
 
     // Loop iterator
     int i;

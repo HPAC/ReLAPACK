@@ -93,22 +93,22 @@
 
 // some constants
 #define MONE XPREF(MONE)
-const float  sMONE[] = { -1 };
-const double dMONE[] = { -1 };
-const float  cMONE[] = { -1, 0 };
-const double zMONE[] = { -1, 0 };
+const float  sMONE[] = { -1. };
+const double dMONE[] = { -1. };
+const float  cMONE[] = { -1., 0. };
+const double zMONE[] = { -1., 0. };
 
 #define ZERO XPREF(ZERO)
-const float  sZERO[] = { 0 };
-const double dZERO[] = { 0 };
-const float  cZERO[] = { 0, 0 };
-const double zZERO[] = { 0, 0 };
+const float  sZERO[] = { 0. };
+const double dZERO[] = { 0. };
+const float  cZERO[] = { 0., 0. };
+const double zZERO[] = { 0., 0. };
 
 #define ONE  XPREF(ONE)
-const float  sONE[]  = { 1 };
-const double dONE[]  = { 1 };
-const float  cONE[]  = { 1, 0 };
-const double zONE[]  = { 1, 0 };
+const float  sONE[]  = { 1. };
+const double dONE[]  = { 1. };
+const float  cONE[]  = { 1., 0. };
+const double zONE[]  = { 1., 0. };
 
 const int iMONE[]  = { -1 };
 const int iZERO[]  = { 0 };

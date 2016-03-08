@@ -75,12 +75,12 @@ static void RELAPACK_chegst_rec(
     }
 
     // Constants
-    const float ZERO[]  = { 0, 0 };
-    const float ONE[]   = { 1, 0 };
-    const float MONE[]  = { -1, 0 };
-    const float HALF[]  = { .5, 0 };
-    const float MHALF[] = { -.5, 0 };
-    const int  iONE[]   = { 1 };
+    const float ZERO[]  = { 0., 0. };
+    const float ONE[]   = { 1., 0. };
+    const float MONE[]  = { -1., 0. };
+    const float HALF[]  = { .5, 0. };
+    const float MHALF[] = { -.5, 0. };
+    const int  iONE[]   = { 1. };
 
     // Loop iterator
     int i;
