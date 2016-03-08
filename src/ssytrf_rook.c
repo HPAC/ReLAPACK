@@ -38,27 +38,30 @@ void RELAPACK_ssytrf_rook(
         *info = -4;
     else if (*lWork < minlWork && *lWork != -1)
         *info = -7;
+    else if (*lWork == -1) {
+        // Work size query
+        *Work = cleanlWork;
+        return;
+    }
+
+    // Ensure Work size
+    float *cleanWork = Work;
+#if XSYTRF_ALLOW_MALLOC
+    if (!*info && *lWork < cleanlWork) {
+        cleanWork = malloc(cleanlWork * sizeof(float));
+        if (!cleanWork)
+            *info = -7;
+    }
+#endif
+
     if (*info) {
         const int minfo = -*info;
         LAPACK(xerbla)("SSYTRF", &minfo);
         return;
     }
 
-    if (*lWork == -1) {
-        // Work size query
-        *Work = cleanlWork;
-        return;
-    }
-
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
-
-    // Ensure Work size
-    float *cleanWork = Work;
-#if XSYTRF_ALLOW_MALLOC
-    if (*lWork < cleanlWork)
-        cleanWork = malloc(cleanlWork * sizeof(float));
-#endif
 
     int nout;
     RELAPACK_ssytrf_rook_rec(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);

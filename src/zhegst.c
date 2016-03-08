@@ -49,6 +49,8 @@ void RELAPACK_zhegst(
 #if XSYGST_ALLOW_MALLOC
     lWork = *n * (*n / 2);
     Work  = malloc(lWork * 2 * sizeof(double));
+    if (!Work)
+        lWork = 0;
 #endif
 
     // recursive kernel
@@ -56,7 +58,8 @@ void RELAPACK_zhegst(
 
     // Free work space
 #if XSYGST_ALLOW_MALLOC
-    free(Work);
+    if (Work)
+        free(Work);
 #endif
 }
 
