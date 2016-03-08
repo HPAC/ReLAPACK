@@ -47,3 +47,18 @@ Examples
 Since ReLAPACK replaces parts of LAPACK, any LAPACK example involving the
 covered routines applies directly to ReLAPACK.  A few separate examples are
 given in `examples/`. For details, see [examples/README.md](examples/README.md).
+
+
+Citing
+------
+When referencing ReLAPACK, please cite the following preprint the paper
+[Recursive Algorithms for Dense Linear Algebra: The ReLAPACK Collection](http://arxiv.org/abs/1602.06763)
+
+    @article{relapack,
+      author    = {Elmar Peise and Paolo Bientinesi},
+      title     = {Recursive Algorithms for Dense Linear Algebra: The ReLAPACK Collection},
+      journal   = {CoRR},
+      volume    = {abs/1602.06763},
+      year      = {2016},
+      url       = {http://arxiv.org/abs/1602.06763},
+    }
