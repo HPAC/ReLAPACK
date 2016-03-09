@@ -30,7 +30,7 @@
 // LAPACK routine replacement //
 ////////////////////////////////
 // The following macros specify which routines are included in the library under
-// LAPACK's symbol names: 1 included, 0 not incdlued
+// LAPACK's symbol names: 1 included, 0 not included
 
 #define INCLUDE_XLAUUM 1
 #define INCLUDE_SLAUUM INCLUDE_XLAUUM

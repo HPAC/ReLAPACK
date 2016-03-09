@@ -7,23 +7,20 @@ Makefile, and `config.h` which is included in the source files.
 
 Build and Testing Environment
 -----------------------------
-The build environment (compilers and flags) and the test configuration (linker
-flags for BLAS and LAPACK, and the test matrix size) are specified in `make.inc`
+The build environment (compiler and flags) and the test configuration (linker
+flags for BLAS and LAPACK) are specified in `make.inc`.  The test matrix size
+and error bounds are defined in `test/config.h`.
+
+The library `librelapack.a` is compiled by invoking `make`.  The tests are
+performed by either `make test` or calling `make` in the test folder.
 
 
 Routine Selection
 -----------------
-By default, ReLAPACK provides each of its LAPACK-based recursive algorithms
-under two names: 1) with the prefix `RELAPACK_`, e.g., `RELAPACK_dgetrf` and 2)
-using LAPACK's routine name, e.g., `dgetrf_`.  The latter of these, which allows
-to easily replace LAPACK in existing application, can be disabled on an
-operation or routine basis in `config.h`
-
-## Routine Names
-By default, ReLAPACK's routine names coincide with the functionally equivalent
-LAPACK routines. By setting `RELAPACK_AS_LAPACK` to 0 in `config.h`, they will
-receive the prefix `RELAPACK_`; e.g. the LU decomposition `dgetrf` would become
-`RELAPACK_dgetrf`.
+ReLAPACK's routines are named `RELAPACK_X` (e.g., `RELAPACK_dgetrf`).  If the
+corresponding `INCLUDE_X` flag in `config.h` (e.g., `INCLUDE_DGETRF`) is set to
+`1`, ReLAPACK additionally provides a wrapper under the LAPACK name (e.g.,
+`dgetrf_`).  By default, wrappers for all routines are enabled.
 
 
 Crossover Size

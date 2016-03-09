@@ -7,9 +7,11 @@ static void RELAPACK_zgemm_tr2(const char *, const char *, const char *,
 
 /** matrix-matrix product update of a triangular matrix.
  *
- * This routine performs the same operation as BLAS's
+ * This routine performs the same operation as the BLAS routine
  * zgemm(transA, transB, n, n, k, alpha, A, ldA, B, ldB, beta, C, ldC)
- * but only updates teh triangular part of C specified by uplo.
+ * but only updates the triangular part of C specified by uplo:
+ * If (*uplo == 'L'), only the lower triangular part of C is updated,
+ * otherwise the upper triangular part is updated.
  * */
 void RELAPACK_zgemm_tr_rec(
     const char *transA, const char *transB, const char *uplo,
@@ -45,7 +47,7 @@ void RELAPACK_zgemm_tr_rec(
     double *const C_BL = C                 + 2 * n1;
     double *const C_BR = C + 2 * *ldC * n1 + 2 * n1;
 
-    // recursion(z_TL)
+    // recursion(C_TL)
     RELAPACK_zgemm_tr_rec(transA, transB, uplo, &n1, k, alpha, A_T, ldA, B_L, ldB, beta, C_TL, ldC);
 
     if (*uplo == 'L')
@@ -55,7 +57,7 @@ void RELAPACK_zgemm_tr_rec(
         // C_TR = alpha A_T B_R + beta C_TR
         BLAS(zgemm)(transA, transB, &n1, &n2, k, alpha, A_T, ldA, B_R, ldB, beta, C_TR, ldC);
 
-    // recursion(z_BR)
+    // recursion(C_BR)
     RELAPACK_zgemm_tr_rec(transA, transB, uplo, &n2, k, alpha, A_B, ldA, B_R, ldB, beta, C_BR, ldC);
 }
 

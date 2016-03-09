@@ -51,8 +51,8 @@ given in `examples/`. For details, see [examples/README.md](examples/README.md).
 
 Citing
 ------
-When referencing ReLAPACK, please cite the following preprint the paper
-[Recursive Algorithms for Dense Linear Algebra: The ReLAPACK Collection](http://arxiv.org/abs/1602.06763)
+When referencing ReLAPACK, please cite the preprint of the paper
+[Recursive Algorithms for Dense Linear Algebra: The ReLAPACK Collection](http://arxiv.org/abs/1602.06763):
 
     @article{relapack,
       author    = {Elmar Peise and Paolo Bientinesi},

@@ -1,12 +1,14 @@
-# library nam
+# ReLAPACK library name
 LIBNAME = librelapack.a
 
 # compiler options
 CC = gcc
 CFLAGS = -O3 -std=c99 -Wpedantic
+
+# archive creation
 AR = ar
 
-# BLAS / LAPACK link line for test (relative to test/)
+# BLAS / LAPACK link line for test (all paths relative to test/)
 LINK_TEST = -L../lapack/ -L../blas/ -llapack -lblas -lgfortran -lm
 
 # vim: ft=make
