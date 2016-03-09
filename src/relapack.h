@@ -5,22 +5,34 @@
 
 #include "../inc/relapack.h"
 
+// add an underscore to BLAS routines (or not)
 #if BLAS_UNDERSCORE
 #define BLAS(routine) routine ## _
 #else
 #define BLAS(routine) routine
 #endif
 
+// add an underscore to LAPACK routines (or not)
 #if LAPACK_UNDERSCORE
 #define LAPACK(routine) routine ## _
 #else
 #define LAPACK(routine) routine
 #endif
 
+// minimum and maximum macros
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+// REC_SPLIT(n) returns how a problem of size n is split recursively.
+// If n >= 16, we ensure that the size of at least one of the halves is
+// divisible by 8 (the cache line size in most CPUs), while both halves are
+// still as close as possible in size.
+// If n < 16 the problem is simply split in the middle. (Note that the
+// crossoversize is usually larger than 16.)
+#define REC_SPLIT(n) ((n >= 16) ? MIN(((n + 8) / 16) * 8, n - ((n + 8) / 16) * 8) : n / 2)
+
 #include "lapack.h"
 #include "blas.h"
-#include "util.h"
-
 
 // sytrf helper routines
 void RELAPACK_sgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
