@@ -73,7 +73,7 @@ static int c__1 = 1;
 	k = *n;
 L10:
 	kw = *nb + k - *n;
-	if (k <= *n - *nb + 1 && *nb < *n || k < 1) {
+	if ((k <= *n - *nb + 1 && *nb < *n) || k < 1) {
 	    goto L30;
 	}
 	kstep = 1;
@@ -296,7 +296,7 @@ L60:
     } else {
 	k = 1;
 L70:
-	if (k >= *nb && *nb < *n || k > *n) {
+	if ((k >= *nb && *nb < *n) || k > *n) {
 	    goto L90;
 	}
 	kstep = 1;
