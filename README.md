@@ -19,7 +19,13 @@ recursion is not efficiently applicable, see [coverage.md](coverage.md).
 Installation
 ------------
 To compile with the default configuration, simply run `make` to create the
-library `librelapack.a`.  
+library `librelapack.a`.
+
+### Linking with MKL and Accelerate
+Note that to link with MKL or Accelerate, you currently need to set the flag
+`COMPLEX_FUNCTIONS_AS_ROUTINES` to `1` to avoid problems in `ctrsyl` and
+`ztrsyl`.  For further configuration options see [config.md](config.md).
+
 
 ### Dependencies
 ReLAPACK builds on top of [BLAS](http://www.netlib.org/blas/) and unblocked
@@ -27,11 +33,6 @@ kernels from [LAPACK](http://www.netlib.org/lapack/).  There are many optimized
 and machine specific implementations of these libraries, which are commonly
 provided by hardware vendors or available as open source (e.g.,
 [OpenBLAS](http://www.openblas.net/)).
-
-
-Configuration
--------------
-For an overview of the configuration options see [config.md](config.md).
 
 
 Testing

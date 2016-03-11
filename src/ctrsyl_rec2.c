@@ -10,7 +10,34 @@
 		http://www.netlib.org/f2c/libf2c.zip
 */
 
+#include "../config.h"
 #include "f2c.h"
+
+#if COMPLEX_FUNCTIONS_AS_ROUTINES
+complex cdotu_fun(int *n, complex *x, int *incx, complex *y, int *incy) {
+    extern void cdotu_(complex *, int *, complex *, int *, complex *, int *);
+    complex result;
+    cdotu_(&result, n, x, incx, y, incy);
+    return result;
+}
+#define cdotu_ cdotu_fun
+
+complex cdotc_fun(int *n, complex *x, int *incx, complex *y, int *incy) {
+    extern void cdotc_(complex *, int *, complex *, int *, complex *, int *);
+    complex result;
+    cdotc_(&result, n, x, incx, y, incy);
+    return result;
+}
+#define cdotc_ cdotc_fun
+
+complex cladiv_fun(complex *a, complex *b) {
+    extern void cladiv_(complex *, complex *, complex *);
+    complex result;
+    cladiv_(&result, a, b);
+    return result;
+}
+#define cladiv_ cladiv_fun
+#endif
 
 /* Table of constant values */
 
@@ -19,15 +46,15 @@ static int c__1 = 1;
 /** RELAPACK_CTRSYL_REC2 solves the complex Sylvester matrix equation (unblocked algorithm)
  *
  * This routine is an exact copy of LAPACK's ctrsyl.
- * It serves as an unblocked kernel in the recursive algorithms. 
+ * It serves as an unblocked kernel in the recursive algorithms.
  * */
-/* Subroutine */ void RELAPACK_ctrsyl_rec2(char *trana, char *tranb, int 
-	*isgn, int *m, int *n, complex *a, int *lda, complex *b, 
-	int *ldb, complex *c__, int *ldc, float *scale, int *info, 
+/* Subroutine */ void RELAPACK_ctrsyl_rec2(char *trana, char *tranb, int
+	*isgn, int *m, int *n, complex *a, int *lda, complex *b,
+	int *ldb, complex *c__, int *ldc, float *scale, int *info,
 	ftnlen trana_len, ftnlen tranb_len)
 {
     /* System generated locals */
-    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2,
 	    i__3, i__4;
     float r__1, r__2;
     complex q__1, q__2, q__3, q__4;
@@ -45,18 +72,18 @@ static int c__1 = 1;
     static complex vec;
     static float dum[1], eps, sgn, smin;
     static complex suml, sumr;
-    extern /* Complex */ complex cdotc_(int *, complex *, int 
+    /* Complex */ complex cdotc_(int *, complex *, int
 	    *, complex *, int *);
     extern int lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Complex */ complex cdotu_(int *, complex *, int 
+    /* Complex */ complex cdotu_(int *, complex *, int
 	    *, complex *, int *);
     extern /* Subroutine */ int slabad_(float *, float *);
-    extern float clange_(char *, int *, int *, complex *, 
+    extern float clange_(char *, int *, int *, complex *,
 	    int *, float *, ftnlen);
-    extern /* Complex */ complex cladiv_(complex *, complex *);
+    /* Complex */ complex cladiv_(complex *, complex *);
     static float scaloc;
     extern float slamch_(char *, ftnlen);
-    extern /* Subroutine */ int csscal_(int *, float *, complex *, int 
+    extern /* Subroutine */ int csscal_(int *, float *, complex *, int
 	    *), xerbla_(char *, int *, ftnlen);
     static float bignum;
     static int notrna, notrnb;
@@ -111,7 +138,7 @@ static int c__1 = 1;
     bignum = 1.f / smlnum;
 /* Computing MAX */
     r__1 = smlnum, r__2 = eps * clange_("M", m, m, &a[a_offset], lda, dum, (
-	    ftnlen)1), r__1 = max(r__1,r__2), r__2 = eps * clange_("M", n, n, 
+	    ftnlen)1), r__1 = max(r__1,r__2), r__2 = eps * clange_("M", n, n,
 	    &b[b_offset], ldb, dum, (ftnlen)1);
     smin = dmax(r__1,r__2);
     sgn = (float) (*isgn);
@@ -142,7 +169,7 @@ static int c__1 = 1;
 		q__2.r = sgn * b[i__3].r, q__2.i = sgn * b[i__3].i;
 		q__1.r = a[i__2].r + q__2.r, q__1.i = a[i__2].i + q__2.i;
 		a11.r = q__1.r, a11.i = q__1.i;
-		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11), 
+		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11),
 			dabs(r__2));
 		if (da11 <= smin) {
 		    a11.r = smin, a11.i = 0.f;
@@ -157,7 +184,7 @@ static int c__1 = 1;
 		    }
 		}
 		q__3.r = scaloc, q__3.i = 0.f;
-		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
+		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r *
 			q__3.i + vec.i * q__3.r;
 		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
@@ -181,7 +208,7 @@ static int c__1 = 1;
 	    i__2 = *m;
 	    for (k = 1; k <= i__2; ++k) {
 		i__3 = k - 1;
-		q__1 = cdotc_(&i__3, &a[k * a_dim1 + 1], &c__1, &c__[l * 
+		q__1 = cdotc_(&i__3, &a[k * a_dim1 + 1], &c__1, &c__[l *
 			c_dim1 + 1], &c__1);
 		suml.r = q__1.r, suml.i = q__1.i;
 		i__3 = l - 1;
@@ -199,7 +226,7 @@ static int c__1 = 1;
 		q__3.r = sgn * b[i__3].r, q__3.i = sgn * b[i__3].i;
 		q__1.r = q__2.r + q__3.r, q__1.i = q__2.i + q__3.i;
 		a11.r = q__1.r, a11.i = q__1.i;
-		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11), 
+		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11),
 			dabs(r__2));
 		if (da11 <= smin) {
 		    a11.r = smin, a11.i = 0.f;
@@ -214,7 +241,7 @@ static int c__1 = 1;
 		    }
 		}
 		q__3.r = scaloc, q__3.i = 0.f;
-		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
+		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r *
 			q__3.i + vec.i * q__3.r;
 		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
@@ -237,7 +264,7 @@ static int c__1 = 1;
 	    i__1 = *m;
 	    for (k = 1; k <= i__1; ++k) {
 		i__2 = k - 1;
-		q__1 = cdotc_(&i__2, &a[k * a_dim1 + 1], &c__1, &c__[l * 
+		q__1 = cdotc_(&i__2, &a[k * a_dim1 + 1], &c__1, &c__[l *
 			c_dim1 + 1], &c__1);
 		suml.r = q__1.r, suml.i = q__1.i;
 		i__2 = *n - l;
@@ -261,7 +288,7 @@ static int c__1 = 1;
 		q__2.r = a[i__2].r + q__3.r, q__2.i = a[i__2].i + q__3.i;
 		r_cnjg(&q__1, &q__2);
 		a11.r = q__1.r, a11.i = q__1.i;
-		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11), 
+		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11),
 			dabs(r__2));
 		if (da11 <= smin) {
 		    a11.r = smin, a11.i = 0.f;
@@ -276,7 +303,7 @@ static int c__1 = 1;
 		    }
 		}
 		q__3.r = scaloc, q__3.i = 0.f;
-		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
+		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r *
 			q__3.i + vec.i * q__3.r;
 		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
@@ -325,7 +352,7 @@ static int c__1 = 1;
 		q__2.r = sgn * q__3.r, q__2.i = sgn * q__3.i;
 		q__1.r = a[i__1].r + q__2.r, q__1.i = a[i__1].i + q__2.i;
 		a11.r = q__1.r, a11.i = q__1.i;
-		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11), 
+		da11 = (r__1 = a11.r, dabs(r__1)) + (r__2 = r_imag(&a11),
 			dabs(r__2));
 		if (da11 <= smin) {
 		    a11.r = smin, a11.i = 0.f;
@@ -340,7 +367,7 @@ static int c__1 = 1;
 		    }
 		}
 		q__3.r = scaloc, q__3.i = 0.f;
-		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r * 
+		q__2.r = vec.r * q__3.r - vec.i * q__3.i, q__2.i = vec.r *
 			q__3.i + vec.i * q__3.r;
 		q__1 = cladiv_(&q__2, &a11);
 		x11.r = q__1.r, x11.i = q__1.i;
