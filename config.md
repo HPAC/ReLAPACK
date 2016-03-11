@@ -15,6 +15,15 @@ The library `librelapack.a` is compiled by invoking `make`.  The tests are
 performed by either `make test` or calling `make` in the test folder.
 
 
+Fix MKL BLAS/LAPACK complex function interfaces
+-----------------------------------------------
+For BLAS and LAPACK functions that return a complex number, MKL uses an
+interface that, in contrast to reference BLAS and OpenBLAS, dot provide the
+result as a return value but as an additional first routine argument.
+To account for this interface conflict, **set `COMPLEX_FUNCTIONS_AS_ROUTINES` to
+`1` in `config.h`**.
+
+
 Routine Selection
 -----------------
 ReLAPACK's routines are named `RELAPACK_X` (e.g., `RELAPACK_dgetrf`).  If the
