@@ -14,14 +14,16 @@
 // LAPACK routines linked against have a trailing underscore
 #define LAPACK_UNDERSCORE BLAS_UNDERSCORE
 
-// complex BLAS/LAPACK routines return their result in the first argument
-// This option must be enabled when linking to MKL or Accelerate for ctrsyl and
-// ztrsyl to work.
-#define COMPLEX_FUNCTIONS_AS_ROUTINES 0
+// Complex BLAS/LAPACK routines return their result in the first argument 
+// This option must be enabled when linking to MKL for ctrsyl and ztrsyl to
+// work.
+#define COMPLEX_FUNCTIONS_AS_ROUTINES 1
+#define BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES 
+#define LAPACK_BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES 
 
 
 ////////////////////////////
-// use malloc in ReLAPACK //
+// Use malloc in ReLAPACK //
 ////////////////////////////
 
 #define ALLOW_MALLOC 1

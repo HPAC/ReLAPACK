@@ -13,7 +13,7 @@
 #include "../config.h"
 #include "f2c.h"
 
-#if COMPLEX_FUNCTIONS_AS_ROUTINES
+#if BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES
 complex cdotu_fun(int *n, complex *x, int *incx, complex *y, int *incy) {
     extern void cdotu_(complex *, int *, complex *, int *, complex *, int *);
     complex result;
@@ -29,7 +29,9 @@ complex cdotc_fun(int *n, complex *x, int *incx, complex *y, int *incy) {
     return result;
 }
 #define cdotc_ cdotc_fun
+#endif
 
+#if LAPACK_BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES
 complex cladiv_fun(complex *a, complex *b) {
     extern void cladiv_(complex *, complex *, complex *);
     complex result;

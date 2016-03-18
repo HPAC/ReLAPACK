@@ -15,13 +15,20 @@ The library `librelapack.a` is compiled by invoking `make`.  The tests are
 performed by either `make test` or calling `make` in the test folder.
 
 
-Fix MKL BLAS/LAPACK complex function interfaces
------------------------------------------------
-For BLAS and LAPACK functions that return a complex number, MKL uses an
-interface that, in contrast to reference BLAS and OpenBLAS, dot provide the
-result as a return value but as an additional first routine argument.
-To account for this interface conflict, **set `COMPLEX_FUNCTIONS_AS_ROUTINES` to
-`1` in `config.h`**.
+BLAS/LAPACK complex function interfaces
+---------------------------------------
+For BLAS and LAPACK functions that return a complex number, there exist two
+conflicting (FORTRAN compiler dependent) calling conventions: either the result
+is returned as a `struct` of two floating point numbers or an additional first
+argument with a pointer to such a `struct` is used.  By default ReLAPACK uses
+the former (which is what gfortran uses), but it can switch to the latter by
+setting `COMPLEX_FUNCTIONS_AS_ROUTINES` (or explicitly the BLAS and LAPACK
+specific counterparts) to `1` in `config.h`.
+
+**For MKL, `COMPLEX_FUNCTIONS_AS_ROUTINES` must be set to `1`.**
+
+(Using the wrong convention will break `ctrsyl` and `ztrsyl` and the test cases
+will segfault or return errors on the order of 1 or larger.)
 
 
 Routine Selection
@@ -64,7 +71,7 @@ affected routines are:
 
 FORTRAN symbol names
 --------------------
-ReLAPACK is commonly linked to
-BLAS and LAPACK with standard FORTRAN interfaces.  Since these libraries usually
-have an underscore to their symbol names, ReLAPACK has configuration switches in
-`config.h` to adjust the corresponding routine names.
+ReLAPACK is commonly linked to BLAS and LAPACK with standard FORTRAN interfaces.
+Since these libraries usually have an underscore to their symbol names, ReLAPACK
+has configuration switches in `config.h` to adjust the corresponding routine
+names.

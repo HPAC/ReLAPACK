@@ -13,7 +13,7 @@
 #include "../config.h"
 #include "f2c.h"
 
-#if COMPLEX_FUNCTIONS_AS_ROUTINES
+#if BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES
 doublecomplex zdotu_fun(int *n, doublecomplex *x, int *incx, doublecomplex *y, int *incy) {
     extern void zdotu_(doublecomplex *, int *, doublecomplex *, int *, doublecomplex *, int *);
     doublecomplex result;
@@ -29,7 +29,9 @@ doublecomplex zdotc_fun(int *n, doublecomplex *x, int *incx, doublecomplex *y, i
     return result;
 }
 #define zdotc_ zdotc_fun
+#endif
 
+#if LAPACK_BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES
 doublecomplex zladiv_fun(doublecomplex *a, doublecomplex *b) {
     extern void zladiv_(doublecomplex *, doublecomplex *, doublecomplex *);
     doublecomplex result;
