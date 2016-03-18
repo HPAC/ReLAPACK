@@ -8,7 +8,7 @@ CFLAGS = -O3 -std=c99 -Wpedantic
 # archive creation
 AR = ar
 
-# BLAS / LAPACK link line for test (all paths relative to test/)
-LINK_TEST = -L../lapack/ -L../blas/ -llapack -lblas -lgfortran -lm
+# BLAS / LAPACK link line for test
+LINK_TEST = -Llapack -Lblas -llapack -lblas -lgfortran -lm
 
 # vim: ft=make

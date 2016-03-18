@@ -21,8 +21,8 @@ Installation
 To compile with the default configuration, simply run `make` to create the
 library `librelapack.a`.
 
-### Linking with MKL and Accelerate
-Note that to link with MKL or Accelerate, you currently need to set the flag
+### Linking with MKL
+Note that to link with MKL, you currently need to set the flag
 `COMPLEX_FUNCTIONS_AS_ROUTINES` to `1` to avoid problems in `ctrsyl` and
 `ztrsyl`.  For further configuration options see [config.md](config.md).
 
@@ -38,9 +38,10 @@ provided by hardware vendors or available as open source (e.g.,
 Testing
 -------
 ReLAPACK's test suite compares its routines numerically with LAPACK's
-counterparts.  To set up the test located int `test/` you need to specify link
-flags for BLAS and LAPACK (version 3.5.0 or newer) in `make.inc`; then `make
-test` runs the tests.  For details, see [test/README.md](test/README.md).
+counterparts.  To set up the tests (located int `test/`) you need to specify
+link flags for BLAS and LAPACK (version 3.5.0 or newer) in `make.inc`; then
+`make test` runs the tests.  For details on the performed tests, see
+[test/README.md](test/README.md).
 
 
 Examples
