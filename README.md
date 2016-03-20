@@ -1,7 +1,7 @@
 ReLAPACK
 ========
 
-Recursive LAPACK Collection
+[Recursive LAPACK Collection](https://github.com/HPAC/ReLAPACK)
 
 ReLAPACK offers a collection of recursive algorithms for many of LAPACK's
 compute kernels.  Since it preserves LAPACK's established interfaces, ReLAPACK

@@ -29,20 +29,22 @@ int main(int argc, char *argv[]) {
     const double ONE = 1;
     const double MONE = -1;
     const int iONE = 1;
-    const int iMONE = -1;
+
+    // iterators
+    int i, j;
 
     // initialize the random number generator
     srand(time(NULL));
 
     // generate a random n x n matrix A
     double *A = malloc(n * n * sizeof(double));
-    for (int j = 0; j < n; j++)
-        for (int i = 0; i < n; i++)
+    for (j = 0; j < n; j++)
+        for (i = 0; i < n; i++)
             A[i + j * n] = (double) rand() / RAND_MAX;
 
     // generate a random vector x of size n
     double *x = malloc(n * sizeof(double));
-    for (int i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
         x[i] = (double) rand() / RAND_MAX;
 
     // compute y := A x
