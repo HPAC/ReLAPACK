@@ -98,7 +98,7 @@ static void RELAPACK_chetrf_rook_rec(
     // Constants
     const float ONE[]  = { 1., 0. };
     const float MONE[] = { -1., 0. };
-    const int  iONE[]  = { 1. };
+    const int   iONE[] = { 1 };
 
     const int n_rest = *n_full - *n;
 

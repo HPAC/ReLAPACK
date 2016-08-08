@@ -137,7 +137,7 @@ static void RELAPACK_ctgsyl_rec(
     // Constants
     const float ONE[]  = { 1., 0. };
     const float MONE[] = { -1., 0. };
-    const int  iONE[]  = { 1. };
+    const int   iONE[] = { 1 };
 
     // Outputs
     float scale1[] = { 1., 0. };

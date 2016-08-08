@@ -36,7 +36,7 @@ void RELAPACK_zgetrf(
     if (*m < *n) {
         // Constants
         const double ONE[]  = { 1., 0. };
-        const int   iONE[] = { 1. };
+        const int    iONE[] = { 1 };
 
         // Splitting
         const int rn = *n - *m;

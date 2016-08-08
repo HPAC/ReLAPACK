@@ -98,7 +98,7 @@ static void RELAPACK_zsytrf_rec(
     // Constants
     const double ONE[]  = { 1., 0. };
     const double MONE[] = { -1., 0. };
-    const int   iONE[]  = { 1. };
+    const int    iONE[] = { 1 };
 
     const int n_rest = *n_full - *n;
 

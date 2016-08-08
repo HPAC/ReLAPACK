@@ -74,7 +74,7 @@ static void RELAPACK_ctrsyl_rec(
     const float ONE[]  = { 1., 0. };
     const float MONE[] = { -1., 0. };
     const float MSGN[] = { -*isgn, 0. };
-    const int  iONE[]  = { 1. };
+    const int   iONE[] = { 1 };
 
     // Outputs
     float scale1[] = { 1., 0. };

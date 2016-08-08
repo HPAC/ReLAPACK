@@ -83,7 +83,7 @@ static void RELAPACK_zhegst_rec(
     const double MONE[]  = { -1., 0. };
     const double HALF[]  = { .5, 0. };
     const double MHALF[] = { -.5, 0. };
-    const int   iONE[]   = { 1. };
+    const int    iONE[]  = { 1 };
 
     // Loop iterator
     int i;

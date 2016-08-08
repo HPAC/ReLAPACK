@@ -69,7 +69,7 @@ static void RELAPACK_sgetrf_rec(
     // Constants
     const float ONE[]  = { 1. };
     const float MONE[] = { -1. };
-    const int  iONE[]  = { 1. };
+    const int   iONE[] = { 1 };
 
     // Splitting
     const int mn = MIN(*m, *n);

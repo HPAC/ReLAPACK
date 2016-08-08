@@ -73,7 +73,7 @@ void RELAPACK_dtgsyl(
     const char cleantrans = notran ? 'N' : 'T';
 
     // Constants
-    const double ZERO[] = { 0 };
+    const double ZERO[] = { 0. };
 
     int isolve = 1;
     int ifunc  = 0;
@@ -139,7 +139,7 @@ static void RELAPACK_dtgsyl_rec(
     // Constants
     const double ONE[]  = { 1. };
     const double MONE[] = { -1. };
-    const int   iONE[]  = { 1. };
+    const int    iONE[] = { 1 };
 
     // Outputs
     double scale1[] = { 1. };

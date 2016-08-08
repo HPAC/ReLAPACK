@@ -73,7 +73,7 @@ void RELAPACK_stgsyl(
     const char cleantrans = notran ? 'N' : 'T';
 
     // Constants
-    const float ZERO[] = { 0 };
+    const float ZERO[] = { 0. };
 
     int isolve = 1;
     int ifunc  = 0;
@@ -139,7 +139,7 @@ static void RELAPACK_stgsyl_rec(
     // Constants
     const float ONE[]  = { 1. };
     const float MONE[] = { -1. };
-    const int  iONE[]  = { 1. };
+    const int   iONE[] = { 1 };
 
     // Outputs
     float scale1[] = { 1. };

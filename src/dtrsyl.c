@@ -76,7 +76,7 @@ static void RELAPACK_dtrsyl_rec(
     const double ONE[]  = { 1. };
     const double MONE[] = { -1. };
     const double MSGN[] = { -*isgn };
-    const int   iONE[]  = { 1. };
+    const int    iONE[] = { 1 };
 
     // Outputs
     double scale1[] = { 1. };
