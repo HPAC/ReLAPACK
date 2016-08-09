@@ -67,8 +67,8 @@ affected routines are:
  * `xsytrf`: The LDL decomposition requires a buffer of size n^2 / 2.  As in
    LAPACK, this size can be queried by setting `lWork = -1` and the passed
    buffer will be used if it is large enough; only if it is not, a local buffer
-   will be allocated.  
-   
+   will be allocated.
+
    The advantage of this mechanism is that ReLAPACK will seamlessly work even
    with codes that statically provide too little memory instead of breaking
    them.

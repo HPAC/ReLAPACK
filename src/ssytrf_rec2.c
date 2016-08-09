@@ -23,10 +23,10 @@ static float c_b9 = 1.f;
  * This routine is a minor modification of LAPACK's slasyf.
  * It serves as an unblocked kernel in the recursive algorithms.
  * The blocked BLAS Level 3 updates were removed and moved to the
- * recursive algorithm. 
+ * recursive algorithm.
  * */
 /* Subroutine */ void RELAPACK_ssytrf_rec2(char *uplo, int *n, int *
-	nb, int *kb, float *a, int *lda, int *ipiv, float *w, 
+	nb, int *kb, float *a, int *lda, int *ipiv, float *w,
 	int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
@@ -42,11 +42,11 @@ static float c_b9 = 1.f;
     static int jj, kk, jp, kp, kw, kkw, imax, jmax;
     static float alpha;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int sscal_(int *, float *, float *, int *), 
-	    sgemv_(char *, int *, int *, float *, float *, int *, 
+    extern /* Subroutine */ int sscal_(int *, float *, float *, int *),
+	    sgemv_(char *, int *, int *, float *, float *, int *,
 	    float *, int *, float *, float *, int *, ftnlen);
     static int kstep;
-    extern /* Subroutine */ int scopy_(int *, float *, int *, float *, 
+    extern /* Subroutine */ int scopy_(int *, float *, int *, float *,
 	    int *), sswap_(int *, float *, int *, float *, int *
 	    );
     static float absakk;
@@ -76,7 +76,7 @@ L10:
 	if (k < *n) {
 	    i__1 = *n - k;
 	    sgemv_("No transpose", &k, &i__1, &c_b8, &a[(k + 1) * a_dim1 + 1],
-		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b9, &w[kw * 
+		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b9, &w[kw *
 		    w_dim1 + 1], &c__1, (ftnlen)12);
 	}
 	kstep = 1;
@@ -97,15 +97,15 @@ L10:
 	    if (absakk >= alpha * colmax) {
 		kp = k;
 	    } else {
-		scopy_(&imax, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) * 
+		scopy_(&imax, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) *
 			w_dim1 + 1], &c__1);
 		i__1 = k - imax;
-		scopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax + 
+		scopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax +
 			1 + (kw - 1) * w_dim1], &c__1);
 		if (k < *n) {
 		    i__1 = *n - k;
-		    sgemv_("No transpose", &k, &i__1, &c_b8, &a[(k + 1) * 
-			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1], 
+		    sgemv_("No transpose", &k, &i__1, &c_b8, &a[(k + 1) *
+			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1],
 			    ldw, &c_b9, &w[(kw - 1) * w_dim1 + 1], &c__1, (
 			    ftnlen)12);
 		}
@@ -126,7 +126,7 @@ L10:
 		} else if ((r__1 = w[imax + (kw - 1) * w_dim1], dabs(r__1)) >=
 			 alpha * rowmax) {
 		    kp = imax;
-		    scopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw * 
+		    scopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw *
 			    w_dim1 + 1], &c__1);
 		} else {
 		    kp = imax;
@@ -138,20 +138,20 @@ L10:
 	    if (kp != kk) {
 		a[kp + kp * a_dim1] = a[kk + kk * a_dim1];
 		i__1 = kk - 1 - kp;
-		scopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp + 
+		scopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp +
 			1) * a_dim1], lda);
 		if (kp > 1) {
 		    i__1 = kp - 1;
-		    scopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1 
+		    scopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1
 			    + 1], &c__1);
 		}
 		if (k < *n) {
 		    i__1 = *n - k;
-		    sswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k 
+		    sswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k
 			    + 1) * a_dim1], lda);
 		}
 		i__1 = *n - kk + 1;
-		sswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw * 
+		sswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw *
 			w_dim1], ldw);
 	    }
 	    if (kstep == 1) {
@@ -169,9 +169,9 @@ L10:
 		    d21 = t / d21;
 		    i__1 = k - 2;
 		    for (j = 1; j <= i__1; ++j) {
-			a[j + (k - 1) * a_dim1] = d21 * (d11 * w[j + (kw - 1) 
+			a[j + (k - 1) * a_dim1] = d21 * (d11 * w[j + (kw - 1)
 				* w_dim1] - w[j + kw * w_dim1]);
-			a[j + k * a_dim1] = d21 * (d22 * w[j + kw * w_dim1] - 
+			a[j + k * a_dim1] = d21 * (d22 * w[j + kw * w_dim1] -
 				w[j + (kw - 1) * w_dim1]);
 /* L20: */
 		    }
@@ -217,7 +217,7 @@ L70:
 	scopy_(&i__1, &a[k + k * a_dim1], &c__1, &w[k + k * w_dim1], &c__1);
 	i__1 = *n - k + 1;
 	i__2 = k - 1;
-	sgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1], lda, &w[k 
+	sgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1], lda, &w[k
 		+ w_dim1], ldw, &c_b9, &w[k + k * w_dim1], &c__1, (ftnlen)12);
 	kstep = 1;
 	absakk = (r__1 = w[k + k * w_dim1], dabs(r__1));
@@ -238,15 +238,15 @@ L70:
 		kp = k;
 	    } else {
 		i__1 = imax - k;
-		scopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) * 
+		scopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) *
 			w_dim1], &c__1);
 		i__1 = *n - imax + 1;
-		scopy_(&i__1, &a[imax + imax * a_dim1], &c__1, &w[imax + (k + 
+		scopy_(&i__1, &a[imax + imax * a_dim1], &c__1, &w[imax + (k +
 			1) * w_dim1], &c__1);
 		i__1 = *n - k + 1;
 		i__2 = k - 1;
-		sgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1], 
-			lda, &w[imax + w_dim1], ldw, &c_b9, &w[k + (k + 1) * 
+		sgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1],
+			lda, &w[imax + w_dim1], ldw, &c_b9, &w[k + (k + 1) *
 			w_dim1], &c__1, (ftnlen)12);
 		i__1 = imax - k;
 		jmax = k - 1 + isamax_(&i__1, &w[k + (k + 1) * w_dim1], &c__1)
@@ -254,20 +254,20 @@ L70:
 		rowmax = (r__1 = w[jmax + (k + 1) * w_dim1], dabs(r__1));
 		if (imax < *n) {
 		    i__1 = *n - imax;
-		    jmax = imax + isamax_(&i__1, &w[imax + 1 + (k + 1) * 
+		    jmax = imax + isamax_(&i__1, &w[imax + 1 + (k + 1) *
 			    w_dim1], &c__1);
 /* Computing MAX */
-		    r__2 = rowmax, r__3 = (r__1 = w[jmax + (k + 1) * w_dim1], 
+		    r__2 = rowmax, r__3 = (r__1 = w[jmax + (k + 1) * w_dim1],
 			    dabs(r__1));
 		    rowmax = dmax(r__2,r__3);
 		}
 		if (absakk >= alpha * colmax * (colmax / rowmax)) {
 		    kp = k;
-		} else if ((r__1 = w[imax + (k + 1) * w_dim1], dabs(r__1)) >= 
+		} else if ((r__1 = w[imax + (k + 1) * w_dim1], dabs(r__1)) >=
 			alpha * rowmax) {
 		    kp = imax;
 		    i__1 = *n - k + 1;
-		    scopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k * 
+		    scopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k *
 			    w_dim1], &c__1);
 		} else {
 		    kp = imax;
@@ -278,11 +278,11 @@ L70:
 	    if (kp != kk) {
 		a[kp + kp * a_dim1] = a[kk + kk * a_dim1];
 		i__1 = kp - kk - 1;
-		scopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk + 
+		scopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk +
 			1) * a_dim1], lda);
 		if (kp < *n) {
 		    i__1 = *n - kp;
-		    scopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1 
+		    scopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1
 			    + kp * a_dim1], &c__1);
 		}
 		if (k > 1) {
@@ -309,7 +309,7 @@ L70:
 		    d21 = t / d21;
 		    i__1 = *n;
 		    for (j = k + 2; j <= i__1; ++j) {
-			a[j + k * a_dim1] = d21 * (d11 * w[j + k * w_dim1] - 
+			a[j + k * a_dim1] = d21 * (d11 * w[j + k * w_dim1] -
 				w[j + (k + 1) * w_dim1]);
 			a[j + (k + 1) * a_dim1] = d21 * (d22 * w[j + (k + 1) *
 				 w_dim1] - w[j + k * w_dim1]);

@@ -22,9 +22,9 @@ static int c__1 = 1;
  * This routine is a minor modification of LAPACK's zlahef_rook.
  * It serves as an unblocked kernel in the recursive algorithms.
  * The blocked BLAS Level 3 updates were removed and moved to the
- * recursive algorithm. 
+ * recursive algorithm.
  * */
-/* Subroutine */ void RELAPACK_zhetrf_rook_rec2(char *uplo, int *n, 
+/* Subroutine */ void RELAPACK_zhetrf_rook_rec2(char *uplo, int *n,
 	int *nb, int *kb, doublecomplex *a, int *lda, int *
 	ipiv, doublecomplex *w, int *ldw, int *info, ftnlen uplo_len)
 {
@@ -35,7 +35,7 @@ static int c__1 = 1;
 
     /* Builtin functions */
     double sqrt(double), d_imag(doublecomplex *);
-    void d_cnjg(doublecomplex *, doublecomplex *), z_div(doublecomplex *, 
+    void d_cnjg(doublecomplex *, doublecomplex *), z_div(doublecomplex *,
 	    doublecomplex *, doublecomplex *);
 
     /* Local variables */
@@ -49,15 +49,15 @@ static int c__1 = 1;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
     static double dtemp, sfmin;
     static int itemp, kstep;
-    extern /* Subroutine */ int zgemv_(char *, int *, int *, 
-	    doublecomplex *, doublecomplex *, int *, doublecomplex *, 
-	    int *, doublecomplex *, doublecomplex *, int *, ftnlen), 
-	    zcopy_(int *, doublecomplex *, int *, doublecomplex *, 
-	    int *), zswap_(int *, doublecomplex *, int *, 
+    extern /* Subroutine */ int zgemv_(char *, int *, int *,
+	    doublecomplex *, doublecomplex *, int *, doublecomplex *,
+	    int *, doublecomplex *, doublecomplex *, int *, ftnlen),
+	    zcopy_(int *, doublecomplex *, int *, doublecomplex *,
+	    int *), zswap_(int *, doublecomplex *, int *,
 	    doublecomplex *, int *);
     extern double dlamch_(char *, ftnlen);
     static double absakk;
-    extern /* Subroutine */ int zdscal_(int *, double *, 
+    extern /* Subroutine */ int zdscal_(int *, double *,
 	    doublecomplex *, int *);
     static double colmax;
     extern /* Subroutine */ int zlacgv_(int *, doublecomplex *, int *)
@@ -100,7 +100,7 @@ L10:
 	    i__1 = *n - k;
 	    z__1.r = -1., z__1.i = -0.;
 	    zgemv_("No transpose", &k, &i__1, &z__1, &a[(k + 1) * a_dim1 + 1],
-		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b1, &w[kw * 
+		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b1, &w[kw *
 		    w_dim1 + 1], &c__1, (ftnlen)12);
 	    i__1 = k + kw * w_dim1;
 	    i__2 = k + kw * w_dim1;
@@ -113,7 +113,7 @@ L10:
 	    i__1 = k - 1;
 	    imax = izamax_(&i__1, &w[kw * w_dim1 + 1], &c__1);
 	    i__1 = imax + kw * w_dim1;
-	    colmax = (d__1 = w[i__1].r, abs(d__1)) + (d__2 = d_imag(&w[imax + 
+	    colmax = (d__1 = w[i__1].r, abs(d__1)) + (d__2 = d_imag(&w[imax +
 		    kw * w_dim1]), abs(d__2));
 	} else {
 	    colmax = 0.;
@@ -129,7 +129,7 @@ L10:
 	    a[i__1].r = d__1, a[i__1].i = 0.;
 	    if (k > 1) {
 		i__1 = k - 1;
-		zcopy_(&i__1, &w[kw * w_dim1 + 1], &c__1, &a[k * a_dim1 + 1], 
+		zcopy_(&i__1, &w[kw * w_dim1 + 1], &c__1, &a[k * a_dim1 + 1],
 			&c__1);
 	    }
 	} else {
@@ -140,7 +140,7 @@ L10:
 L12:
 		if (imax > 1) {
 		    i__1 = imax - 1;
-		    zcopy_(&i__1, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) * 
+		    zcopy_(&i__1, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) *
 			    w_dim1 + 1], &c__1);
 		}
 		i__1 = imax + (kw - 1) * w_dim1;
@@ -148,15 +148,15 @@ L12:
 		d__1 = a[i__2].r;
 		w[i__1].r = d__1, w[i__1].i = 0.;
 		i__1 = k - imax;
-		zcopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax + 
+		zcopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax +
 			1 + (kw - 1) * w_dim1], &c__1);
 		i__1 = k - imax;
 		zlacgv_(&i__1, &w[imax + 1 + (kw - 1) * w_dim1], &c__1);
 		if (k < *n) {
 		    i__1 = *n - k;
 		    z__1.r = -1., z__1.i = -0.;
-		    zgemv_("No transpose", &k, &i__1, &z__1, &a[(k + 1) * 
-			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1], 
+		    zgemv_("No transpose", &k, &i__1, &z__1, &a[(k + 1) *
+			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1],
 			    ldw, &c_b1, &w[(kw - 1) * w_dim1 + 1], &c__1, (
 			    ftnlen)12);
 		    i__1 = imax + (kw - 1) * w_dim1;
@@ -166,7 +166,7 @@ L12:
 		}
 		if (imax != k) {
 		    i__1 = k - imax;
-		    jmax = imax + izamax_(&i__1, &w[imax + 1 + (kw - 1) * 
+		    jmax = imax + izamax_(&i__1, &w[imax + 1 + (kw - 1) *
 			    w_dim1], &c__1);
 		    i__1 = jmax + (kw - 1) * w_dim1;
 		    rowmax = (d__1 = w[i__1].r, abs(d__1)) + (d__2 = d_imag(&
@@ -188,7 +188,7 @@ L12:
 		i__1 = imax + (kw - 1) * w_dim1;
 		if (! ((d__1 = w[i__1].r, abs(d__1)) < alpha * rowmax)) {
 		    kp = imax;
-		    zcopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw * 
+		    zcopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw *
 			    w_dim1 + 1], &c__1);
 		    done = TRUE_;
 		} else if (p == jmax || rowmax <= colmax) {
@@ -199,7 +199,7 @@ L12:
 		    p = imax;
 		    colmax = rowmax;
 		    imax = jmax;
-		    zcopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw * 
+		    zcopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw *
 			    w_dim1 + 1], &c__1);
 		}
 		if (! done) {
@@ -214,18 +214,18 @@ L12:
 		d__1 = a[i__2].r;
 		a[i__1].r = d__1, a[i__1].i = 0.;
 		i__1 = k - 1 - p;
-		zcopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + (p + 1) * 
+		zcopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + (p + 1) *
 			a_dim1], lda);
 		i__1 = k - 1 - p;
 		zlacgv_(&i__1, &a[p + (p + 1) * a_dim1], lda);
 		if (p > 1) {
 		    i__1 = p - 1;
-		    zcopy_(&i__1, &a[k * a_dim1 + 1], &c__1, &a[p * a_dim1 + 
+		    zcopy_(&i__1, &a[k * a_dim1 + 1], &c__1, &a[p * a_dim1 +
 			    1], &c__1);
 		}
 		if (k < *n) {
 		    i__1 = *n - k;
-		    zswap_(&i__1, &a[k + (k + 1) * a_dim1], lda, &a[p + (k + 
+		    zswap_(&i__1, &a[k + (k + 1) * a_dim1], lda, &a[p + (k +
 			    1) * a_dim1], lda);
 		}
 		i__1 = *n - kk + 1;
@@ -238,22 +238,22 @@ L12:
 		d__1 = a[i__2].r;
 		a[i__1].r = d__1, a[i__1].i = 0.;
 		i__1 = kk - 1 - kp;
-		zcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp + 
+		zcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp +
 			1) * a_dim1], lda);
 		i__1 = kk - 1 - kp;
 		zlacgv_(&i__1, &a[kp + (kp + 1) * a_dim1], lda);
 		if (kp > 1) {
 		    i__1 = kp - 1;
-		    zcopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1 
+		    zcopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1
 			    + 1], &c__1);
 		}
 		if (k < *n) {
 		    i__1 = *n - k;
-		    zswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k 
+		    zswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k
 			    + 1) * a_dim1], lda);
 		}
 		i__1 = *n - kk + 1;
-		zswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw * 
+		zswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw *
 			w_dim1], ldw);
 	    }
 	    if (kstep == 1) {
@@ -288,14 +288,14 @@ L12:
 		    d11.r = z__1.r, d11.i = z__1.i;
 		    z_div(&z__1, &w[k - 1 + (kw - 1) * w_dim1], &d21);
 		    d22.r = z__1.r, d22.i = z__1.i;
-		    z__1.r = d11.r * d22.r - d11.i * d22.i, z__1.i = d11.r * 
+		    z__1.r = d11.r * d22.r - d11.i * d22.i, z__1.i = d11.r *
 			    d22.i + d11.i * d22.r;
 		    t = 1. / (z__1.r - 1.);
 		    i__1 = k - 2;
 		    for (j = 1; j <= i__1; ++j) {
 			i__2 = j + (k - 1) * a_dim1;
 			i__3 = j + (kw - 1) * w_dim1;
-			z__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i, 
+			z__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i,
 				z__4.i = d11.r * w[i__3].i + d11.i * w[i__3]
 				.r;
 			i__4 = j + kw * w_dim1;
@@ -306,7 +306,7 @@ L12:
 			a[i__2].r = z__1.r, a[i__2].i = z__1.i;
 			i__2 = j + k * a_dim1;
 			i__3 = j + kw * w_dim1;
-			z__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i, 
+			z__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i,
 				z__4.i = d22.r * w[i__3].i + d22.i * w[i__3]
 				.r;
 			i__4 = j + (kw - 1) * w_dim1;
@@ -385,7 +385,7 @@ L70:
 	w[i__1].r = d__1, w[i__1].i = 0.;
 	if (k < *n) {
 	    i__1 = *n - k;
-	    zcopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &w[k + 1 + k * 
+	    zcopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &w[k + 1 + k *
 		    w_dim1], &c__1);
 	}
 	if (k > 1) {
@@ -406,7 +406,7 @@ L70:
 	    i__1 = *n - k;
 	    imax = k + izamax_(&i__1, &w[k + 1 + k * w_dim1], &c__1);
 	    i__1 = imax + k * w_dim1;
-	    colmax = (d__1 = w[i__1].r, abs(d__1)) + (d__2 = d_imag(&w[imax + 
+	    colmax = (d__1 = w[i__1].r, abs(d__1)) + (d__2 = d_imag(&w[imax +
 		    k * w_dim1]), abs(d__2));
 	} else {
 	    colmax = 0.;
@@ -422,7 +422,7 @@ L70:
 	    a[i__1].r = d__1, a[i__1].i = 0.;
 	    if (k < *n) {
 		i__1 = *n - k;
-		zcopy_(&i__1, &w[k + 1 + k * w_dim1], &c__1, &a[k + 1 + k * 
+		zcopy_(&i__1, &w[k + 1 + k * w_dim1], &c__1, &a[k + 1 + k *
 			a_dim1], &c__1);
 	    }
 	} else {
@@ -432,7 +432,7 @@ L70:
 		done = FALSE_;
 L72:
 		i__1 = imax - k;
-		zcopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) * 
+		zcopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) *
 			w_dim1], &c__1);
 		i__1 = imax - k;
 		zlacgv_(&i__1, &w[k + (k + 1) * w_dim1], &c__1);
@@ -450,7 +450,7 @@ L72:
 		    i__2 = k - 1;
 		    z__1.r = -1., z__1.i = -0.;
 		    zgemv_("No transpose", &i__1, &i__2, &z__1, &a[k + a_dim1]
-			    , lda, &w[imax + w_dim1], ldw, &c_b1, &w[k + (k + 
+			    , lda, &w[imax + w_dim1], ldw, &c_b1, &w[k + (k +
 			    1) * w_dim1], &c__1, (ftnlen)12);
 		    i__1 = imax + (k + 1) * w_dim1;
 		    i__2 = imax + (k + 1) * w_dim1;
@@ -469,7 +469,7 @@ L72:
 		}
 		if (imax < *n) {
 		    i__1 = *n - imax;
-		    itemp = imax + izamax_(&i__1, &w[imax + 1 + (k + 1) * 
+		    itemp = imax + izamax_(&i__1, &w[imax + 1 + (k + 1) *
 			    w_dim1], &c__1);
 		    i__1 = itemp + (k + 1) * w_dim1;
 		    dtemp = (d__1 = w[i__1].r, abs(d__1)) + (d__2 = d_imag(&w[
@@ -483,7 +483,7 @@ L72:
 		if (! ((d__1 = w[i__1].r, abs(d__1)) < alpha * rowmax)) {
 		    kp = imax;
 		    i__1 = *n - k + 1;
-		    zcopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k * 
+		    zcopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k *
 			    w_dim1], &c__1);
 		    done = TRUE_;
 		} else if (p == jmax || rowmax <= colmax) {
@@ -495,7 +495,7 @@ L72:
 		    colmax = rowmax;
 		    imax = jmax;
 		    i__1 = *n - k + 1;
-		    zcopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k * 
+		    zcopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k *
 			    w_dim1], &c__1);
 		}
 		if (! done) {
@@ -509,13 +509,13 @@ L72:
 		d__1 = a[i__2].r;
 		a[i__1].r = d__1, a[i__1].i = 0.;
 		i__1 = p - k - 1;
-		zcopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &a[p + (k + 1) * 
+		zcopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &a[p + (k + 1) *
 			a_dim1], lda);
 		i__1 = p - k - 1;
 		zlacgv_(&i__1, &a[p + (k + 1) * a_dim1], lda);
 		if (p < *n) {
 		    i__1 = *n - p;
-		    zcopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + 1 + p 
+		    zcopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + 1 + p
 			    * a_dim1], &c__1);
 		}
 		if (k > 1) {
@@ -530,13 +530,13 @@ L72:
 		d__1 = a[i__2].r;
 		a[i__1].r = d__1, a[i__1].i = 0.;
 		i__1 = kp - kk - 1;
-		zcopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk + 
+		zcopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk +
 			1) * a_dim1], lda);
 		i__1 = kp - kk - 1;
 		zlacgv_(&i__1, &a[kp + (kk + 1) * a_dim1], lda);
 		if (kp < *n) {
 		    i__1 = *n - kp;
-		    zcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1 
+		    zcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1
 			    + kp * a_dim1], &c__1);
 		}
 		if (k > 1) {
@@ -578,14 +578,14 @@ L72:
 		    d_cnjg(&z__2, &d21);
 		    z_div(&z__1, &w[k + k * w_dim1], &z__2);
 		    d22.r = z__1.r, d22.i = z__1.i;
-		    z__1.r = d11.r * d22.r - d11.i * d22.i, z__1.i = d11.r * 
+		    z__1.r = d11.r * d22.r - d11.i * d22.i, z__1.i = d11.r *
 			    d22.i + d11.i * d22.r;
 		    t = 1. / (z__1.r - 1.);
 		    i__1 = *n;
 		    for (j = k + 2; j <= i__1; ++j) {
 			i__2 = j + k * a_dim1;
 			i__3 = j + k * w_dim1;
-			z__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i, 
+			z__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i,
 				z__4.i = d11.r * w[i__3].i + d11.i * w[i__3]
 				.r;
 			i__4 = j + (k + 1) * w_dim1;
@@ -597,7 +597,7 @@ L72:
 			a[i__2].r = z__1.r, a[i__2].i = z__1.i;
 			i__2 = j + (k + 1) * a_dim1;
 			i__3 = j + (k + 1) * w_dim1;
-			z__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i, 
+			z__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i,
 				z__4.i = d22.r * w[i__3].i + d22.i * w[i__3]
 				.r;
 			i__4 = j + k * w_dim1;

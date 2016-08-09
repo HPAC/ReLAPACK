@@ -1,15 +1,15 @@
 #include "relapack.h"
 
-static void RELAPACK_sgemmt_rec(const char *, const char *, const char *, 
+static void RELAPACK_sgemmt_rec(const char *, const char *, const char *,
     const int *, const int *, const float *, const float *, const int *,
     const float *, const int *, const float *, float *, const int *);
 
-static void RELAPACK_sgemmt_rec2(const char *, const char *, const char *, 
+static void RELAPACK_sgemmt_rec2(const char *, const char *, const char *,
     const int *, const int *, const float *, const float *, const int *,
     const float *, const int *, const float *, float *, const int *);
 
 /** SGEMMT computes a matrix-matrix product with general matrices but updates
- * only the upper or lower triangular part of the result matrix. 
+ * only the upper or lower triangular part of the result matrix.
  *
  * This routine performs the same operation as the BLAS routine
  * sgemm(transA, transB, n, n, k, alpha, A, ldA, B, ldB, beta, C, ldC)

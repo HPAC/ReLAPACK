@@ -21,13 +21,13 @@ static double c_b26 = 1.;
 static double c_b30 = 0.;
 static int c_true = TRUE_;
 
-int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int 
+int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 	*m, int *n, double *a, int *lda, double *b, int *
-	ldb, double *c__, int *ldc, double *scale, int *info, 
+	ldb, double *c__, int *ldc, double *scale, int *info,
 	ftnlen trana_len, ftnlen tranb_len)
 {
     /* System generated locals */
-    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2,
 	    i__3, i__4;
     double d__1, d__2;
 
@@ -37,24 +37,24 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
     static int k1, k2, l1, l2;
     static double a11, db, da11, vec[4]	/* was [2][2] */, dum[1], eps,
 	     sgn;
-    extern double ddot_(int *, double *, int *, double *, 
+    extern double ddot_(int *, double *, int *, double *,
 	    int *);
     static int ierr;
     static double smin, suml, sumr;
-    extern /* Subroutine */ int dscal_(int *, double *, double *, 
+    extern /* Subroutine */ int dscal_(int *, double *, double *,
 	    int *);
     extern int lsame_(char *, char *, ftnlen, ftnlen);
     static int knext, lnext;
     static double xnorm;
-    extern /* Subroutine */ int dlaln2_(int *, int *, int *, 
+    extern /* Subroutine */ int dlaln2_(int *, int *, int *,
 	    double *, double *, double *, int *, double *,
 	     double *, double *, int *, double *, double *
 	    , double *, int *, double *, double *, int *),
-	     dlasy2_(int *, int *, int *, int *, int *, 
-	    double *, int *, double *, int *, double *, 
-	    int *, double *, double *, int *, double *, 
+	     dlasy2_(int *, int *, int *, int *, int *,
+	    double *, int *, double *, int *, double *,
+	    int *, double *, double *, int *, double *,
 	    int *), dlabad_(double *, double *);
-    extern double dlamch_(char *, ftnlen), dlange_(char *, int *, 
+    extern double dlamch_(char *, ftnlen), dlange_(char *, int *,
 	    int *, double *, int *, double *, ftnlen);
     static double scaloc;
     extern /* Subroutine */ int xerbla_(char *, int *, ftnlen);
@@ -80,7 +80,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
     if (! notrna && ! lsame_(trana, "T", (ftnlen)1, (ftnlen)1) && ! lsame_(
 	    trana, "C", (ftnlen)1, (ftnlen)1)) {
 	*info = -1;
-    } else if (! notrnb && ! lsame_(tranb, "T", (ftnlen)1, (ftnlen)1) && ! 
+    } else if (! notrnb && ! lsame_(tranb, "T", (ftnlen)1, (ftnlen)1) && !
 	    lsame_(tranb, "C", (ftnlen)1, (ftnlen)1)) {
 	*info = -2;
     } else if (*isgn != 1 && *isgn != -1) {
@@ -113,7 +113,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
     bignum = 1. / smlnum;
 /* Computing MAX */
     d__1 = smlnum, d__2 = eps * dlange_("M", m, m, &a[a_offset], lda, dum, (
-	    ftnlen)1), d__1 = max(d__1,d__2), d__2 = eps * dlange_("M", n, n, 
+	    ftnlen)1), d__1 = max(d__1,d__2), d__2 = eps * dlange_("M", n, n,
 	    &b[b_offset], ldb, dum, (ftnlen)1);
     smin = max(d__1,d__2);
     sgn = (double) (*isgn);
@@ -166,7 +166,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k1 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l1 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    scaloc = 1.;
@@ -202,7 +202,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k1 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l1 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = *m - k2;
@@ -213,11 +213,11 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k2 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l1 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k2 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__2, &c__[k2 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    d__1 = -sgn * b[l1 + l1 * b_dim1];
-		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &a[k1 + k1 
+		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &a[k1 + k1
 			    * a_dim1], lda, &c_b26, &c_b26, vec, &c__2, &d__1,
 			     &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
@@ -242,9 +242,9 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k1 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l1 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
-		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn * 
+		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn *
 			    sumr));
 		    i__2 = *m - k1;
 /* Computing MIN */
@@ -254,13 +254,13 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k1 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l2 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l2 * 
+		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l2 *
 			    b_dim1 + 1], &c__1);
-		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn * 
+		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn *
 			    sumr));
 		    d__1 = -sgn * a[k1 + k1 * a_dim1];
 		    dlaln2_(&c_true, &c__2, &c__1, &smin, &c_b26, &b[l1 + l1 *
-			     b_dim1], ldb, &c_b26, &c_b26, vec, &c__2, &d__1, 
+			     b_dim1], ldb, &c_b26, &c_b26, vec, &c__2, &d__1,
 			    &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
 			*info = 1;
@@ -284,7 +284,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k1 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l1 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = *m - k2;
@@ -295,7 +295,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k1 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l2 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l2 * 
+		    sumr = ddot_(&i__2, &c__[k1 + c_dim1], ldc, &b[l2 *
 			    b_dim1 + 1], &c__1);
 		    vec[2] = c__[k1 + l2 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = *m - k2;
@@ -306,7 +306,7 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k2 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l1 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k2 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__2, &c__[k2 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = *m - k2;
@@ -317,10 +317,10 @@ int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 		    suml = ddot_(&i__2, &a[k2 + min(i__3,*m) * a_dim1], lda, &
 			    c__[min(i__4,*m) + l2 * c_dim1], &c__1);
 		    i__2 = l1 - 1;
-		    sumr = ddot_(&i__2, &c__[k2 + c_dim1], ldc, &b[l2 * 
+		    sumr = ddot_(&i__2, &c__[k2 + c_dim1], ldc, &b[l2 *
 			    b_dim1 + 1], &c__1);
 		    vec[3] = c__[k2 + l2 * c_dim1] - (suml + sgn * sumr);
-		    dlasy2_(&c_false, &c_false, isgn, &c__2, &c__2, &a[k1 + 
+		    dlasy2_(&c_false, &c_false, isgn, &c__2, &c__2, &a[k1 +
 			    k1 * a_dim1], lda, &b[l1 + l1 * b_dim1], ldb, vec,
 			     &c__2, &scaloc, x, &c__2, &xnorm, &ierr);
 		    if (ierr != 0) {
@@ -388,10 +388,10 @@ L60:
 		}
 		if (l1 == l2 && k1 == k2) {
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    scaloc = 1.;
@@ -420,22 +420,22 @@ L60:
 		    c__[k1 + l1 * c_dim1] = x[0];
 		} else if (l1 == l2 && k1 != k2) {
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__3, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k2 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__3, &c__[k2 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    d__1 = -sgn * b[l1 + l1 * b_dim1];
 		    dlaln2_(&c_true, &c__2, &c__1, &smin, &c_b26, &a[k1 + k1 *
-			     a_dim1], lda, &c_b26, &c_b26, vec, &c__2, &d__1, 
+			     a_dim1], lda, &c_b26, &c_b26, vec, &c__2, &d__1,
 			    &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
 			*info = 1;
@@ -452,24 +452,24 @@ L60:
 		    c__[k2 + l1 * c_dim1] = x[1];
 		} else if (l1 != l2 && k1 == k2) {
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
-		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn * 
+		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn *
 			    sumr));
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 * 
+		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l2 * 
+		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l2 *
 			    b_dim1 + 1], &c__1);
-		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn * 
+		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn *
 			    sumr));
 		    d__1 = -sgn * a[k1 + k1 * a_dim1];
 		    dlaln2_(&c_true, &c__2, &c__1, &smin, &c_b26, &b[l1 + l1 *
-			     b_dim1], ldb, &c_b26, &c_b26, vec, &c__2, &d__1, 
+			     b_dim1], ldb, &c_b26, &c_b26, vec, &c__2, &d__1,
 			    &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
 			*info = 1;
@@ -486,34 +486,34 @@ L60:
 		    c__[k1 + l2 * c_dim1] = x[1];
 		} else if (l1 != l2 && k1 != k2) {
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 * 
+		    suml = ddot_(&i__3, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l2 * 
+		    sumr = ddot_(&i__3, &c__[k1 + c_dim1], ldc, &b[l2 *
 			    b_dim1 + 1], &c__1);
 		    vec[2] = c__[k1 + l2 * c_dim1] - (suml + sgn * sumr);
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__3, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k2 + c_dim1], ldc, &b[l1 * 
+		    sumr = ddot_(&i__3, &c__[k2 + c_dim1], ldc, &b[l1 *
 			    b_dim1 + 1], &c__1);
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__3 = k1 - 1;
-		    suml = ddot_(&i__3, &a[k2 * a_dim1 + 1], &c__1, &c__[l2 * 
+		    suml = ddot_(&i__3, &a[k2 * a_dim1 + 1], &c__1, &c__[l2 *
 			    c_dim1 + 1], &c__1);
 		    i__3 = l1 - 1;
-		    sumr = ddot_(&i__3, &c__[k2 + c_dim1], ldc, &b[l2 * 
+		    sumr = ddot_(&i__3, &c__[k2 + c_dim1], ldc, &b[l2 *
 			    b_dim1 + 1], &c__1);
 		    vec[3] = c__[k2 + l2 * c_dim1] - (suml + sgn * sumr);
-		    dlasy2_(&c_true, &c_false, isgn, &c__2, &c__2, &a[k1 + k1 
+		    dlasy2_(&c_true, &c_false, isgn, &c__2, &c__2, &a[k1 + k1
 			    * a_dim1], lda, &b[l1 + l1 * b_dim1], ldb, vec, &
 			    c__2, &scaloc, x, &c__2, &xnorm, &ierr);
 		    if (ierr != 0) {
@@ -580,7 +580,7 @@ L120:
 		}
 		if (l1 == l2 && k1 == k2) {
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l1;
 /* Computing MIN */
@@ -616,7 +616,7 @@ L120:
 		    c__[k1 + l1 * c_dim1] = x[0];
 		} else if (l1 == l2 && k1 != k2) {
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -627,7 +627,7 @@ L120:
 			     &b[l1 + min(i__4,*n) * b_dim1], ldb);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__2, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -639,7 +639,7 @@ L120:
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    d__1 = -sgn * b[l1 + l1 * b_dim1];
 		    dlaln2_(&c_true, &c__2, &c__1, &smin, &c_b26, &a[k1 + k1 *
-			     a_dim1], lda, &c_b26, &c_b26, vec, &c__2, &d__1, 
+			     a_dim1], lda, &c_b26, &c_b26, vec, &c__2, &d__1,
 			    &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
 			*info = 1;
@@ -656,7 +656,7 @@ L120:
 		    c__[k2 + l1 * c_dim1] = x[1];
 		} else if (l1 != l2 && k1 == k2) {
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -665,10 +665,10 @@ L120:
 		    i__4 = l2 + 1;
 		    sumr = ddot_(&i__2, &c__[k1 + min(i__3,*n) * c_dim1], ldc,
 			     &b[l1 + min(i__4,*n) * b_dim1], ldb);
-		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn * 
+		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn *
 			    sumr));
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 * 
+		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -677,10 +677,10 @@ L120:
 		    i__4 = l2 + 1;
 		    sumr = ddot_(&i__2, &c__[k1 + min(i__3,*n) * c_dim1], ldc,
 			     &b[l2 + min(i__4,*n) * b_dim1], ldb);
-		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn * 
+		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn *
 			    sumr));
 		    d__1 = -sgn * a[k1 + k1 * a_dim1];
-		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &b[l1 + l1 
+		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &b[l1 + l1
 			    * b_dim1], ldb, &c_b26, &c_b26, vec, &c__2, &d__1,
 			     &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
@@ -698,7 +698,7 @@ L120:
 		    c__[k1 + l2 * c_dim1] = x[1];
 		} else if (l1 != l2 && k1 != k2) {
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -709,7 +709,7 @@ L120:
 			     &b[l1 + min(i__4,*n) * b_dim1], ldb);
 		    vec[0] = c__[k1 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 * 
+		    suml = ddot_(&i__2, &a[k1 * a_dim1 + 1], &c__1, &c__[l2 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -720,7 +720,7 @@ L120:
 			     &b[l2 + min(i__4,*n) * b_dim1], ldb);
 		    vec[2] = c__[k1 + l2 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 * 
+		    suml = ddot_(&i__2, &a[k2 * a_dim1 + 1], &c__1, &c__[l1 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -731,7 +731,7 @@ L120:
 			     &b[l1 + min(i__4,*n) * b_dim1], ldb);
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    i__2 = k1 - 1;
-		    suml = ddot_(&i__2, &a[k2 * a_dim1 + 1], &c__1, &c__[l2 * 
+		    suml = ddot_(&i__2, &a[k2 * a_dim1 + 1], &c__1, &c__[l2 *
 			    c_dim1 + 1], &c__1);
 		    i__2 = *n - l2;
 /* Computing MIN */
@@ -877,7 +877,7 @@ L180:
 			     &b[l1 + min(i__3,*n) * b_dim1], ldb);
 		    vec[1] = c__[k2 + l1 * c_dim1] - (suml + sgn * sumr);
 		    d__1 = -sgn * b[l1 + l1 * b_dim1];
-		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &a[k1 + k1 
+		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &a[k1 + k1
 			    * a_dim1], lda, &c_b26, &c_b26, vec, &c__2, &d__1,
 			     &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
@@ -908,7 +908,7 @@ L180:
 		    i__3 = l2 + 1;
 		    sumr = ddot_(&i__1, &c__[k1 + min(i__2,*n) * c_dim1], ldc,
 			     &b[l1 + min(i__3,*n) * b_dim1], ldb);
-		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn * 
+		    vec[0] = sgn * (c__[k1 + l1 * c_dim1] - (suml + sgn *
 			    sumr));
 		    i__1 = *m - k1;
 /* Computing MIN */
@@ -924,10 +924,10 @@ L180:
 		    i__3 = l2 + 1;
 		    sumr = ddot_(&i__1, &c__[k1 + min(i__2,*n) * c_dim1], ldc,
 			     &b[l2 + min(i__3,*n) * b_dim1], ldb);
-		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn * 
+		    vec[1] = sgn * (c__[k1 + l2 * c_dim1] - (suml + sgn *
 			    sumr));
 		    d__1 = -sgn * a[k1 + k1 * a_dim1];
-		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &b[l1 + l1 
+		    dlaln2_(&c_false, &c__2, &c__1, &smin, &c_b26, &b[l1 + l1
 			    * b_dim1], ldb, &c_b26, &c_b26, vec, &c__2, &d__1,
 			     &c_b30, x, &c__2, &scaloc, &xnorm, &ierr);
 		    if (ierr != 0) {
@@ -1004,7 +1004,7 @@ L180:
 		    sumr = ddot_(&i__1, &c__[k2 + min(i__2,*n) * c_dim1], ldc,
 			     &b[l2 + min(i__3,*n) * b_dim1], ldb);
 		    vec[3] = c__[k2 + l2 * c_dim1] - (suml + sgn * sumr);
-		    dlasy2_(&c_false, &c_true, isgn, &c__2, &c__2, &a[k1 + k1 
+		    dlasy2_(&c_false, &c_true, isgn, &c__2, &c__2, &a[k1 + k1
 			    * a_dim1], lda, &b[l1 + l1 * b_dim1], ldb, vec, &
 			    c__2, &scaloc, x, &c__2, &xnorm, &ierr);
 		    if (ierr != 0) {

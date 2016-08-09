@@ -20,7 +20,7 @@ TEST_EXES = $(TEST_SUITS:%=test/%.x)
 .SECONDARY: $(TEST_EXES)
 .PHONY: test
 
-# ReLAPACK compilation 
+# ReLAPACK compilation
 
 $(LIBNAME): $(OBJS)
 	$(AR) -r $@ $^

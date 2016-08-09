@@ -42,7 +42,7 @@ resulting in a symmetric (Hermitian) matrix.
 
 Routines: `slauum`, `dlauum`, `clauum`, `zlauum`
 
-Operations: 
+Operations:
 * A = L^T L
 * A = U U^T
 
@@ -88,7 +88,7 @@ Operations:
 ### `xsytrf`
 LDL decomposition of a symmetric (or Hermitian) matrix
 
-Routines: 
+Routines:
 * `ssytrf`, `dsytrf`, `csytrf`, `chetrf`, `zsytrf`, `zhetrf`,
 * `ssytrf_rook`, `dsytrf_rook`, `csytrf_rook`, `chetrf_rook`, `zsytrf_rook`,
   `zhetrf_rook`

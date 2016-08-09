@@ -14,12 +14,12 @@
 // LAPACK routines linked against have a trailing underscore
 #define LAPACK_UNDERSCORE BLAS_UNDERSCORE
 
-// Complex BLAS/LAPACK routines return their result in the first argument 
+// Complex BLAS/LAPACK routines return their result in the first argument
 // This option must be enabled when linking to MKL for ctrsyl and ztrsyl to
 // work.
 #define COMPLEX_FUNCTIONS_AS_ROUTINES 0
-#define BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES 
-#define LAPACK_BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES 
+#define BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES
+#define LAPACK_BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES
 
 // The BLAS-like extension xgemmt is provided by an external library.
 #define HAVE_XGEMMT 0
@@ -112,7 +112,7 @@
 /////////////////////
 // crossover sizes //
 /////////////////////
- 
+
 // default crossover size
 #define CROSSOVER 24
 

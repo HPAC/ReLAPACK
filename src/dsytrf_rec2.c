@@ -23,10 +23,10 @@ static double c_b9 = 1.;
  * This routine is a minor modification of LAPACK's dlasyf.
  * It serves as an unblocked kernel in the recursive algorithms.
  * The blocked BLAS Level 3 updates were removed and moved to the
- * recursive algorithm. 
+ * recursive algorithm.
  * */
 /* Subroutine */ void RELAPACK_dsytrf_rec2(char *uplo, int *n, int *
-	nb, int *kb, double *a, int *lda, int *ipiv, 
+	nb, int *kb, double *a, int *lda, int *ipiv,
 	double *w, int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
@@ -41,13 +41,13 @@ static double c_b9 = 1.;
     static double t, r1, d11, d21, d22;
     static int jj, kk, jp, kp, kw, kkw, imax, jmax;
     static double alpha;
-    extern /* Subroutine */ int dscal_(int *, double *, double *, 
+    extern /* Subroutine */ int dscal_(int *, double *, double *,
 	    int *);
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dgemv_(char *, int *, int *, 
-	    double *, double *, int *, double *, int *, 
-	    double *, double *, int *, ftnlen), dcopy_(int *, 
-	    double *, int *, double *, int *), dswap_(int 
+    extern /* Subroutine */ int dgemv_(char *, int *, int *,
+	    double *, double *, int *, double *, int *,
+	    double *, double *, int *, ftnlen), dcopy_(int *,
+	    double *, int *, double *, int *), dswap_(int
 	    *, double *, int *, double *, int *);
     static int kstep;
     static double absakk;
@@ -77,7 +77,7 @@ L10:
 	if (k < *n) {
 	    i__1 = *n - k;
 	    dgemv_("No transpose", &k, &i__1, &c_b8, &a[(k + 1) * a_dim1 + 1],
-		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b9, &w[kw * 
+		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b9, &w[kw *
 		    w_dim1 + 1], &c__1, (ftnlen)12);
 	}
 	kstep = 1;
@@ -98,15 +98,15 @@ L10:
 	    if (absakk >= alpha * colmax) {
 		kp = k;
 	    } else {
-		dcopy_(&imax, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) * 
+		dcopy_(&imax, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) *
 			w_dim1 + 1], &c__1);
 		i__1 = k - imax;
-		dcopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax + 
+		dcopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax +
 			1 + (kw - 1) * w_dim1], &c__1);
 		if (k < *n) {
 		    i__1 = *n - k;
-		    dgemv_("No transpose", &k, &i__1, &c_b8, &a[(k + 1) * 
-			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1], 
+		    dgemv_("No transpose", &k, &i__1, &c_b8, &a[(k + 1) *
+			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1],
 			    ldw, &c_b9, &w[(kw - 1) * w_dim1 + 1], &c__1, (
 			    ftnlen)12);
 		}
@@ -124,10 +124,10 @@ L10:
 		}
 		if (absakk >= alpha * colmax * (colmax / rowmax)) {
 		    kp = k;
-		} else if ((d__1 = w[imax + (kw - 1) * w_dim1], abs(d__1)) >= 
+		} else if ((d__1 = w[imax + (kw - 1) * w_dim1], abs(d__1)) >=
 			alpha * rowmax) {
 		    kp = imax;
-		    dcopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw * 
+		    dcopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw *
 			    w_dim1 + 1], &c__1);
 		} else {
 		    kp = imax;
@@ -139,20 +139,20 @@ L10:
 	    if (kp != kk) {
 		a[kp + kp * a_dim1] = a[kk + kk * a_dim1];
 		i__1 = kk - 1 - kp;
-		dcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp + 
+		dcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp +
 			1) * a_dim1], lda);
 		if (kp > 1) {
 		    i__1 = kp - 1;
-		    dcopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1 
+		    dcopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1
 			    + 1], &c__1);
 		}
 		if (k < *n) {
 		    i__1 = *n - k;
-		    dswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k 
+		    dswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k
 			    + 1) * a_dim1], lda);
 		}
 		i__1 = *n - kk + 1;
-		dswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw * 
+		dswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw *
 			w_dim1], ldw);
 	    }
 	    if (kstep == 1) {
@@ -170,9 +170,9 @@ L10:
 		    d21 = t / d21;
 		    i__1 = k - 2;
 		    for (j = 1; j <= i__1; ++j) {
-			a[j + (k - 1) * a_dim1] = d21 * (d11 * w[j + (kw - 1) 
+			a[j + (k - 1) * a_dim1] = d21 * (d11 * w[j + (kw - 1)
 				* w_dim1] - w[j + kw * w_dim1]);
-			a[j + k * a_dim1] = d21 * (d22 * w[j + kw * w_dim1] - 
+			a[j + k * a_dim1] = d21 * (d22 * w[j + kw * w_dim1] -
 				w[j + (kw - 1) * w_dim1]);
 /* L20: */
 		    }
@@ -218,7 +218,7 @@ L70:
 	dcopy_(&i__1, &a[k + k * a_dim1], &c__1, &w[k + k * w_dim1], &c__1);
 	i__1 = *n - k + 1;
 	i__2 = k - 1;
-	dgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1], lda, &w[k 
+	dgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1], lda, &w[k
 		+ w_dim1], ldw, &c_b9, &w[k + k * w_dim1], &c__1, (ftnlen)12);
 	kstep = 1;
 	absakk = (d__1 = w[k + k * w_dim1], abs(d__1));
@@ -239,15 +239,15 @@ L70:
 		kp = k;
 	    } else {
 		i__1 = imax - k;
-		dcopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) * 
+		dcopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) *
 			w_dim1], &c__1);
 		i__1 = *n - imax + 1;
-		dcopy_(&i__1, &a[imax + imax * a_dim1], &c__1, &w[imax + (k + 
+		dcopy_(&i__1, &a[imax + imax * a_dim1], &c__1, &w[imax + (k +
 			1) * w_dim1], &c__1);
 		i__1 = *n - k + 1;
 		i__2 = k - 1;
-		dgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1], 
-			lda, &w[imax + w_dim1], ldw, &c_b9, &w[k + (k + 1) * 
+		dgemv_("No transpose", &i__1, &i__2, &c_b8, &a[k + a_dim1],
+			lda, &w[imax + w_dim1], ldw, &c_b9, &w[k + (k + 1) *
 			w_dim1], &c__1, (ftnlen)12);
 		i__1 = imax - k;
 		jmax = k - 1 + idamax_(&i__1, &w[k + (k + 1) * w_dim1], &c__1)
@@ -255,20 +255,20 @@ L70:
 		rowmax = (d__1 = w[jmax + (k + 1) * w_dim1], abs(d__1));
 		if (imax < *n) {
 		    i__1 = *n - imax;
-		    jmax = imax + idamax_(&i__1, &w[imax + 1 + (k + 1) * 
+		    jmax = imax + idamax_(&i__1, &w[imax + 1 + (k + 1) *
 			    w_dim1], &c__1);
 /* Computing MAX */
-		    d__2 = rowmax, d__3 = (d__1 = w[jmax + (k + 1) * w_dim1], 
+		    d__2 = rowmax, d__3 = (d__1 = w[jmax + (k + 1) * w_dim1],
 			    abs(d__1));
 		    rowmax = max(d__2,d__3);
 		}
 		if (absakk >= alpha * colmax * (colmax / rowmax)) {
 		    kp = k;
-		} else if ((d__1 = w[imax + (k + 1) * w_dim1], abs(d__1)) >= 
+		} else if ((d__1 = w[imax + (k + 1) * w_dim1], abs(d__1)) >=
 			alpha * rowmax) {
 		    kp = imax;
 		    i__1 = *n - k + 1;
-		    dcopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k * 
+		    dcopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k *
 			    w_dim1], &c__1);
 		} else {
 		    kp = imax;
@@ -279,11 +279,11 @@ L70:
 	    if (kp != kk) {
 		a[kp + kp * a_dim1] = a[kk + kk * a_dim1];
 		i__1 = kp - kk - 1;
-		dcopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk + 
+		dcopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk +
 			1) * a_dim1], lda);
 		if (kp < *n) {
 		    i__1 = *n - kp;
-		    dcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1 
+		    dcopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1
 			    + kp * a_dim1], &c__1);
 		}
 		if (k > 1) {
@@ -310,7 +310,7 @@ L70:
 		    d21 = t / d21;
 		    i__1 = *n;
 		    for (j = k + 2; j <= i__1; ++j) {
-			a[j + k * a_dim1] = d21 * (d11 * w[j + k * w_dim1] - 
+			a[j + k * a_dim1] = d21 * (d11 * w[j + k * w_dim1] -
 				w[j + (k + 1) * w_dim1]);
 			a[j + (k + 1) * a_dim1] = d21 * (d22 * w[j + (k + 1) *
 				 w_dim1] - w[j + k * w_dim1]);

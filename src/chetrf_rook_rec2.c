@@ -22,10 +22,10 @@ static int c__1 = 1;
  * This routine is a minor modification of LAPACK's clahef_rook.
  * It serves as an unblocked kernel in the recursive algorithms.
  * The blocked BLAS Level 3 updates were removed and moved to the
- * recursive algorithm. 
+ * recursive algorithm.
  * */
-/* Subroutine */ void RELAPACK_chetrf_rook_rec2(char *uplo, int *n, 
-	int *nb, int *kb, complex *a, int *lda, int *ipiv, 
+/* Subroutine */ void RELAPACK_chetrf_rook_rec2(char *uplo, int *n,
+	int *nb, int *kb, complex *a, int *lda, int *ipiv,
 	complex *w, int *ldw, int *info, ftnlen uplo_len)
 {
     /* System generated locals */
@@ -50,17 +50,17 @@ static int c__1 = 1;
 	    , complex *, int *, complex *, int *, complex *, complex *
 	    , int *, ftnlen);
     static float sfmin;
-    extern /* Subroutine */ int ccopy_(int *, complex *, int *, 
+    extern /* Subroutine */ int ccopy_(int *, complex *, int *,
 	    complex *, int *);
     static int itemp;
-    extern /* Subroutine */ int cswap_(int *, complex *, int *, 
+    extern /* Subroutine */ int cswap_(int *, complex *, int *,
 	    complex *, int *);
     static int kstep;
     static float stemp, absakk;
     extern /* Subroutine */ int clacgv_(int *, complex *, int *);
     extern int icamax_(int *, complex *, int *);
     extern double slamch_(char *, ftnlen);
-    extern /* Subroutine */ int csscal_(int *, float *, complex *, int 
+    extern /* Subroutine */ int csscal_(int *, float *, complex *, int
 	    *);
     static float colmax, rowmax;
 
@@ -99,7 +99,7 @@ L10:
 	    i__1 = *n - k;
 	    q__1.r = -1.f, q__1.i = -0.f;
 	    cgemv_("No transpose", &k, &i__1, &q__1, &a[(k + 1) * a_dim1 + 1],
-		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b1, &w[kw * 
+		     lda, &w[k + (kw + 1) * w_dim1], ldw, &c_b1, &w[kw *
 		    w_dim1 + 1], &c__1, (ftnlen)12);
 	    i__1 = k + kw * w_dim1;
 	    i__2 = k + kw * w_dim1;
@@ -112,7 +112,7 @@ L10:
 	    i__1 = k - 1;
 	    imax = icamax_(&i__1, &w[kw * w_dim1 + 1], &c__1);
 	    i__1 = imax + kw * w_dim1;
-	    colmax = (r__1 = w[i__1].r, dabs(r__1)) + (r__2 = r_imag(&w[imax 
+	    colmax = (r__1 = w[i__1].r, dabs(r__1)) + (r__2 = r_imag(&w[imax
 		    + kw * w_dim1]), dabs(r__2));
 	} else {
 	    colmax = 0.f;
@@ -128,7 +128,7 @@ L10:
 	    a[i__1].r = r__1, a[i__1].i = 0.f;
 	    if (k > 1) {
 		i__1 = k - 1;
-		ccopy_(&i__1, &w[kw * w_dim1 + 1], &c__1, &a[k * a_dim1 + 1], 
+		ccopy_(&i__1, &w[kw * w_dim1 + 1], &c__1, &a[k * a_dim1 + 1],
 			&c__1);
 	    }
 	} else {
@@ -139,7 +139,7 @@ L10:
 L12:
 		if (imax > 1) {
 		    i__1 = imax - 1;
-		    ccopy_(&i__1, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) * 
+		    ccopy_(&i__1, &a[imax * a_dim1 + 1], &c__1, &w[(kw - 1) *
 			    w_dim1 + 1], &c__1);
 		}
 		i__1 = imax + (kw - 1) * w_dim1;
@@ -147,15 +147,15 @@ L12:
 		r__1 = a[i__2].r;
 		w[i__1].r = r__1, w[i__1].i = 0.f;
 		i__1 = k - imax;
-		ccopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax + 
+		ccopy_(&i__1, &a[imax + (imax + 1) * a_dim1], lda, &w[imax +
 			1 + (kw - 1) * w_dim1], &c__1);
 		i__1 = k - imax;
 		clacgv_(&i__1, &w[imax + 1 + (kw - 1) * w_dim1], &c__1);
 		if (k < *n) {
 		    i__1 = *n - k;
 		    q__1.r = -1.f, q__1.i = -0.f;
-		    cgemv_("No transpose", &k, &i__1, &q__1, &a[(k + 1) * 
-			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1], 
+		    cgemv_("No transpose", &k, &i__1, &q__1, &a[(k + 1) *
+			    a_dim1 + 1], lda, &w[imax + (kw + 1) * w_dim1],
 			    ldw, &c_b1, &w[(kw - 1) * w_dim1 + 1], &c__1, (
 			    ftnlen)12);
 		    i__1 = imax + (kw - 1) * w_dim1;
@@ -165,7 +165,7 @@ L12:
 		}
 		if (imax != k) {
 		    i__1 = k - imax;
-		    jmax = imax + icamax_(&i__1, &w[imax + 1 + (kw - 1) * 
+		    jmax = imax + icamax_(&i__1, &w[imax + 1 + (kw - 1) *
 			    w_dim1], &c__1);
 		    i__1 = jmax + (kw - 1) * w_dim1;
 		    rowmax = (r__1 = w[i__1].r, dabs(r__1)) + (r__2 = r_imag(&
@@ -187,7 +187,7 @@ L12:
 		i__1 = imax + (kw - 1) * w_dim1;
 		if (! ((r__1 = w[i__1].r, dabs(r__1)) < alpha * rowmax)) {
 		    kp = imax;
-		    ccopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw * 
+		    ccopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw *
 			    w_dim1 + 1], &c__1);
 		    done = TRUE_;
 		} else if (p == jmax || rowmax <= colmax) {
@@ -198,7 +198,7 @@ L12:
 		    p = imax;
 		    colmax = rowmax;
 		    imax = jmax;
-		    ccopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw * 
+		    ccopy_(&k, &w[(kw - 1) * w_dim1 + 1], &c__1, &w[kw *
 			    w_dim1 + 1], &c__1);
 		}
 		if (! done) {
@@ -213,18 +213,18 @@ L12:
 		r__1 = a[i__2].r;
 		a[i__1].r = r__1, a[i__1].i = 0.f;
 		i__1 = k - 1 - p;
-		ccopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + (p + 1) * 
+		ccopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + (p + 1) *
 			a_dim1], lda);
 		i__1 = k - 1 - p;
 		clacgv_(&i__1, &a[p + (p + 1) * a_dim1], lda);
 		if (p > 1) {
 		    i__1 = p - 1;
-		    ccopy_(&i__1, &a[k * a_dim1 + 1], &c__1, &a[p * a_dim1 + 
+		    ccopy_(&i__1, &a[k * a_dim1 + 1], &c__1, &a[p * a_dim1 +
 			    1], &c__1);
 		}
 		if (k < *n) {
 		    i__1 = *n - k;
-		    cswap_(&i__1, &a[k + (k + 1) * a_dim1], lda, &a[p + (k + 
+		    cswap_(&i__1, &a[k + (k + 1) * a_dim1], lda, &a[p + (k +
 			    1) * a_dim1], lda);
 		}
 		i__1 = *n - kk + 1;
@@ -237,22 +237,22 @@ L12:
 		r__1 = a[i__2].r;
 		a[i__1].r = r__1, a[i__1].i = 0.f;
 		i__1 = kk - 1 - kp;
-		ccopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp + 
+		ccopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + (kp +
 			1) * a_dim1], lda);
 		i__1 = kk - 1 - kp;
 		clacgv_(&i__1, &a[kp + (kp + 1) * a_dim1], lda);
 		if (kp > 1) {
 		    i__1 = kp - 1;
-		    ccopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1 
+		    ccopy_(&i__1, &a[kk * a_dim1 + 1], &c__1, &a[kp * a_dim1
 			    + 1], &c__1);
 		}
 		if (k < *n) {
 		    i__1 = *n - k;
-		    cswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k 
+		    cswap_(&i__1, &a[kk + (k + 1) * a_dim1], lda, &a[kp + (k
 			    + 1) * a_dim1], lda);
 		}
 		i__1 = *n - kk + 1;
-		cswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw * 
+		cswap_(&i__1, &w[kk + kkw * w_dim1], ldw, &w[kp + kkw *
 			w_dim1], ldw);
 	    }
 	    if (kstep == 1) {
@@ -287,14 +287,14 @@ L12:
 		    d11.r = q__1.r, d11.i = q__1.i;
 		    c_div(&q__1, &w[k - 1 + (kw - 1) * w_dim1], &d21);
 		    d22.r = q__1.r, d22.i = q__1.i;
-		    q__1.r = d11.r * d22.r - d11.i * d22.i, q__1.i = d11.r * 
+		    q__1.r = d11.r * d22.r - d11.i * d22.i, q__1.i = d11.r *
 			    d22.i + d11.i * d22.r;
 		    t = 1.f / (q__1.r - 1.f);
 		    i__1 = k - 2;
 		    for (j = 1; j <= i__1; ++j) {
 			i__2 = j + (k - 1) * a_dim1;
 			i__3 = j + (kw - 1) * w_dim1;
-			q__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i, 
+			q__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i,
 				q__4.i = d11.r * w[i__3].i + d11.i * w[i__3]
 				.r;
 			i__4 = j + kw * w_dim1;
@@ -305,7 +305,7 @@ L12:
 			a[i__2].r = q__1.r, a[i__2].i = q__1.i;
 			i__2 = j + k * a_dim1;
 			i__3 = j + kw * w_dim1;
-			q__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i, 
+			q__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i,
 				q__4.i = d22.r * w[i__3].i + d22.i * w[i__3]
 				.r;
 			i__4 = j + (kw - 1) * w_dim1;
@@ -384,7 +384,7 @@ L70:
 	w[i__1].r = r__1, w[i__1].i = 0.f;
 	if (k < *n) {
 	    i__1 = *n - k;
-	    ccopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &w[k + 1 + k * 
+	    ccopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &w[k + 1 + k *
 		    w_dim1], &c__1);
 	}
 	if (k > 1) {
@@ -405,7 +405,7 @@ L70:
 	    i__1 = *n - k;
 	    imax = k + icamax_(&i__1, &w[k + 1 + k * w_dim1], &c__1);
 	    i__1 = imax + k * w_dim1;
-	    colmax = (r__1 = w[i__1].r, dabs(r__1)) + (r__2 = r_imag(&w[imax 
+	    colmax = (r__1 = w[i__1].r, dabs(r__1)) + (r__2 = r_imag(&w[imax
 		    + k * w_dim1]), dabs(r__2));
 	} else {
 	    colmax = 0.f;
@@ -421,7 +421,7 @@ L70:
 	    a[i__1].r = r__1, a[i__1].i = 0.f;
 	    if (k < *n) {
 		i__1 = *n - k;
-		ccopy_(&i__1, &w[k + 1 + k * w_dim1], &c__1, &a[k + 1 + k * 
+		ccopy_(&i__1, &w[k + 1 + k * w_dim1], &c__1, &a[k + 1 + k *
 			a_dim1], &c__1);
 	    }
 	} else {
@@ -431,7 +431,7 @@ L70:
 		done = FALSE_;
 L72:
 		i__1 = imax - k;
-		ccopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) * 
+		ccopy_(&i__1, &a[imax + k * a_dim1], lda, &w[k + (k + 1) *
 			w_dim1], &c__1);
 		i__1 = imax - k;
 		clacgv_(&i__1, &w[k + (k + 1) * w_dim1], &c__1);
@@ -449,7 +449,7 @@ L72:
 		    i__2 = k - 1;
 		    q__1.r = -1.f, q__1.i = -0.f;
 		    cgemv_("No transpose", &i__1, &i__2, &q__1, &a[k + a_dim1]
-			    , lda, &w[imax + w_dim1], ldw, &c_b1, &w[k + (k + 
+			    , lda, &w[imax + w_dim1], ldw, &c_b1, &w[k + (k +
 			    1) * w_dim1], &c__1, (ftnlen)12);
 		    i__1 = imax + (k + 1) * w_dim1;
 		    i__2 = imax + (k + 1) * w_dim1;
@@ -468,7 +468,7 @@ L72:
 		}
 		if (imax < *n) {
 		    i__1 = *n - imax;
-		    itemp = imax + icamax_(&i__1, &w[imax + 1 + (k + 1) * 
+		    itemp = imax + icamax_(&i__1, &w[imax + 1 + (k + 1) *
 			    w_dim1], &c__1);
 		    i__1 = itemp + (k + 1) * w_dim1;
 		    stemp = (r__1 = w[i__1].r, dabs(r__1)) + (r__2 = r_imag(&
@@ -482,7 +482,7 @@ L72:
 		if (! ((r__1 = w[i__1].r, dabs(r__1)) < alpha * rowmax)) {
 		    kp = imax;
 		    i__1 = *n - k + 1;
-		    ccopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k * 
+		    ccopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k *
 			    w_dim1], &c__1);
 		    done = TRUE_;
 		} else if (p == jmax || rowmax <= colmax) {
@@ -494,7 +494,7 @@ L72:
 		    colmax = rowmax;
 		    imax = jmax;
 		    i__1 = *n - k + 1;
-		    ccopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k * 
+		    ccopy_(&i__1, &w[k + (k + 1) * w_dim1], &c__1, &w[k + k *
 			    w_dim1], &c__1);
 		}
 		if (! done) {
@@ -508,13 +508,13 @@ L72:
 		r__1 = a[i__2].r;
 		a[i__1].r = r__1, a[i__1].i = 0.f;
 		i__1 = p - k - 1;
-		ccopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &a[p + (k + 1) * 
+		ccopy_(&i__1, &a[k + 1 + k * a_dim1], &c__1, &a[p + (k + 1) *
 			a_dim1], lda);
 		i__1 = p - k - 1;
 		clacgv_(&i__1, &a[p + (k + 1) * a_dim1], lda);
 		if (p < *n) {
 		    i__1 = *n - p;
-		    ccopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + 1 + p 
+		    ccopy_(&i__1, &a[p + 1 + k * a_dim1], &c__1, &a[p + 1 + p
 			    * a_dim1], &c__1);
 		}
 		if (k > 1) {
@@ -529,13 +529,13 @@ L72:
 		r__1 = a[i__2].r;
 		a[i__1].r = r__1, a[i__1].i = 0.f;
 		i__1 = kp - kk - 1;
-		ccopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk + 
+		ccopy_(&i__1, &a[kk + 1 + kk * a_dim1], &c__1, &a[kp + (kk +
 			1) * a_dim1], lda);
 		i__1 = kp - kk - 1;
 		clacgv_(&i__1, &a[kp + (kk + 1) * a_dim1], lda);
 		if (kp < *n) {
 		    i__1 = *n - kp;
-		    ccopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1 
+		    ccopy_(&i__1, &a[kp + 1 + kk * a_dim1], &c__1, &a[kp + 1
 			    + kp * a_dim1], &c__1);
 		}
 		if (k > 1) {
@@ -577,14 +577,14 @@ L72:
 		    r_cnjg(&q__2, &d21);
 		    c_div(&q__1, &w[k + k * w_dim1], &q__2);
 		    d22.r = q__1.r, d22.i = q__1.i;
-		    q__1.r = d11.r * d22.r - d11.i * d22.i, q__1.i = d11.r * 
+		    q__1.r = d11.r * d22.r - d11.i * d22.i, q__1.i = d11.r *
 			    d22.i + d11.i * d22.r;
 		    t = 1.f / (q__1.r - 1.f);
 		    i__1 = *n;
 		    for (j = k + 2; j <= i__1; ++j) {
 			i__2 = j + k * a_dim1;
 			i__3 = j + k * w_dim1;
-			q__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i, 
+			q__4.r = d11.r * w[i__3].r - d11.i * w[i__3].i,
 				q__4.i = d11.r * w[i__3].i + d11.i * w[i__3]
 				.r;
 			i__4 = j + (k + 1) * w_dim1;
@@ -596,7 +596,7 @@ L72:
 			a[i__2].r = q__1.r, a[i__2].i = q__1.i;
 			i__2 = j + (k + 1) * a_dim1;
 			i__3 = j + (k + 1) * w_dim1;
-			q__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i, 
+			q__4.r = d22.r * w[i__3].r - d22.i * w[i__3].i,
 				q__4.i = d22.r * w[i__3].i + d22.i * w[i__3]
 				.r;
 			i__4 = j + k * w_dim1;
