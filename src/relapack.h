@@ -35,11 +35,6 @@
 #include "blas.h"
 
 // sytrf helper routines
-void RELAPACK_sgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
-void RELAPACK_dgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
-void RELAPACK_cgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
-void RELAPACK_zgemm_tr_rec(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
-
 void RELAPACK_ssytrf_rec2(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);
 void RELAPACK_dsytrf_rec2(const char *, const int *, const int *, int *, double *, const int *, int *, double *, const int *, int *);
 void RELAPACK_csytrf_rec2(const char *, const int *, const int *, int *, float *, const int *, int *, float *, const int *, int *);

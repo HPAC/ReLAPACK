@@ -12,7 +12,7 @@ TEST_SUITS = \
 	sgetrf dgetrf cgetrf zgetrf \
 	strsyl dtrsyl ctrsyl ztrsyl \
 	stgsyl dtgsyl ctgsyl ztgsyl \
-	sgemm_tr dgemm_tr cgemm_tr zgemm_tr
+	sgemmt dgemmt cgemmt zgemmt
 TESTS = $(TEST_SUITS:%=test/%.pass)  # dummies
 TEST_EXES = $(TEST_SUITS:%=test/%.x)
 

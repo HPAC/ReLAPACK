@@ -462,3 +462,56 @@ void LAPACK(ztgsyl)(
     RELAPACK_ztgsyl(trans, ijob, m, n, A, ldA, B, ldB, C, ldC, D, ldD, E, ldE, F, ldF, scale, dif, Work, lWork, iWork, info);
 }
 #endif
+
+
+////////////
+// XGEMMT //
+////////////
+
+#if INCLUDE_SGEMMT
+void LAPACK(sgemmt)(
+    const char *uplo, const char *transA, const char *transB,
+    const int *n, const int *k,
+    const float *alpha, const float *A, const int *ldA,
+    const float *B, const int *ldB,
+    const float *beta, float *C, const int *ldC
+) {
+    RELAPACK_sgemmt(uplo, n, A, ldA, info);
+}
+#endif
+
+#if INCLUDE_DGEMMT
+void LAPACK(dgemmt)(
+    const char *uplo, const char *transA, const char *transB,
+    const int *n, const int *k,
+    const double *alpha, const double *A, const int *ldA,
+    const double *B, const int *ldB,
+    const double *beta, double *C, const int *ldC
+) {
+    RELAPACK_dgemmt(uplo, n, A, ldA, info);
+}
+#endif
+
+#if INCLUDE_CGEMMT
+void LAPACK(cgemmt)(
+    const char *uplo, const char *transA, const char *transB,
+    const int *n, const int *k,
+    const float *alpha, const float *A, const int *ldA,
+    const float *B, const int *ldB,
+    const float *beta, float *C, const int *ldC
+) {
+    RELAPACK_cgemmt(uplo, n, A, ldA, info);
+}
+#endif
+
+#if INCLUDE_ZGEMMT
+void LAPACK(zgemmt)(
+    const char *uplo, const char *transA, const char *transB,
+    const int *n, const int *k,
+    const double *alpha, const double *A, const int *ldA,
+    const double *B, const int *ldB,
+    const double *beta, double *C, const int *ldC
+) {
+    RELAPACK_zgemmt(uplo, n, A, ldA, info);
+}
+#endif

@@ -31,6 +31,16 @@ specific counterparts) to `1` in `config.h`.
 will segfault or return errors on the order of 1 or larger.)
 
 
+BLAS extension `xgemmt`
+-----------------------
+The LDL decompositions require a general matrix-matrix product that updates only
+a triangular matrix called `xgemmt`.  If the BLAS implementation linked against
+provides such a routine, set the flag `HAVE_XGEMMT` to `1` in `config.h`;
+otherwise, ReLAPACK uses its own recursive implementation of these kernels.
+
+`xgemmt` is provided by MKL.
+
+
 Routine Selection
 -----------------
 ReLAPACK's routines are named `RELAPACK_X` (e.g., `RELAPACK_dgetrf`).  If the

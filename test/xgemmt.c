@@ -13,17 +13,16 @@ void post() {
     error = x2vecerr(n * n, C[0], C[1]);
 }
 
-#define ROUTINE XPREF(gemm_tr_rec)
+#define ROUTINE XPREF(gemmt)
 
 #define xlacpy XPREF(LAPACK(lacpy))
 #define xgemm XPREF(BLAS(gemm))
 
 extern void xlacpy(const char *, const int *, const int *, const datatype *, const int *, datatype *, const int *);
 extern void xgemm(const char *, const char *, const int *, const int *, const int *, const datatype *, const datatype *, const int *, const datatype *, const int *, const datatype *, const datatype *, const int*);
-void XRELAPACK(ROUTINE)(const char *, const char *, const char *, const int *, const int *, const datatype *, const datatype *, const int *, const datatype *, const int *, const datatype *, datatype *, const int *);
 
 void XLAPACK(ROUTINE)(
-    const char *transA, const char *transB, const char *uplo,
+    const char *uplo, const char *transA, const char *transB,
     const int *n, const int *k,
     const datatype *alpha, const datatype *A, const int *ldA,
     const datatype *B, const int *ldB,
@@ -43,18 +42,18 @@ void tests() {
     C[1] = xmalloc(n * n);
     Ctmp = xmalloc(n * n);
 
-    TEST("N", "N", "L", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "N", "L", &n, &n, ONE, A[i], &n, B[i], &n, MONE, C[i], &n);
-    TEST("N", "N", "L", &n, &n, MONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "T", "L", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("T", "N", "L", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "N", "L", &n, &n2, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "N", "U", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "N", "U", &n, &n, ONE, A[i], &n, B[i], &n, MONE, C[i], &n);
-    TEST("N", "N", "U", &n, &n, MONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "T", "U", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("T", "N", "U", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
-    TEST("N", "N", "U", &n, &n2, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("L", "N", "N", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("L", "N", "N", &n, &n, ONE, A[i], &n, B[i], &n, MONE, C[i], &n);
+    TEST("L", "N", "N", &n, &n, MONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("L", "N", "T", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("L", "T", "N", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("L", "N", "N", &n, &n2, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("U", "N", "N", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("U", "N", "N", &n, &n, ONE, A[i], &n, B[i], &n, MONE, C[i], &n);
+    TEST("U", "N", "N", &n, &n, MONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("U", "N", "T", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("U", "T", "N", &n, &n, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
+    TEST("U", "N", "N", &n, &n2, ONE, A[i], &n, B[i], &n, ONE, C[i], &n);
 
     free(A[0]);
     free(A[1]);

@@ -140,7 +140,7 @@ static void RELAPACK_chetrf_rook_rec(
         int *const ipiv_B = ipiv + n1;
 
         // A_BR = A_BR - A_BL Work_BL'
-        RELAPACK_cgemm_tr_rec("N", "T", uplo, &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
+        RELAPACK_cgemmt(uplo, "N", "T", &n2, &n1, MONE, A_BL, ldA, Work_BL, ldWork, ONE, A_BR, ldA);
         BLAS(cgemm)("N", "T", &n_rest, &n2, &n1, MONE, A_BL_B, ldA, Work_BL, ldWork, ONE, A_BR_B, ldA);
 
         // recursion(A_BR)
@@ -211,7 +211,7 @@ static void RELAPACK_chetrf_rook_rec(
         float *const Work_TR = Work + 2 * *ldWork * (top ? n2_diff : n1) + 2 * n_rest;
 
         // A_TL = A_TL - A_TR Work_TR'
-        RELAPACK_cgemm_tr_rec("N", "T", uplo, &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
+        RELAPACK_cgemmt(uplo, "N", "T", &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);
         BLAS(cgemm)("N", "T", &n_rest, &n1, &n2, MONE, A_TR_T, ldA, Work_TR, ldWork, ONE, A_TL_T, ldA);
 
         // recursion(A_TL)

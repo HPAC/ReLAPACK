@@ -19,6 +19,8 @@ are not (yet) part of ReLAPACK.
     - [`xgetrf`](#xgetrf)
     - [`xtrsyl`](#xtrsyl)
     - [`xtgsyl`](#xtgsyl)
+  - [Covered BLAS extension](#-covered-blas-extension)
+    - [`xgemmt`](#xgemmt)
   - [Not covered yet](#not-covered-yet)
     - [`xpstrf`](#xpstrf)
   - [Not covered: extra FLOPs](#not-covered-extra-flops)
@@ -118,6 +120,21 @@ Routines: `stgsyl`, `dtgsyl`, `ctgsyl`, `ztgsyl`
 Operations:
 * A R - L B = C, D R - L E = F -> L, R
 * A^T R + D^T L = C, R B^T - L E^T = -F -> L, R
+
+
+Covered BLAS extension
+----------------------
+
+### `xgemmt`
+Matrix-matrix product updating only a triangular part of the result
+
+Routines: `sgemmt`, `dgemmt`, `cgemmt`, `zgemmt`
+
+Operations:
+* C = alpha A B + beta C
+* C = alpha A B^T + beta C
+* C = alpha A^T B + beta C
+* C = alpha A^T B^T + beta C
 
 
 Not covered yet
