@@ -18,6 +18,11 @@ void LAPACK(dpotrf)(const char *, const int *, double *, const int *, int *);
 void LAPACK(cpotrf)(const char *, const int *, float *, const int *, int *);
 void LAPACK(zpotrf)(const char *, const int *, double *, const int *, int *);
 
+void LAPACK(spbtrf)(const char *, const int *, const int *, float *, const int *, int *);
+void LAPACK(dpbtrf)(const char *, const int *, const int *, double *, const int *, int *);
+void LAPACK(cpbtrf)(const char *, const int *, const int *, float *, const int *, int *);
+void LAPACK(zpbtrf)(const char *, const int *, const int *, double *, const int *, int *);
+
 void LAPACK(ssytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
 void LAPACK(dsytrf)(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
 void LAPACK(csytrf)(const char *, const int *, float *, const int *, int *, float *, const int *, int *);

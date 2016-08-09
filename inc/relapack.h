@@ -16,6 +16,11 @@ void RELAPACK_dpotrf(const char *, const int *, double *, const int *, int *);
 void RELAPACK_cpotrf(const char *, const int *, float *, const int *, int *);
 void RELAPACK_zpotrf(const char *, const int *, double *, const int *, int *);
 
+void RELAPACK_spbtrf(const char *, const int *, const int *, float *, const int *, int *);
+void RELAPACK_dpbtrf(const char *, const int *, const int *, double *, const int *, int *);
+void RELAPACK_cpbtrf(const char *, const int *, const int *, float *, const int *, int *);
+void RELAPACK_zpbtrf(const char *, const int *, const int *, double *, const int *, int *);
+
 void RELAPACK_ssytrf(const char *, const int *, float *, const int *, int *, float *, const int *, int *);
 void RELAPACK_dsytrf(const char *, const int *, double *, const int *, int *, double *, const int *, int *);
 void RELAPACK_csytrf(const char *, const int *, float *, const int *, int *, float *, const int *, int *);

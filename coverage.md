@@ -9,28 +9,26 @@ are not (yet) part of ReLAPACK.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Coverage of ReLAPACK](#coverage-of-relapack)
-  - [List of covered LAPACK routines](#list-of-covered-lapack-routines)
-    - [`xlauum`](#xlauum)
-    - [`xsygst`](#xsygst)
-    - [`xtrtri`](#xtrtri)
-    - [`xpotrf`](#xpotrf)
-    - [`xsytrf`](#xsytrf)
-    - [`xgetrf`](#xgetrf)
-    - [`xtrsyl`](#xtrsyl)
-    - [`xtgsyl`](#xtgsyl)
-  - [Covered BLAS extension](#-covered-blas-extension)
-    - [`xgemmt`](#xgemmt)
-  - [Not covered yet](#not-covered-yet)
-    - [`xpstrf`](#xpstrf)
-  - [Not covered: extra FLOPs](#not-covered-extra-flops)
-    - [QR decomposition (and related)](#qr-decomposition-and-related)
-    - [Symmetric reduction to tridiagonal](#symmetric-reduction-to-tridiagonal)
-    - [Symmetric reduction to bidiagonal](#symmetric-reduction-to-bidiagonal)
-    - [Reduction to upper Hessenberg](#reduction-to-upper-hessenberg)
-  - [Not covered: Banded](#not-covered-banded)
-    - [Banded Cholesky decomposition](#banded-cholesky-decomposition)
-    - [Banded LU decomposition](#banded-lu-decomposition)
+- [List of covered LAPACK routines](#list-of-covered-lapack-routines)
+  - [`xlauum`](#xlauum)
+  - [`xsygst`](#xsygst)
+  - [`xtrtri`](#xtrtri)
+  - [`xpotrf`](#xpotrf)
+  - [`xpbtrf`](#xpbtrf)
+  - [`xsytrf`](#xsytrf)
+  - [`xgetrf`](#xgetrf)
+  - [`xtrsyl`](#xtrsyl)
+  - [`xtgsyl`](#xtgsyl)
+- [Covered BLAS extension](#covered-blas-extension)
+  - [`xgemmt`](#xgemmt)
+- [Not covered yet](#not-covered-yet)
+  - [`xpstrf`](#xpstrf)
+  - [`xgbtrf`](#xgbtrf)
+- [Not covered: extra FLOPs](#not-covered-extra-flops)
+  - [QR decomposition (and related)](#qr-decomposition-and-related)
+  - [Symmetric reduction to tridiagonal](#symmetric-reduction-to-tridiagonal)
+  - [Symmetric reduction to bidiagonal](#symmetric-reduction-to-bidiagonal)
+  - [Reduction to upper Hessenberg](#reduction-to-upper-hessenberg)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -73,6 +71,15 @@ Operations:
 Cholesky decomposition of a symmetric (Hermitian) positive definite matrix
 
 Routines: `spotrf`, `dpotrf`, `cpotrf`, `zpotrf`
+
+Operations:
+* L L^T = A
+* U^T U = A
+
+### `xpbtrf`
+Cholesky decomposition of a banded symmetric (Hermitian) positive definite matrix
+
+Routines: `spbtrf`, `dpbtrf`, `cpbtrf`, `zpbtrf`
 
 Operations:
 * L L^T = A
@@ -143,13 +150,20 @@ The following operation is implemented as a blocked algorithm in LAPACK but
 currently not yet covered in ReLAPACK as a recursive algorithm
 
 ### `xpstrf`
-Cholesky decomposition of a positive semidefinite matrix with complete pivoting.
+Cholesky decomposition of a positive semi-definite matrix with complete pivoting.
 
 Routines: `spstrf`, `dpstrf`, `cpstrf`, `zpstrf`
 
 Operations:
 * P L L^T P^T = A
 * P U^T U P^T = A
+
+### `xgbtrf`
+LU decomposition of a general banded matrix with pivoting
+
+Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
+
+Operation: L U = A
 
 
 Not covered: extra FLOPs
@@ -196,18 +210,3 @@ Operation: Q T P^T = A
 Routines: `sgehrd`, `dgehrd`, `cgehrd`, `zgehrd`
 
 Operation: Q H Q^T = A
-
-
-Not covered: Banded
--------------------
-The following routines are not covered because they operate on banded matrices.
-
-### Banded Cholesky decomposition
-Routines: `spbtrf`, `dpbtrf`, `cpbtrf`, `zpbtrf`
-
-Operations: L L^T = A, U^T U = A
-
-### Banded LU decomposition
-Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
-
-Operation: L U = A

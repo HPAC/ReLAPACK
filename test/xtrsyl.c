@@ -28,7 +28,6 @@ void pre() {
     }
 }
 
-
 void post() {
     if (scale[0] != 1 || scale[0] != 1)
         printf("scale[RELAPACK] = %12g\tscale[LAPACK] = %12g\n", scale[0], scale[1]);

@@ -7,6 +7,7 @@ OBJS = $(SRC:%.c=%.o)
 TEST_SUITS = \
 	slauum dlauum clauum zlauum \
 	spotrf dpotrf cpotrf zpotrf \
+	spbtrf dpbtrf cpbtrf zpbtrf \
 	ssygst dsygst chegst zhegst \
 	ssytrf dsytrf csytrf chetrf zsytrf zhetrf \
 	sgetrf dgetrf cgetrf zgetrf \

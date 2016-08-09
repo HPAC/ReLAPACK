@@ -44,6 +44,11 @@ extern void LAPACK(dpotf2)(const char *, const int *, double *, const int *, int
 extern void LAPACK(cpotf2)(const char *, const int *, float *, const int *, int *);
 extern void LAPACK(zpotf2)(const char *, const int *, double *, const int *, int *);
 
+extern void LAPACK(spbtf2)(const char *, const int *, const int *, float *, const int *, int *);
+extern void LAPACK(dpbtf2)(const char *, const int *, const int *, double *, const int *, int *);
+extern void LAPACK(cpbtf2)(const char *, const int *, const int *, float *, const int *, int *);
+extern void LAPACK(zpbtf2)(const char *, const int *, const int *, double *, const int *, int *);
+
 extern void LAPACK(ssytf2)(const char *, const int *, float *, const int *, int *, int *);
 extern void LAPACK(dsytf2)(const char *, const int *, double *, const int *, int *, int *);
 extern void LAPACK(csytf2)(const char *, const int *, float *, const int *, int *, int *);
