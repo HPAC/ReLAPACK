@@ -114,7 +114,7 @@
 /////////////////////
  
 // default crossover size
-#define CROSSOVER 2
+#define CROSSOVER 24
 
 // individual crossover sizes
 #define CROSSOVER_XLAUUM CROSSOVER
