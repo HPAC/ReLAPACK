@@ -41,6 +41,11 @@ void LAPACK(dgetrf)(const int *, const int *, double *, const int *, int *, int 
 void LAPACK(cgetrf)(const int *, const int *, float *, const int *, int *, int *);
 void LAPACK(zgetrf)(const int *, const int *, double *, const int *, int *, int *);
 
+void LAPACK(sgbtrf)(const int *, const int *, const int *, const int *, float *, const int *, int *, int *);
+void LAPACK(dgbtrf)(const int *, const int *, const int *, const int *, double *, const int *, int *, int *);
+void LAPACK(cgbtrf)(const int *, const int *, const int *, const int *, float *, const int *, int *, int *);
+void LAPACK(zgbtrf)(const int *, const int *, const int *, const int *, double *, const int *, int *, int *);
+
 void LAPACK(ssygst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 void LAPACK(dsygst)(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 void LAPACK(chegst)(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);

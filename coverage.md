@@ -17,13 +17,13 @@ are not (yet) part of ReLAPACK.
   - [`xpbtrf`](#xpbtrf)
   - [`xsytrf`](#xsytrf)
   - [`xgetrf`](#xgetrf)
+  - [`xgbtrf`](#xgbtrf)
   - [`xtrsyl`](#xtrsyl)
   - [`xtgsyl`](#xtgsyl)
 - [Covered BLAS extension](#covered-blas-extension)
   - [`xgemmt`](#xgemmt)
 - [Not covered yet](#not-covered-yet)
   - [`xpstrf`](#xpstrf)
-  - [`xgbtrf`](#xgbtrf)
 - [Not covered: extra FLOPs](#not-covered-extra-flops)
   - [QR decomposition (and related)](#qr-decomposition-and-related)
   - [Symmetric reduction to tridiagonal](#symmetric-reduction-to-tridiagonal)
@@ -104,6 +104,13 @@ Routines: `sgetrf`, `dgetrf`, `cgetrf`, `zgetrf`
 
 Operation: P L U = A
 
+### `xgbtrf`
+LU decomposition of a general banded matrix with pivoting
+
+Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
+
+Operation: L U = A
+
 ### `xtrsyl`
 Solution of the quasi-triangular Sylvester equation
 
@@ -157,13 +164,6 @@ Routines: `spstrf`, `dpstrf`, `cpstrf`, `zpstrf`
 Operations:
 * P L L^T P^T = A
 * P U^T U P^T = A
-
-### `xgbtrf`
-LU decomposition of a general banded matrix with pivoting
-
-Routines: `sgbtrf`, `dgbtrf`, `cgbtrf`, `zgbtrf`
-
-Operation: L U = A
 
 
 Not covered: extra FLOPs

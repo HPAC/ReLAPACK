@@ -39,6 +39,11 @@ void RELAPACK_dgetrf(const int *, const int *, double *, const int *, int *, int
 void RELAPACK_cgetrf(const int *, const int *, float *, const int *, int *, int *);
 void RELAPACK_zgetrf(const int *, const int *, double *, const int *, int *, int *);
 
+void RELAPACK_sgbtrf(const int *, const int *, const int *, const int *, float *, const int *, int *, int *);
+void RELAPACK_dgbtrf(const int *, const int *, const int *, const int *, double *, const int *, int *, int *);
+void RELAPACK_cgbtrf(const int *, const int *, const int *, const int *, float *, const int *, int *, int *);
+void RELAPACK_zgbtrf(const int *, const int *, const int *, const int *, double *, const int *, int *, int *);
+
 void RELAPACK_ssygst(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);
 void RELAPACK_dsygst(const int *, const char *, const int *, double *, const int *, const double *, const int *, int *);
 void RELAPACK_chegst(const int *, const char *, const int *, float *, const int *, const float *, const int *, int *);

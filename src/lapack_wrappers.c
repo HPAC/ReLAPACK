@@ -181,6 +181,51 @@ void LAPACK(zpotrf)(
 
 
 ////////////
+// XPBTRF //
+////////////
+
+#if INCLUDE_SPBTRF
+void LAPACK(spbtrf)(
+    const char *uplo, const int *n, const int *kd,
+    float *Ab, const int *ldAb,
+    int *info
+) {
+    RELAPACK_spbtrf(uplo, n, kd, Ab, ldAb, info);
+}
+#endif
+
+#if INCLUDE_DPBTRF
+void LAPACK(dpbtrf)(
+    const char *uplo, const int *n, const int *kd,
+    double *Ab, const int *ldAb,
+    int *info
+) {
+    RELAPACK_dpbtrf(uplo, n, kd, Ab, ldAb, info);
+}
+#endif
+
+#if INCLUDE_CPBTRF
+void LAPACK(cpbtrf)(
+    const char *uplo, const int *n, const int *kd,
+    float *Ab, const int *ldAb,
+    int *info
+) {
+    RELAPACK_cpbtrf(uplo, n, kd, Ab, ldAb, info);
+}
+#endif
+
+#if INCLUDE_ZPBTRF
+void LAPACK(zpbtrf)(
+    const char *uplo, const int *n, const int *kd,
+    double *Ab, const int *ldAb,
+    int *info
+) {
+    RELAPACK_zpbtrf(uplo, n, kd, Ab, ldAb, info);
+}
+#endif
+
+
+////////////
 // XSYTRF //
 ////////////
 
@@ -346,6 +391,51 @@ void LAPACK(zgetrf)(
     int *info
 ) {
     RELAPACK_zgetrf(m, n, A, ldA, ipiv, info);
+}
+#endif
+
+
+////////////
+// XGBTRF //
+////////////
+
+#if INCLUDE_SGBTRF
+void LAPACK(sgbtrf)(
+    const int *m, const int *n, const int *kl, const int *ku,
+    float *Ab, const int *ldAb, int *ipiv,
+    int *info
+) {
+    RELAPACK_sgbtrf(m, n, kl, ku, Ab, ldAb, ipiv, info);
+}
+#endif
+
+#if INCLUDE_DGBTRF
+void LAPACK(dgbtrf)(
+    const int *m, const int *n, const int *kl, const int *ku,
+    double *Ab, const int *ldAb, int *ipiv,
+    int *info
+) {
+    RELAPACK_dgbtrf(m, n, kl, ku, Ab, ldAb, ipiv, info);
+}
+#endif
+
+#if INCLUDE_CGBTRF
+void LAPACK(cgbtrf)(
+    const int *m, const int *n, const int *kl, const int *ku,
+    float *Ab, const int *ldAb, int *ipiv,
+    int *info
+) {
+    RELAPACK_cgbtrf(m, n, kl, ku, Ab, ldAb, ipiv, info);
+}
+#endif
+
+#if INCLUDE_ZGBTRF
+void LAPACK(zgbtrf)(
+    const int *m, const int *n, const int *kl, const int *ku,
+    double *Ab, const int *ldAb, int *ipiv,
+    int *info
+) {
+    RELAPACK_zgbtrf(m, n, kl, ku, Ab, ldAb, ipiv, info);
 }
 #endif
 

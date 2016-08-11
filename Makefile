@@ -11,6 +11,7 @@ TEST_SUITS = \
 	ssygst dsygst chegst zhegst \
 	ssytrf dsytrf csytrf chetrf zsytrf zhetrf \
 	sgetrf dgetrf cgetrf zgetrf \
+	sgbtrf dgbtrf cgbtrf zgbtrf \
 	strsyl dtrsyl ctrsyl ztrsyl \
 	stgsyl dtgsyl ctgsyl ztgsyl \
 	sgemmt dgemmt cgemmt zgemmt
