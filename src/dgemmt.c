@@ -8,6 +8,7 @@ static void RELAPACK_dgemmt_rec2(const char *, const char *, const char *,
     const int *, const int *, const double *, const double *, const int *,
     const double *, const int *, const double *, double *, const int *);
 
+
 /** DGEMMT computes a matrix-matrix product with general matrices but updates
  * only the upper or lower triangular part of the result matrix.
  *
@@ -64,6 +65,7 @@ void RELAPACK_dgemmt(
     const char cleantransA = notransA ? 'N' : 'T';
     const char cleantransB = notransB ? 'N' : 'T';
 
+    // Recursive kernel
     RELAPACK_dgemmt_rec(&cleanuplo, &cleantransA, &cleantransB, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
 #endif
 }

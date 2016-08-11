@@ -8,6 +8,7 @@ static void RELAPACK_zgemmt_rec2(const char *, const char *, const char *,
     const int *, const int *, const double *, const double *, const int *,
     const double *, const int *, const double *, double *, const int *);
 
+
 /** ZGEMMT computes a matrix-matrix product with general matrices but updates
  * only the upper or lower triangular part of the result matrix.
  *
@@ -66,6 +67,7 @@ void RELAPACK_zgemmt(
     const char cleantransA = notransA ? 'N' : (tranA ? 'T' : 'C');
     const char cleantransB = notransB ? 'N' : (tranB ? 'T' : 'C');
 
+    // Recursive kernel
     RELAPACK_zgemmt_rec(&cleanuplo, &cleantransA, &cleantransB, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
 #endif
 }

@@ -8,6 +8,7 @@ static void RELAPACK_sgemmt_rec2(const char *, const char *, const char *,
     const int *, const int *, const float *, const float *, const int *,
     const float *, const int *, const float *, float *, const int *);
 
+
 /** SGEMMT computes a matrix-matrix product with general matrices but updates
  * only the upper or lower triangular part of the result matrix.
  *
@@ -64,6 +65,7 @@ void RELAPACK_sgemmt(
     const char cleantransA = notransA ? 'N' : 'T';
     const char cleantransB = notransB ? 'N' : 'T';
 
+    // Recursive kernel
     RELAPACK_sgemmt_rec(&cleanuplo, &cleantransA, &cleantransB, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
 #endif
 }
