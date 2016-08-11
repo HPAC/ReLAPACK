@@ -29,7 +29,7 @@
 // still as close as possible in size.
 // If n < 16 the problem is simply split in the middle. (Note that the
 // crossoversize is usually larger than 16.)
-#define REC_SPLIT(n) ((n >= 16) ? MIN(((n + 8) / 16) * 8, n - ((n + 8) / 16) * 8) : n / 2)
+#define REC_SPLIT(n) ((n >= 16) ? ((n + 8) / 16) * 8 : n / 2)
 
 #include "lapack.h"
 #include "blas.h"

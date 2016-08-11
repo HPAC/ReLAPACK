@@ -50,6 +50,7 @@ void RELAPACK_dtrtri(
             }
     }
 
+    // Recursive kernel
     RELAPACK_dtrtri_rec(&cleanuplo, &cleandiag, n, A, ldA, info);
 }
 

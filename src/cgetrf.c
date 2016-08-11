@@ -30,7 +30,9 @@ void RELAPACK_cgetrf(
         return;
     }
 
-    RELAPACK_cgetrf_rec(m, n, A, ldA, ipiv, info);
+    const int sn = MIN(*m, *n);
+
+    RELAPACK_cgetrf_rec(m, &sn, A, ldA, ipiv, info);
 
     // Right remainder
     if (*m < *n) {
@@ -72,10 +74,13 @@ static void RELAPACK_cgetrf_rec(
     const int   iONE[] = { 1 };
 
     // Splitting
-    const int mn = MIN(*m, *n);
-    const int n1 = REC_SPLIT(mn);
-    const int n2 = mn - n1;
-    const int rm = *m - n1;
+    const int n1 = REC_SPLIT(*n);
+    const int n2 = *n - n1;
+    const int m2 = *m - n1;
+
+    // A_L A_R
+    float *const A_L = A;
+    float *const A_R = A + 2 * *ldA * n1;
 
     // A_TL A_TR
     // A_BL A_BR
@@ -89,18 +94,18 @@ static void RELAPACK_cgetrf_rec(
     int *const ipiv_T = ipiv;
     int *const ipiv_B = ipiv + n1;
 
-    // recursion(A_TL, ipiv_T)
-    RELAPACK_cgetrf_rec(m, &n1, A_TL, ldA, ipiv_T, info);
-    // apply pivots to A_TR
-    LAPACK(claswp)(&n2, A_TR, ldA, iONE, &n1, ipiv_T, iONE);
+    // recursion(A_L, ipiv_T)
+    RELAPACK_cgetrf_rec(m, &n1, A_L, ldA, ipiv_T, info);
+    // apply pivots to A_R
+    LAPACK(claswp)(&n2, A_R, ldA, iONE, &n1, ipiv_T, iONE);
 
     // A_TR = A_TL \ A_TR
     BLAS(ctrsm)("L", "L", "N", "U", &n1, &n2, ONE, A_TL, ldA, A_TR, ldA);
     // A_BR = A_BR - A_BL * A_TR
-    BLAS(cgemm)("N", "N", &rm, &n2, &n1, MONE, A_BL, ldA, A_TR, ldA, ONE, A_BR, ldA);
+    BLAS(cgemm)("N", "N", &m2, &n2, &n1, MONE, A_BL, ldA, A_TR, ldA, ONE, A_BR, ldA);
 
     // recursion(A_BR, ipiv_B)
-    RELAPACK_cgetrf_rec(&rm, &n2, A_BR, ldA, ipiv_B, info);
+    RELAPACK_cgetrf_rec(&m2, &n2, A_BR, ldA, ipiv_B, info);
     if (*info)
         *info += n1;
     // apply pivots to A_BL

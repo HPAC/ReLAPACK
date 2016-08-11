@@ -51,6 +51,7 @@ void RELAPACK_ctrsyl(
     const char cleantranA = notransA ? 'N' : 'C';
     const char cleantranB = notransB ? 'N' : 'C';
 
+    // Recursive kernel
     RELAPACK_ctrsyl_rec(&cleantranA, &cleantranB, isgn, m, n, A, ldA, B, ldB, C, ldC, scale, info);
 }
 
@@ -83,11 +84,12 @@ static void RELAPACK_ctrsyl_rec(
     int   info2[]  = { 0 };
 
     if (*m > *n) {
-        int m1 = REC_SPLIT(*m);
+        // Splitting
+        const int m1 = REC_SPLIT(*m);
         const int m2 = *m - m1;
 
         // A_TL A_TR
-        //      A_BR
+        // 0    A_BR
         const float *const A_TL = A;
         const float *const A_TR = A + 2 * *ldA * m1;
         const float *const A_BR = A + 2 * *ldA * m1 + 2 * m1;
@@ -119,11 +121,12 @@ static void RELAPACK_ctrsyl_rec(
                 LAPACK(clascl)("G", iONE, iONE, ONE, scale2, &m1, n, C_B, ldC, info);
         }
     } else {
-        int n1 = REC_SPLIT(*n);
+        // Splitting
+        const int n1 = REC_SPLIT(*n);
         const int n2 = *n - n1;
 
         // B_TL B_TR
-        //      B_BR
+        // 0    B_BR
         const float *const B_TL = B;
         const float *const B_TR = B + 2 * *ldB * n1;
         const float *const B_BR = B + 2 * *ldB * n1 + 2 * n1;

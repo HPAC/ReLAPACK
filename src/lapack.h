@@ -67,6 +67,11 @@ extern void LAPACK(dgetf2)(const int *, const int *, double *, const int *, int 
 extern void LAPACK(cgetf2)(const int *, const int *, float *, const int *, int *, int *);
 extern void LAPACK(zgetf2)(const int *, const int *, double *, const int *, int *, int *);
 
+extern void LAPACK(sgbtf2)(const int *, const int *, const int *, const int *, float *, const int *, int *, int *);
+extern void LAPACK(dgbtf2)(const int *, const int *, const int *, const int *, double *, const int *, int *, int *);
+extern void LAPACK(cgbtf2)(const int *, const int *, const int *, const int *, float *, const int *, int *, int *);
+extern void LAPACK(zgbtf2)(const int *, const int *, const int *, const int *, double *, const int *, int *, int *);
+
 extern void LAPACK(stgsy2)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, int *, int *, int *);
 extern void LAPACK(dtgsy2)(const char *, const int *, const int *, const int *, const double *, const int *, const double *, const int *, double *, const int *, const double *, const int *, const double *, const int *, double *, const int *, double *, double *, double *, int *, int *, int *);
 extern void LAPACK(ctgsy2)(const char *, const int *, const int *, const int *, const float *, const int *, const float *, const int *, float *, const int *, const float *, const int *, const float *, const int *, float *, const int *, float *, float *, float *, int *);

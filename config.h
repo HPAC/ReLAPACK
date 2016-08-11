@@ -17,16 +17,12 @@
 // Complex BLAS/LAPACK routines return their result in the first argument
 // This option must be enabled when linking to MKL for ctrsyl and ztrsyl to
 // work.
-#define COMPLEX_FUNCTIONS_AS_ROUTINES 0
+#define COMPLEX_FUNCTIONS_AS_ROUTINES 1
 #define BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES
 #define LAPACK_BLAS_COMPLEX_FUNCTIONS_AS_ROUTINES COMPLEX_FUNCTIONS_AS_ROUTINES
 
 // The BLAS-like extension xgemmt is provided by an external library.
 #define HAVE_XGEMMT 0
-#define HAVE_SGEMMT HAVE_XGEMMT
-#define HAVE_DGEMMT HAVE_XGEMMT
-#define HAVE_CGEMMT HAVE_XGEMMT
-#define HAVE_ZGEMMT HAVE_XGEMMT
 
 
 ////////////////////////////

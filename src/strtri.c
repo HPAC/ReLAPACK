@@ -50,6 +50,7 @@ void RELAPACK_strtri(
             }
     }
 
+    // Recursive kernel
     RELAPACK_strtri_rec(&cleanuplo, &cleandiag, n, A, ldA, info);
 }
 

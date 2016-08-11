@@ -63,7 +63,10 @@ void RELAPACK_ssytrf(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
+    // Dummy arguments
     int nout;
+
+    // Recursive kernel
     RELAPACK_ssytrf_rec(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
 
 #if XSYTRF_ALLOW_MALLOC
@@ -100,6 +103,9 @@ static void RELAPACK_ssytrf_rec(
     const float MONE[] = { -1. };
     const int   iONE[] = { 1 };
 
+    // Loop iterator
+    int i;
+
     const int n_rest = *n_full - *n;
 
     if (*uplo == 'L') {
@@ -131,9 +137,9 @@ static void RELAPACK_ssytrf_rec(
         // Work_BL Work_BR
         // *       *
         // (top recursion level: use Work as Work_BR)
-        const int ldWork_BR  = top ? n2   : *ldWork;
         float *const Work_BL =              Work                + n1;
         float *const Work_BR = top ? Work : Work + *ldWork * n1 + n1;
+        const int ldWork_BR = top ? n2 : *ldWork;
 
         // ipiv_T
         // ipiv_B
@@ -166,7 +172,6 @@ static void RELAPACK_ssytrf_rec(
         n2 = n2_out;
 
         // shift pivots
-        int i;
         for (i = 0; i < n2; i++)
             if (ipiv_B[i] > 0)
                 ipiv_B[i] += n1;
@@ -192,7 +197,7 @@ static void RELAPACK_ssytrf_rec(
 
         // Splitting (continued)
         n1 = *n - n2;
-        const int n_full1 = *n_full - n2;
+        const int n_full1  = *n_full - n2;
 
         // * A_TL_T A_TR_T
         // * A_TL   A_TR
@@ -206,9 +211,9 @@ static void RELAPACK_ssytrf_rec(
         // *      Work_TR
         // *      *
         // (top recursion level: Work_R was Work)
-        const int ldWork_L   = top ? n1 : *ldWork;
         float *const Work_L  = Work;
         float *const Work_TR = Work + *ldWork * (top ? n2_diff : n1) + n_rest;
+        const int ldWork_L = top ? n1 : *ldWork;
 
         // A_TL = A_TL - A_TR Work_TR'
         RELAPACK_sgemmt(uplo, "N", "T", &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);

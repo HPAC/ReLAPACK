@@ -72,7 +72,7 @@ void RELAPACK_dtgsyl(
     // Clean char * arguments
     const char cleantrans = notran ? 'N' : 'T';
 
-    // Constants
+    // Constant
     const double ZERO[] = { 0. };
 
     int isolve = 1;
@@ -148,13 +148,14 @@ static void RELAPACK_dtgsyl_rec(
     int    info2[]  = { 0 };
 
     if (*m > *n) {
+        // Splitting
         int m1 = REC_SPLIT(*m);
         if (A[m1 + *ldA * (m1 - 1)])
             m1++;
         const int m2 = *m - m1;
 
         // A_TL A_TR
-        //      A_BR
+        // 0    A_BR
         const double *const A_TL = A;
         const double *const A_TR = A + *ldA * m1;
         const double *const A_BR = A + *ldA * m1 + m1;
@@ -165,7 +166,7 @@ static void RELAPACK_dtgsyl_rec(
         double *const C_B = C + m1;
 
         // D_TL D_TR
-        //      D_BR
+        // 0    D_BR
         const double *const D_TL = D;
         const double *const D_TR = D + *ldD * m1;
         const double *const D_BR = D + *ldD * m1 + m1;
@@ -208,13 +209,14 @@ static void RELAPACK_dtgsyl_rec(
             }
         }
     } else {
+        // Splitting
         int n1 = REC_SPLIT(*n);
         if (B[n1 + *ldB * (n1 - 1)])
             n1++;
         const int n2 = *n - n1;
 
         // B_TL B_TR
-        //      B_BR
+        // 0    B_BR
         const double *const B_TL = B;
         const double *const B_TR = B + *ldB * n1;
         const double *const B_BR = B + *ldB * n1 + n1;
@@ -224,7 +226,7 @@ static void RELAPACK_dtgsyl_rec(
         double *const C_R = C + *ldC * n1;
 
         // E_TL E_TR
-        //      E_BR
+        // 0    E_BR
         const double *const E_TL = E;
         const double *const E_TR = E + *ldE * n1;
         const double *const E_BR = E + *ldE * n1 + n1;

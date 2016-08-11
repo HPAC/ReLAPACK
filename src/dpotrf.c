@@ -1,7 +1,7 @@
 #include "relapack.h"
 
 static void RELAPACK_dpotrf_rec(const char *, const int *, double *,
-    const int *, int *);
+        const int *, int *);
 
 
 /** DPOTRF computes the Cholesky factorization of a real symmetric positive definite matrix A.
@@ -35,6 +35,7 @@ void RELAPACK_dpotrf(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
+    // Recursive kernel
     RELAPACK_dpotrf_rec(&cleanuplo, n, A, ldA, info);
 }
 

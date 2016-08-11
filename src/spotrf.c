@@ -1,7 +1,7 @@
 #include "relapack.h"
 
-static void RELAPACK_spotrf_rec(const char *, const int *, float *,
-    const int *, int *);
+static void RELAPACK_spotrf_rec(const char *, const int *, float *, 
+        const int *, int *);
 
 
 /** SPOTRF computes the Cholesky factorization of a real symmetric positive definite matrix A.
@@ -35,6 +35,7 @@ void RELAPACK_spotrf(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
+    // Recursive kernel
     RELAPACK_spotrf_rec(&cleanuplo, n, A, ldA, info);
 }
 

@@ -35,6 +35,7 @@ void RELAPACK_dlauum(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
+    // Recursive kernel
     RELAPACK_dlauum_rec(&cleanuplo, n, A, ldA, info);
 }
 

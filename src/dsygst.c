@@ -3,17 +3,17 @@
 #include "stdlib.h"
 #endif
 
+static void RELAPACK_dsygst_rec(const int *, const char *, const int *,
+    double *, const int *, const double *, const int *,
+    double *, const int *, int *);
+
+
 /** DSYGST reduces a real symmetric-definite generalized eigenproblem to standard form.
  *
  * This routine is functionally equivalent to LAPACK's dsygst.
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/dc/d04/dsygst_8f.html
  * */
-static void RELAPACK_dsygst_rec(const int *, const char *, const int *,
-    double *, const int *, const double *, const int *,
-    double *, const int *, int *);
-
-
 void RELAPACK_dsygst(
     const int *itype, const char *uplo, const int *n,
     double *A, const int *ldA, const double *B, const int *ldB,
@@ -47,7 +47,8 @@ void RELAPACK_dsygst(
     double *Work = NULL;
     int    lWork = 0;
 #if XSYGST_ALLOW_MALLOC
-    lWork = *n * (*n / 2);
+    const int n1 = REC_SPLIT(*n);
+    lWork = n1 * (*n - n1);
     Work  = malloc(lWork * sizeof(double));
     if (!Work)
         lWork = 0;

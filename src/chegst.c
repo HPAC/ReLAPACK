@@ -3,17 +3,17 @@
 #include "stdlib.h"
 #endif
 
+static void RELAPACK_chegst_rec(const int *, const char *, const int *,
+    float *, const int *, const float *, const int *,
+    float *, const int *, int *);
+
+
 /** CHEGST reduces a complex Hermitian-definite generalized eigenproblem to standard form.
  *
  * This routine is functionally equivalent to LAPACK's chegst.
  * For details on its interface, see
  * http://www.netlib.org/lapack/explore-html/d7/d2a/chegst_8f.html
  * */
-static void RELAPACK_chegst_rec(const int *, const char *, const int *,
-    float *, const int *, const float *, const int *,
-    float *, const int *, int *);
-
-
 void RELAPACK_chegst(
     const int *itype, const char *uplo, const int *n,
     float *A, const int *ldA, const float *B, const int *ldB,
@@ -47,7 +47,8 @@ void RELAPACK_chegst(
     float *Work = NULL;
     int   lWork = 0;
 #if XSYGST_ALLOW_MALLOC
-    lWork = *n * (*n / 2);
+    const int n1 = REC_SPLIT(*n);
+    lWork = n1 * (*n - n1);
     Work  = malloc(lWork * 2 * sizeof(float));
     if (!Work)
         lWork = 0;

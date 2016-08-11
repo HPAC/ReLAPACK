@@ -1,7 +1,7 @@
 #include "relapack.h"
 
 static void RELAPACK_zpotrf_rec(const char *, const int *, double *,
-    const int *, int *);
+        const int *, int *);
 
 
 /** ZPOTRF computes the Cholesky factorization of a complex Hermitian positive definite matrix A.
@@ -35,6 +35,7 @@ void RELAPACK_zpotrf(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
+    // Recursive kernel
     RELAPACK_zpotrf_rec(&cleanuplo, n, A, ldA, info);
 }
 
@@ -44,7 +45,7 @@ static void RELAPACK_zpotrf_rec(
     const char *uplo, const int *n,
     double *A, const int *ldA,
     int *info
-){
+) {
 
     if (*n <= MAX(CROSSOVER_ZPOTRF, 1)) {
         // Unblocked

@@ -44,12 +44,13 @@ void RELAPACK_ctrtri(
     if (nounit) {
         int i;
         for (i = 0; i < *n; i++)
-            if (A[i + 2 * *ldA * i] == 0 && A[i + 2 * *ldA + 1] == 0) {
+            if (A[2 * (i + *ldA * i)] == 0 && A[2 * (i + *ldA * i) + 1] == 0) {
                 *info = i;
                 return;
             }
     }
 
+    // Recursive kernel
     RELAPACK_ctrtri_rec(&cleanuplo, &cleandiag, n, A, ldA, info);
 }
 

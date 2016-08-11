@@ -71,7 +71,7 @@ void RELAPACK_ztgsyl(
     // Clean char * arguments
     const char cleantrans = notran ? 'N' : 'C';
 
-    // Constants
+    // Constant
     const double ZERO[] = { 0., 0. };
 
     int isolve = 1;
@@ -146,11 +146,12 @@ static void RELAPACK_ztgsyl_rec(
     int    info2[]  = { 0 };
 
     if (*m > *n) {
-        int m1 = REC_SPLIT(*m);
+        // Splitting
+        const int m1 = REC_SPLIT(*m);
         const int m2 = *m - m1;
 
         // A_TL A_TR
-        //      A_BR
+        // 0    A_BR
         const double *const A_TL = A;
         const double *const A_TR = A + 2 * *ldA * m1;
         const double *const A_BR = A + 2 * *ldA * m1 + 2 * m1;
@@ -161,7 +162,7 @@ static void RELAPACK_ztgsyl_rec(
         double *const C_B = C + 2 * m1;
 
         // D_TL D_TR
-        //      D_BR
+        // 0    D_BR
         const double *const D_TL = D;
         const double *const D_TR = D + 2 * *ldD * m1;
         const double *const D_BR = D + 2 * *ldD * m1 + 2 * m1;
@@ -204,11 +205,12 @@ static void RELAPACK_ztgsyl_rec(
             }
         }
     } else {
-        int n1 = REC_SPLIT(*n);
+        // Splitting
+        const int n1 = REC_SPLIT(*n);
         const int n2 = *n - n1;
 
         // B_TL B_TR
-        //      B_BR
+        // 0    B_BR
         const double *const B_TL = B;
         const double *const B_TR = B + 2 * *ldB * n1;
         const double *const B_BR = B + 2 * *ldB * n1 + 2 * n1;
@@ -218,7 +220,7 @@ static void RELAPACK_ztgsyl_rec(
         double *const C_R = C + 2 * *ldC * n1;
 
         // E_TL E_TR
-        //      E_BR
+        // 0    E_BR
         const double *const E_TL = E;
         const double *const E_TR = E + 2 * *ldE * n1;
         const double *const E_BR = E + 2 * *ldE * n1 + 2 * n1;

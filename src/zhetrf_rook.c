@@ -63,7 +63,10 @@ void RELAPACK_zhetrf_rook(
     // Clean char * arguments
     const char cleanuplo = lower ? 'L' : 'U';
 
+    // Dummy argument
     int nout;
+
+    // Recursive kernel
     RELAPACK_zhetrf_rook_rec(&cleanuplo, n, n, &nout, A, ldA, ipiv, cleanWork, n, info);
 
 #if XSYTRF_ALLOW_MALLOC
@@ -131,9 +134,9 @@ static void RELAPACK_zhetrf_rook_rec(
         // Work_BL Work_BR
         // *       *
         // (top recursion level: use Work as Work_BR)
-        const int ldWork_BR   = top ? n2   : *ldWork;
         double *const Work_BL =              Work                    + 2 * n1;
         double *const Work_BR = top ? Work : Work + 2 * *ldWork * n1 + 2 * n1;
+        const int ldWork_BR = top ? n2 : *ldWork;
 
         // ipiv_T
         // ipiv_B
@@ -206,9 +209,9 @@ static void RELAPACK_zhetrf_rook_rec(
         // *      Work_TR
         // *      *
         // (top recursion level: Work_R was Work)
-        const int ldWork_L    = top ? n1 : *ldWork;
         double *const Work_L  = Work;
         double *const Work_TR = Work + 2 * *ldWork * (top ? n2_diff : n1) + 2 * n_rest;
+        const int ldWork_L = top ? n1 : *ldWork;
 
         // A_TL = A_TL - A_TR Work_TR'
         RELAPACK_zgemmt(uplo, "N", "T", &n1, &n2, MONE, A_TR, ldA, Work_TR, ldWork, ONE, A_TL, ldA);

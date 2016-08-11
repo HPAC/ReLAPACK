@@ -25,7 +25,7 @@ void RELAPACK_cgemmt(
     const float *beta, float *C, const int *ldC
 ) {
 
-#if HAVE_CGEMMT
+#if HAVE_XGEMMT
     BLAS(cgemmt)(uplo, transA, transB, n, k, alpha, A, ldA, B, ldB, beta, C, ldC);
     return;
 #else

@@ -51,16 +51,10 @@ extern void BLAS(dsyr2k)(const char *, const char *, const int *, const int *, c
 extern void BLAS(cher2k)(const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, float *, const int *);
 extern void BLAS(zher2k)(const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, double *, const int *);
 
-#if HAVE_SGEMMT
+#if HAVE_XGEMMT
 extern void BLAS(sgemmt)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, const float *, const int*);
-#endif
-#if HAVE_DGEMMT
 extern void BLAS(dgemmt)(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, const double *, const int*);
-#endif
-#if HAVE_CGEMMT
 extern void BLAS(cgemmt)(const char *, const char *, const char *, const int *, const int *, const float *, const float *, const int *, const float *, const int *, const float *, const float *, const int*);
-#endif
-#if HAVE_ZGEMMT
 extern void BLAS(zgemmt)(const char *, const char *, const char *, const int *, const int *, const double *, const double *, const int *, const double *, const int *, const double *, const double *, const int*);
 #endif
 
