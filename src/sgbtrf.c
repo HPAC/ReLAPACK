@@ -165,11 +165,12 @@ static void RELAPACK_sgbtrf_rec(
     // partially redo swaps in A_L
     for (i = 0; i < mn1; i++) {
         const int ip = ipiv_T[i] - 1;
-        if (ip != i)
+        if (ip != i) {
             if (ip < *kl)
                 BLAS(sswap)(&i, A_L + i, ldA, A_L + ip, ldA);
             else
                 BLAS(sswap)(&i, A_L + i, ldA, Workl + ip - *kl, ldWorkl);
+        }
     }
 
     // apply pivots to A_Rl
@@ -208,11 +209,12 @@ static void RELAPACK_sgbtrf_rec(
     // partially undo swaps in A_L
     for (i = mn1 - 1; i >= 0; i--) {
         const int ip = ipiv_T[i] - 1;
-        if (ip != i)
+        if (ip != i) {
             if (ip < *kl)
                 BLAS(sswap)(&i, A_L + i, ldA, A_L + ip, ldA);
             else
                 BLAS(sswap)(&i, A_L + i, ldA, Workl + ip - *kl, ldWorkl);
+        }
     }
 
     // recursion(Ab_BR, ipiv_B)
