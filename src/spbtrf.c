@@ -43,16 +43,16 @@ void RELAPACK_spbtrf(
 
     // Allocate work space
     const int n1 = REC_SPLIT(*n);
-    const int mW = (*kd > n1) ? (lower ? *n - *kd : n1) : *kd;
-    const int nW = (*kd > n1) ? (lower ? n1 : *n - *kd) : *kd;
-    float *W = malloc(mW * nW * sizeof(float));
-    LAPACK(slaset)("G", &mW, &nW, ZERO, ZERO, W, &mW);
+    const int mWork = (*kd > n1) ? (lower ? *n - *kd : n1) : *kd;
+    const int nWork = (*kd > n1) ? (lower ? n1 : *n - *kd) : *kd;
+    float *Work = malloc(mWork * nWork * sizeof(float));
+    LAPACK(slaset)(uplo, &mWork, &nWork, ZERO, ZERO, Work, &mWork);
 
     // Recursive kernel
-    RELAPACK_spbtrf_rec(&cleanuplo, n, kd, Ab, ldAb, W, &mW, info);
+    RELAPACK_spbtrf_rec(&cleanuplo, n, kd, Ab, ldAb, Work, &mWork, info);
 
     // Free work space
-    free(W);
+    free(Work);
 }
 
 
@@ -60,7 +60,7 @@ void RELAPACK_spbtrf(
 static void RELAPACK_spbtrf_rec(
     const char *uplo, const int *n, const int *kd,
     float *Ab, const int *ldAb,
-    float *W, const int *ldW,
+    float *Work, const int *ldWork,
     int *info
 ){
 
@@ -120,38 +120,38 @@ static void RELAPACK_spbtrf_rec(
         BLAS(strsm)("R", "L", "T", "N", &n21, &n1, ONE, A_TL, ldA, A_BLt, ldA);
         // A_BRtl = A_BRtl - A_BLt * A_BLt'
         BLAS(ssyrk)("L", "N", &n21, &n1, MONE, A_BLt, ldA, ONE, A_BRtl, ldA);
-        // W = A_BLb
-        LAPACK(slacpy)("U", &n22, &n1, A_BLb, ldA, W, ldW);
-        // W = W / A_TL'
-        BLAS(strsm)("R", "L", "T", "N", &n22, &n1, ONE, A_TL, ldA, W, ldW);
-        // A_BRbl = A_BRbl - W * A_BLt'
-        BLAS(sgemm)("N", "T", &n22, &n21, &n1, MONE, W, ldW, A_BLt, ldA, ONE, A_BRbl, ldA);
-        // A_BRbr = A_BRbr - W * W'
-        BLAS(ssyrk)("L", "N", &n22, &n1, MONE, W, ldW, ONE, A_BRbr, ldA);
-        // A_BLb = W
-        LAPACK(slacpy)("U", &n22, &n1, W, ldW, A_BLb, ldA);
+        // Work = A_BLb
+        LAPACK(slacpy)("U", &n22, &n1, A_BLb, ldA, Work, ldWork);
+        // Work = Work / A_TL'
+        BLAS(strsm)("R", "L", "T", "N", &n22, &n1, ONE, A_TL, ldA, Work, ldWork);
+        // A_BRbl = A_BRbl - Work * A_BLt'
+        BLAS(sgemm)("N", "T", &n22, &n21, &n1, MONE, Work, ldWork, A_BLt, ldA, ONE, A_BRbl, ldA);
+        // A_BRbr = A_BRbr - Work * Work'
+        BLAS(ssyrk)("L", "N", &n22, &n1, MONE, Work, ldWork, ONE, A_BRbr, ldA);
+        // A_BLb = Work
+        LAPACK(slacpy)("U", &n22, &n1, Work, ldWork, A_BLb, ldA);
     } else {
         // A_TRl = A_TL' \ A_TRl
         BLAS(strsm)("L", "U", "T", "N", &n1, &n21, ONE, A_TL, ldA, A_TRl, ldA);
         // A_BRtl = A_BRtl - A_TRl' * A_TRl
         BLAS(ssyrk)("U", "T", &n21, &n1, MONE, A_TRl, ldA, ONE, A_BRtl, ldA);
-        // W = A_TRr
-        LAPACK(slacpy)("L", &n1, &n22, A_TRr, ldA, W, ldW);
-        // W = A_TL' \ W
-        BLAS(strsm)("L", "U", "T", "N", &n1, &n22, ONE, A_TL, ldA, W, ldW);
-        // A_BRtr = A_BRtr - A_TRl' * W
-        BLAS(sgemm)("T", "N", &n21, &n22, &n1, MONE, A_TRl, ldA, W, ldW, ONE, A_BRtr, ldA);
-        // A_BRbr = A_BRbr - W' * W
-        BLAS(ssyrk)("U", "T", &n22, &n1, MONE, W, ldW, ONE, A_BRbr, ldA);
-        // A_TRr = W
-        LAPACK(slacpy)("L", &n1, &n22, W, ldW, A_TRr, ldA);
+        // Work = A_TRr
+        LAPACK(slacpy)("L", &n1, &n22, A_TRr, ldA, Work, ldWork);
+        // Work = A_TL' \ Work
+        BLAS(strsm)("L", "U", "T", "N", &n1, &n22, ONE, A_TL, ldA, Work, ldWork);
+        // A_BRtr = A_BRtr - A_TRl' * Work
+        BLAS(sgemm)("T", "N", &n21, &n22, &n1, MONE, A_TRl, ldA, Work, ldWork, ONE, A_BRtr, ldA);
+        // A_BRbr = A_BRbr - Work' * Work
+        BLAS(ssyrk)("U", "T", &n22, &n1, MONE, Work, ldWork, ONE, A_BRbr, ldA);
+        // A_TRr = Work
+        LAPACK(slacpy)("L", &n1, &n22, Work, ldWork, A_TRr, ldA);
     }
 
     // recursion(A_BR)
     if (*kd > n1)
         RELAPACK_spotrf(uplo, &n2, A_BR, ldA, info);
     else
-        RELAPACK_spbtrf_rec(uplo, &n2, kd, Ab_BR, ldAb, W, ldW, info);
+        RELAPACK_spbtrf_rec(uplo, &n2, kd, Ab_BR, ldAb, Work, ldWork, info);
     if (*info)
         *info += n1;
 }

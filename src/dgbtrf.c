@@ -56,21 +56,21 @@ void RELAPACK_dgbtrf(
 
     // Allocate work space
     const int n1 = REC_SPLIT(*n);
-    const int mWl = (kv > n1) ? MAX(1, *m - *kl) : kv;
-    const int nWl = (kv > n1) ? n1 : kv;
-    const int mWu = (*kl > n1) ? n1 : *kl;
-    const int nWu = (*kl > n1) ? MAX(0, *n - *kl) : *kl;
-    double *Wl = malloc(mWl * nWl * sizeof(double));
-    double *Wu = malloc(mWu * nWu * sizeof(double));
-    LAPACK(dlaset)("G", &mWl, &nWl, ZERO, ZERO, Wl, &mWl);
-    LAPACK(dlaset)("G", &mWu, &nWu, ZERO, ZERO, Wu, &mWu);
+    const int mWorkl = (kv > n1) ? MAX(1, *m - *kl) : kv;
+    const int nWorkl = (kv > n1) ? n1 : kv;
+    const int mWorku = (*kl > n1) ? n1 : *kl;
+    const int nWorku = (*kl > n1) ? MAX(0, *n - *kl) : *kl;
+    double *Workl = malloc(mWorkl * nWorkl * sizeof(double));
+    double *Worku = malloc(mWorku * nWorku * sizeof(double));
+    LAPACK(dlaset)("L", &mWorkl, &nWorkl, ZERO, ZERO, Workl, &mWorkl);
+    LAPACK(dlaset)("U", &mWorku, &nWorku, ZERO, ZERO, Worku, &mWorku);
 
     // Recursive kernel
-    RELAPACK_dgbtrf_rec(m, n, kl, ku, Ab, ldAb, ipiv, Wl, &mWl, Wu, &mWu, info);
+    RELAPACK_dgbtrf_rec(m, n, kl, ku, Ab, ldAb, ipiv, Workl, &mWorkl, Worku, &mWorku, info);
 
     // Free work space
-    free(Wl);
-    free(Wu);
+    free(Workl);
+    free(Worku);
 }
 
 
@@ -78,7 +78,7 @@ void RELAPACK_dgbtrf(
 static void RELAPACK_dgbtrf_rec(
     const int *m, const int *n, const int *kl, const int *ku,
     double *Ab, const int *ldAb, int *ipiv,
-    double *Wl, const int *ldWl, double *Wu, const int *ldWu,
+    double *Workl, const int *ldWorkl, double *Worku, const int *ldWorku,
     int *info
 ) {
 
@@ -157,10 +157,10 @@ static void RELAPACK_dgbtrf_rec(
     double *const A_BRbr = A_BR + *ldA * n21 + m21;
 
     // recursion(Ab_L, ipiv_T)
-    RELAPACK_dgbtrf_rec(m, &n1, kl, ku, Ab_L, ldAb, ipiv_T, Wl, ldWl, Wu, ldWu, info);
+    RELAPACK_dgbtrf_rec(m, &n1, kl, ku, Ab_L, ldAb, ipiv_T, Workl, ldWorkl, Worku, ldWorku, info);
 
-    // Wl = A_BLb
-    LAPACK(dlacpy)("U", &m22, &n1, A_BLb, ldA, Wl, ldWl);
+    // Workl = A_BLb
+    LAPACK(dlacpy)("U", &m22, &n1, A_BLb, ldA, Workl, ldWorkl);
 
     // partially redo swaps in A_L
     for (i = 0; i < mn1; i++) {
@@ -169,7 +169,7 @@ static void RELAPACK_dgbtrf_rec(
             if (ip < *kl)
                 BLAS(dswap)(&i, A_L + i, ldA, A_L + ip, ldA);
             else
-                BLAS(dswap)(&i, A_L + i, ldA, Wl + ip - *kl, ldWl);
+                BLAS(dswap)(&i, A_L + i, ldA, Workl + ip - *kl, ldWorkl);
     }
 
     // apply pivots to A_Rl
@@ -190,20 +190,20 @@ static void RELAPACK_dgbtrf_rec(
 
     // A_TRl = A_TL \ A_TRl
     BLAS(dtrsm)("L", "L", "N", "U", &m1, &n21, ONE, A_TL, ldA, A_TRl, ldA);
-    // Wu = A_TRr
-    LAPACK(dlacpy)("L", &m1, &n22, A_TRr, ldA, Wu, ldWu);
-    // Wu = A_TL \ Wu
-    BLAS(dtrsm)("L", "L", "N", "U", &m1, &n22, ONE, A_TL, ldA, Wu, ldWu);
-    // A_TRr = Wu
-    LAPACK(dlacpy)("L", &m1, &n22, Wu, ldWu, A_TRr, ldA);
+    // Worku = A_TRr
+    LAPACK(dlacpy)("L", &m1, &n22, A_TRr, ldA, Worku, ldWorku);
+    // Worku = A_TL \ Worku
+    BLAS(dtrsm)("L", "L", "N", "U", &m1, &n22, ONE, A_TL, ldA, Worku, ldWorku);
+    // A_TRr = Worku
+    LAPACK(dlacpy)("L", &m1, &n22, Worku, ldWorku, A_TRr, ldA);
     // A_BRtl = A_BRtl - A_BLt * A_TRl
     BLAS(dgemm)("N", "N", &m21, &n21, &n1, MONE, A_BLt, ldA, A_TRl, ldA, ONE, A_BRtl, ldA);
-    // A_BRbl = A_BRbl - Wl * A_TRl
-    BLAS(dgemm)("N", "N", &m22, &n21, &n1, MONE, Wl, ldWl, A_TRl, ldA, ONE, A_BRbl, ldA);
-    // A_BRtr = A_BRtr - A_BLt * Wu
-    BLAS(dgemm)("N", "N", &m21, &n22, &n1, MONE, A_BLt, ldA, Wu, ldWu, ONE, A_BRtr, ldA);
-    // A_BRbr = A_BRbr - Wl * Wu
-    BLAS(dgemm)("N", "N", &m22, &n22, &n1, MONE, Wl, ldWl, Wu, ldWu, ONE, A_BRbr, ldA);
+    // A_BRbl = A_BRbl - Workl * A_TRl
+    BLAS(dgemm)("N", "N", &m22, &n21, &n1, MONE, Workl, ldWorkl, A_TRl, ldA, ONE, A_BRbl, ldA);
+    // A_BRtr = A_BRtr - A_BLt * Worku
+    BLAS(dgemm)("N", "N", &m21, &n22, &n1, MONE, A_BLt, ldA, Worku, ldWorku, ONE, A_BRtr, ldA);
+    // A_BRbr = A_BRbr - Workl * Worku
+    BLAS(dgemm)("N", "N", &m22, &n22, &n1, MONE, Workl, ldWorkl, Worku, ldWorku, ONE, A_BRbr, ldA);
 
     // partially undo swaps in A_L
     for (i = mn1 - 1; i >= 0; i--) {
@@ -212,11 +212,11 @@ static void RELAPACK_dgbtrf_rec(
             if (ip < *kl)
                 BLAS(dswap)(&i, A_L + i, ldA, A_L + ip, ldA);
             else
-                BLAS(dswap)(&i, A_L + i, ldA, Wl + ip - *kl, ldWl);
+                BLAS(dswap)(&i, A_L + i, ldA, Workl + ip - *kl, ldWorkl);
     }
 
     // recursion(Ab_BR, ipiv_B)
-    RELAPACK_dgbtrf_rec(&m2, &n2, kl, ku, Ab_BR, ldAb, ipiv_B, Wl, ldWl, Wu, ldWu, info);
+    RELAPACK_dgbtrf_rec(&m2, &n2, kl, ku, Ab_BR, ldAb, ipiv_B, Workl, ldWorkl, Worku, ldWorku, info);
     if (*info)
         *info += n1;
     // shift pivots
