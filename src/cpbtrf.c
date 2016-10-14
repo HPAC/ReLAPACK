@@ -42,7 +42,7 @@ void RELAPACK_cpbtrf(
     const float ZERO[] = { 0., 0. };
 
     // Allocate work space
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = CREC_SPLIT(*n);
     const int mWork = (*kd > n1) ? (lower ? *n - *kd : n1) : *kd;
     const int nWork = (*kd > n1) ? (lower ? n1 : *n - *kd) : *kd;
     float *Work = malloc(mWork * nWork * 2 * sizeof(float));
@@ -79,7 +79,7 @@ static void RELAPACK_cpbtrf_rec(
     float *const A = Ab + 2 * ((*uplo == 'L') ? 0 : *kd);
 
     // Splitting
-    const int n1 = MIN(REC_SPLIT(*n), *kd);
+    const int n1 = MIN(CREC_SPLIT(*n), *kd);
     const int n2 = *n - n1;
 
     // * *

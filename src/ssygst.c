@@ -47,7 +47,7 @@ void RELAPACK_ssygst(
     float *Work = NULL;
     int   lWork = 0;
 #if XSYGST_ALLOW_MALLOC
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = SREC_SPLIT(*n);
     lWork = n1 * (*n - n1);
     Work  = malloc(lWork * sizeof(float));
     if (!Work)
@@ -90,7 +90,7 @@ static void RELAPACK_ssygst_rec(
     int i;
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = SREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR

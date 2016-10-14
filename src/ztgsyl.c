@@ -147,7 +147,7 @@ static void RELAPACK_ztgsyl_rec(
 
     if (*m > *n) {
         // Splitting
-        const int m1 = REC_SPLIT(*m);
+        const int m1 = ZREC_SPLIT(*m);
         const int m2 = *m - m1;
 
         // A_TL A_TR
@@ -206,7 +206,7 @@ static void RELAPACK_ztgsyl_rec(
         }
     } else {
         // Splitting
-        const int n1 = REC_SPLIT(*n);
+        const int n1 = ZREC_SPLIT(*n);
         const int n2 = *n - n1;
 
         // B_TL B_TR

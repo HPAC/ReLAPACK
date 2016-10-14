@@ -149,7 +149,7 @@ static void RELAPACK_dtgsyl_rec(
 
     if (*m > *n) {
         // Splitting
-        int m1 = REC_SPLIT(*m);
+        int m1 = DREC_SPLIT(*m);
         if (A[m1 + *ldA * (m1 - 1)])
             m1++;
         const int m2 = *m - m1;
@@ -210,7 +210,7 @@ static void RELAPACK_dtgsyl_rec(
         }
     } else {
         // Splitting
-        int n1 = REC_SPLIT(*n);
+        int n1 = DREC_SPLIT(*n);
         if (B[n1 + *ldB * (n1 - 1)])
             n1++;
         const int n2 = *n - n1;

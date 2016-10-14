@@ -42,7 +42,7 @@ void RELAPACK_zpbtrf(
     const double ZERO[] = { 0., 0. };
 
     // Allocate work space
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = ZREC_SPLIT(*n);
     const int mWork = (*kd > n1) ? (lower ? *n - *kd : n1) : *kd;
     const int nWork = (*kd > n1) ? (lower ? n1 : *n - *kd) : *kd;
     double *Work = malloc(mWork * nWork * 2 * sizeof(double));
@@ -79,7 +79,7 @@ static void RELAPACK_zpbtrf_rec(
     double *const A = Ab + 2 * ((*uplo == 'L') ? 0 : *kd);
 
     // Splitting
-    const int n1 = MIN(REC_SPLIT(*n), *kd);
+    const int n1 = MIN(ZREC_SPLIT(*n), *kd);
     const int n2 = *n - n1;
 
     // * *

@@ -47,7 +47,7 @@ void RELAPACK_chegst(
     float *Work = NULL;
     int   lWork = 0;
 #if XSYGST_ALLOW_MALLOC
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = CREC_SPLIT(*n);
     lWork = n1 * (*n - n1);
     Work  = malloc(lWork * 2 * sizeof(float));
     if (!Work)
@@ -90,7 +90,7 @@ static void RELAPACK_chegst_rec(
     int i;
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = CREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR

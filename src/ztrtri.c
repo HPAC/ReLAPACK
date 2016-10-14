@@ -73,7 +73,7 @@ static void RELAPACK_ztrtri_rec(
     const double MONE[] = { -1. };
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = ZREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR

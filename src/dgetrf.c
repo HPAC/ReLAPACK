@@ -74,7 +74,7 @@ static void RELAPACK_dgetrf_rec(
     const int    iONE[] = { 1 };
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = DREC_SPLIT(*n);
     const int n2 = *n - n1;
     const int m2 = *m - n1;
 

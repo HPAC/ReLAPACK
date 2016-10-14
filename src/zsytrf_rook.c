@@ -107,7 +107,7 @@ static void RELAPACK_zsytrf_rook_rec(
 
     if (*uplo == 'L') {
         // Splitting (setup)
-        int n1 = REC_SPLIT(*n);
+        int n1 = ZREC_SPLIT(*n);
         int n2 = *n - n1;
 
         // Work_L *
@@ -180,7 +180,7 @@ static void RELAPACK_zsytrf_rook_rec(
         *n_out = n1 + n2;
     } else {
         // Splitting (setup)
-        int n2 = REC_SPLIT(*n);
+        int n2 = ZREC_SPLIT(*n);
         int n1 = *n - n2;
 
         // * Work_R

@@ -42,7 +42,7 @@ void RELAPACK_dpbtrf(
     const double ZERO[] = { 0. };
 
     // Allocate work space
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = DREC_SPLIT(*n);
     const int mWork = (*kd > n1) ? (lower ? *n - *kd : n1) : *kd;
     const int nWork = (*kd > n1) ? (lower ? n1 : *n - *kd) : *kd;
     double *Work = malloc(mWork * nWork * sizeof(double));
@@ -79,7 +79,7 @@ static void RELAPACK_dpbtrf_rec(
     double *const A = Ab + ((*uplo == 'L') ? 0 : *kd);
 
     // Splitting
-    const int n1 = MIN(REC_SPLIT(*n), *kd);
+    const int n1 = MIN(DREC_SPLIT(*n), *kd);
     const int n2 = *n - n1;
 
     // * *

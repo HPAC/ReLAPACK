@@ -57,7 +57,7 @@ static void RELAPACK_zlauum_rec(
     const double ONE[] = { 1., 0. };
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = ZREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR

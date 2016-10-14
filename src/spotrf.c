@@ -58,7 +58,7 @@ static void RELAPACK_spotrf_rec(
     const float MONE[] = { -1. };
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = SREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR

@@ -55,7 +55,7 @@ void RELAPACK_dgbtrf(
     }
 
     // Allocate work space
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = DREC_SPLIT(*n);
     const int mWorkl = (kv > n1) ? MAX(1, *m - *kl) : kv;
     const int nWorkl = (kv > n1) ? n1 : kv;
     const int mWorku = (*kl > n1) ? n1 : *kl;
@@ -104,7 +104,7 @@ static void RELAPACK_dgbtrf_rec(
     double *const A = Ab + kv;
 
     // Splitting
-    const int n1  = MIN(REC_SPLIT(*n), *kl);
+    const int n1  = MIN(DREC_SPLIT(*n), *kl);
     const int n2  = *n - n1;
     const int m1  = MIN(n1, *m);
     const int m2  = *m - m1;

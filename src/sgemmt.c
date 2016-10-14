@@ -87,7 +87,7 @@ static void RELAPACK_sgemmt_rec(
     }
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = SREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_T

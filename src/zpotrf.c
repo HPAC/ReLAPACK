@@ -58,7 +58,7 @@ static void RELAPACK_zpotrf_rec(
     const double MONE[] = { -1., 0. };
 
     // Splitting
-    const int n1 = REC_SPLIT(*n);
+    const int n1 = ZREC_SPLIT(*n);
     const int n2 = *n - n1;
 
     // A_TL A_TR

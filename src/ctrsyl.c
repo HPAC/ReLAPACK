@@ -85,7 +85,7 @@ static void RELAPACK_ctrsyl_rec(
 
     if (*m > *n) {
         // Splitting
-        const int m1 = REC_SPLIT(*m);
+        const int m1 = CREC_SPLIT(*m);
         const int m2 = *m - m1;
 
         // A_TL A_TR
@@ -122,7 +122,7 @@ static void RELAPACK_ctrsyl_rec(
         }
     } else {
         // Splitting
-        const int n1 = REC_SPLIT(*n);
+        const int n1 = CREC_SPLIT(*n);
         const int n2 = *n - n1;
 
         // B_TL B_TR
