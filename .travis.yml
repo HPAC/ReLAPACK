@@ -1,6 +1,6 @@
 language: c
 compiler: gcc
-before install:
+before_install:
     sudo apt-get update -qq -y
     sudo apt-get install lapack
 script: make && make test
