@@ -3,5 +3,5 @@ compiler: gcc
 addons:
   apt:
     packages:
-      - liblapack
+      - liblapack-dev
 script: make && make test
