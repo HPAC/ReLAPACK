@@ -1,6 +1,8 @@
 ReLAPACK
 ========
 
+[![Build Status](https://travis-ci.org/HPAC/ReLAPACK.svg?branch=master)](https://travis-ci.org/HPAC/ReLAPACK)
+
 [Recursive LAPACK Collection](https://github.com/HPAC/ReLAPACK)
 
 ReLAPACK offers a collection of recursive algorithms for many of LAPACK's
