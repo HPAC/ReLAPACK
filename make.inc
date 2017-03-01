@@ -3,7 +3,7 @@ LIBNAME = librelapack.a
 
 # compiler options
 CC = gcc
-CFLAGS = -O3 -std=c99 -Wpedantic
+CFLAGS = -O3 -std=c99 -pedantic
 
 # archive creation
 AR = ar
