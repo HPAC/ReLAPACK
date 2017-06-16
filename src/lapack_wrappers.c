@@ -497,7 +497,7 @@ void LAPACK(ztrsyl)(
 // XTGSYL //
 ////////////
 
-#if INCLUDE_SRGSYL
+#if INCLUDE_STGSYL
 void LAPACK(stgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
@@ -511,7 +511,7 @@ void LAPACK(stgsyl)(
 }
 #endif
 
-#if INCLUDE_DRGSYL
+#if INCLUDE_DTGSYL
 void LAPACK(dtgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
@@ -525,7 +525,7 @@ void LAPACK(dtgsyl)(
 }
 #endif
 
-#if INCLUDE_CRGSYL
+#if INCLUDE_CTGSYL
 void LAPACK(ctgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const float *A, const int *ldA, const float *B, const int *ldB,
@@ -539,7 +539,7 @@ void LAPACK(ctgsyl)(
 }
 #endif
 
-#if INCLUDE_ZRGSYL
+#if INCLUDE_ZTGSYL
 void LAPACK(ztgsyl)(
     const char *trans, const int *ijob, const int *m, const int *n,
     const double *A, const int *ldA, const double *B, const int *ldB,
