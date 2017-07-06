@@ -69,23 +69,23 @@ void LAPACK(dsygst)(
 }
 #endif
 
-#if INCLUDE_CSYGST
-void LAPACK(csygst)(
+#if INCLUDE_CHEGST
+void LAPACK(chegst)(
     const int *itype, const char *uplo, const int *n,
     float *A, const int *ldA, const float *B, const int *ldB,
     int *info
 ) {
-    RELAPACK_csygst(itype, uplo, n, A, ldA, B, ldB, info);
+    RELAPACK_chegst(itype, uplo, n, A, ldA, B, ldB, info);
 }
 #endif
 
-#if INCLUDE_ZSYGST
-void LAPACK(zsygst)(
+#if INCLUDE_ZHEGST
+void LAPACK(zhegst)(
     const int *itype, const char *uplo, const int *n,
     double *A, const int *ldA, const double *B, const int *ldB,
     int *info
 ) {
-    RELAPACK_zsygst(itype, uplo, n, A, ldA, B, ldB, info);
+    RELAPACK_zhegst(itype, uplo, n, A, ldA, B, ldB, info);
 }
 #endif
 
