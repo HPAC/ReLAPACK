@@ -28,7 +28,7 @@ void RELAPACK_spotrf(
         *info = -4;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("SPOTRF", &minfo);
+        LAPACK(xerbla)("SPOTRF", &minfo, 6);
         return;
     }
 

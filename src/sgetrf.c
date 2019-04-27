@@ -26,7 +26,7 @@ void RELAPACK_sgetrf(
         *info = -4;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("SGETRF", &minfo);
+        LAPACK(xerbla)("SGETRF", &minfo, 6);
         return;
     }
 

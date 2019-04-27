@@ -56,7 +56,7 @@ void RELAPACK_csytrf(
 
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CSYTRF", &minfo);
+        LAPACK(xerbla)("CSYTRF", &minfo, 6);
         return;
     }
 

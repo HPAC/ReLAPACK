@@ -28,7 +28,7 @@ void RELAPACK_clauum(
         *info = -4;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CLAUUM", &minfo);
+        LAPACK(xerbla)("CLAUUM", &minfo, 6);
         return;
     }
 

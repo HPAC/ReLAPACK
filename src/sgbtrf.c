@@ -32,7 +32,7 @@ void RELAPACK_sgbtrf(
         *info = -6;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("SGBTRF", &minfo);
+        LAPACK(xerbla)("SGBTRF", &minfo, 6);
         return;
     }
 

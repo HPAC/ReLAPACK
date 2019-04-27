@@ -43,7 +43,7 @@ void RELAPACK_ctrsyl(
         *info = -11;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CTRSYL", &minfo);
+        LAPACK(xerbla)("CTRSYL", &minfo, 6);
         return;
     }
 

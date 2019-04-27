@@ -23,8 +23,7 @@ static int c_true = TRUE_;
 
 int RELAPACK_dtrsyl_rec2(char *trana, char *tranb, int *isgn, int
 	*m, int *n, double *a, int *lda, double *b, int *
-	ldb, double *c__, int *ldc, double *scale, int *info,
-	ftnlen trana_len, ftnlen tranb_len)
+	ldb, double *c__, int *ldc, double *scale, int *info)
 {
     /* System generated locals */
     int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2,

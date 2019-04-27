@@ -36,7 +36,7 @@ void RELAPACK_zhegst(
         *info = -7;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("ZHEGST", &minfo);
+        LAPACK(xerbla)("ZHEGST", &minfo, 6);
         return;
     }
 

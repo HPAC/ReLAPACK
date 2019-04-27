@@ -28,7 +28,7 @@ void RELAPACK_zlauum(
         *info = -4;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("ZLAUUM", &minfo);
+        LAPACK(xerbla)("ZLAUUM", &minfo, 6);
         return;
     }
 

@@ -58,7 +58,7 @@ void RELAPACK_cgemmt(
     else if (*ldC < MAX(1, *n))
         info = 13;
     if (info) {
-        LAPACK(xerbla)("CGEMMT", &info);
+        LAPACK(xerbla)("CGEMMT", &info, 6);
         return;
     }
 

@@ -31,7 +31,8 @@ void RELAPACK_cpbtrf(
         *info = -5;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CPBTRF", &minfo);
+        const int len = 6;
+        LAPACK(xerbla)("CPBTRF", &minfo, &len);
         return;
     }
 

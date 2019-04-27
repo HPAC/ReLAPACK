@@ -58,7 +58,7 @@ void RELAPACK_ctgsyl(
         *info = -20;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CTGSYL", &minfo);
+        LAPACK(xerbla)("CTGSYL", &minfo, 6);
         return;
     }
 

@@ -27,7 +27,7 @@ static float c_b10 = 1.f;
  * */
 /* Subroutine */ void RELAPACK_ssytrf_rook_rec2(char *uplo, int *n,
 	int *nb, int *kb, float *a, int *lda, int *ipiv, float *
-	w, int *ldw, int *info, ftnlen uplo_len)
+	w, int *ldw, int *info)
 {
     /* System generated locals */
     int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2;
