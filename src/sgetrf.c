@@ -22,7 +22,7 @@ void RELAPACK_sgetrf(
         *info = -1;
     else if (*n < 0)
         *info = -2;
-    else if (*ldA < MAX(1, *n))
+    else if (*ldA < MAX(1, *m))
         *info = -4;
     if (*info) {
         const int minfo = -*info;
