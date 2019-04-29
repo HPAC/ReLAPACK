@@ -104,21 +104,21 @@ static void RELAPACK_strsyl_rec(
         float *const C_B = C + m1;
 
         if (*tranA == 'N') {
-            // recusion(A_BR, B, C_B)
+            // recursion(A_BR, B, C_B)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale1, info1);
             // C_T = C_T - A_TR * C_B
             BLAS(sgemm)("N", "N", &m1, n, &m2, MONE, A_TR, ldA, C_B, ldC, scale1, C_T, ldC);
-            // recusion(A_TL, B, C_T)
+            // recursion(A_TL, B, C_T)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(slascl)("G", iONE, iONE, ONE, scale2, &m2, n, C_B, ldC, info);
         } else {
-            // recusion(A_TL, B, C_T)
+            // recursion(A_TL, B, C_T)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, &m1, n, A_TL, ldA, B, ldB, C_T, ldC, scale1, info1);
             // C_B = C_B - A_TR' * C_T
             BLAS(sgemm)("C", "N", &m2, n, &m1, MONE, A_TR, ldA, C_T, ldC, scale1, C_B, ldC);
-            // recusion(A_BR, B, C_B)
+            // recursion(A_BR, B, C_B)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, &m2, n, A_BR, ldA, B, ldB, C_B, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
@@ -142,21 +142,21 @@ static void RELAPACK_strsyl_rec(
         float *const C_R = C + *ldC * n1;
 
         if (*tranB == 'N') {
-            // recusion(A, B_TL, C_L)
+            // recursion(A, B_TL, C_L)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale1, info1);
             // C_R = C_R -/+ C_L * B_TR
             BLAS(sgemm)("N", "N", m, &n2, &n1, MSGN, C_L, ldC, B_TR, ldB, scale1, C_R, ldC);
-            // recusion(A, B_BR, C_R)
+            // recursion(A, B_BR, C_R)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
                 LAPACK(slascl)("G", iONE, iONE, ONE, scale2, m, &n1, C_L, ldC, info);
         } else {
-            // recusion(A, B_BR, C_R)
+            // recursion(A, B_BR, C_R)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, m, &n2, A, ldA, B_BR, ldB, C_R, ldC, scale1, info1);
             // C_L = C_L -/+ C_R * B_TR'
             BLAS(sgemm)("N", "C", m, &n1, &n2, MSGN, C_R, ldC, B_TR, ldB, scale1, C_L, ldC);
-            // recusion(A, B_TL, C_L)
+            // recursion(A, B_TL, C_L)
             RELAPACK_strsyl_rec(tranA, tranB, isgn, m, &n1, A, ldA, B_TL, ldB, C_L, ldC, scale2, info2);
             // apply scale
             if (scale2[0] != 1)
