@@ -27,7 +27,7 @@ static double c_b10 = 1.;
  * */
 /* Subroutine */ void RELAPACK_dsytrf_rook_rec2(char *uplo, int *n,
 	int *nb, int *kb, double *a, int *lda, int *ipiv,
-	double *w, int *ldw, int *info, ftnlen uplo_len)
+	double *w, int *ldw, int *info)
 {
     /* System generated locals */
     int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2;

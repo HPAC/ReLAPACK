@@ -2,7 +2,7 @@
 #define LAPACK_H
 
 extern int LAPACK(lsame)(const char *, const char *);
-extern int LAPACK(xerbla)(const char *, const int *);
+extern int LAPACK(xerbla)(const char *, const int *, const long int);
 
 extern void LAPACK(slaswp)(const int *, float *, const int *, const int *, const int *, const int *, const int *);
 extern void LAPACK(dlaswp)(const int *, double *, const int *, const int *, const int *, const int *, const int *);

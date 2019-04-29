@@ -36,7 +36,7 @@ void RELAPACK_ssygst(
         *info = -7;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("SSYGST", &minfo);
+        LAPACK(xerbla)("SSYGST", &minfo, 6);
         return;
     }
 

@@ -36,7 +36,7 @@ void RELAPACK_chegst(
         *info = -7;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CHEGST", &minfo);
+        LAPACK(xerbla)("CHEGST", &minfo, 6);
         return;
     }
 

@@ -32,7 +32,7 @@ void RELAPACK_dtrtri(
         *info = -5;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("DTRTRI", &minfo);
+        LAPACK(xerbla)("DTRTRI", &minfo, 6);
         return;
     }
 

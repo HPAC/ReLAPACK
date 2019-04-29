@@ -59,7 +59,7 @@ void RELAPACK_stgsyl(
         *info = -20;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("STGSYL", &minfo);
+        LAPACK(xerbla)("STGSYL", &minfo, 6);
         return;
     }
 

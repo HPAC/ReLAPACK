@@ -23,8 +23,7 @@ static int c_true = TRUE_;
 
 void RELAPACK_strsyl_rec2(char *trana, char *tranb, int *isgn, int
 	*m, int *n, float *a, int *lda, float *b, int *ldb, float *
-	c__, int *ldc, float *scale, int *info, ftnlen trana_len,
-	ftnlen tranb_len)
+	c__, int *ldc, float *scale, int *info)
 {
     /* System generated locals */
     int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2,

@@ -58,7 +58,7 @@ void RELAPACK_zgemmt(
     else if (*ldC < MAX(1, *n))
         info = 13;
     if (info) {
-        LAPACK(xerbla)("ZGEMMT", &info);
+        LAPACK(xerbla)("ZGEMMT", &info, 6);
         return;
     }
 

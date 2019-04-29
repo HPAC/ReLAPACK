@@ -56,7 +56,7 @@ void RELAPACK_zhetrf(
 
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("ZHETRF", &minfo);
+        LAPACK(xerbla)("ZHETRF", &minfo, 6);
         return;
     }
 

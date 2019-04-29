@@ -26,7 +26,7 @@ static int c__1 = 1;
  * */
 /* Subroutine */ void RELAPACK_chetrf_rec2(char *uplo, int *n, int *
 	nb, int *kb, complex *a, int *lda, int *ipiv, complex *w,
-	int *ldw, int *info, ftnlen uplo_len)
+	int *ldw, int *info)
 {
     /* System generated locals */
     int a_dim1, a_offset, w_dim1, w_offset, i__1, i__2, i__3, i__4;

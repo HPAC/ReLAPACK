@@ -45,7 +45,7 @@ void RELAPACK_strsyl(
         *info = -11;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("STRSYL", &minfo);
+        LAPACK(xerbla)("STRSYL", &minfo, 6);
         return;
     }
 

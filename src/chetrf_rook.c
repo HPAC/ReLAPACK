@@ -56,7 +56,7 @@ void RELAPACK_chetrf_rook(
 
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("CHETRF", &minfo);
+        LAPACK(xerbla)("CHETRF", &minfo, 6);
         return;
     }
 

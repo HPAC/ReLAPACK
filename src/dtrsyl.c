@@ -45,7 +45,7 @@ void RELAPACK_dtrsyl(
         *info = -11;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("DTRSYL", &minfo);
+        LAPACK(xerbla)("DTRSYL", &minfo, 6);
         return;
     }
 

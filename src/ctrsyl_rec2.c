@@ -52,8 +52,7 @@ static int c__1 = 1;
  * */
 /* Subroutine */ void RELAPACK_ctrsyl_rec2(char *trana, char *tranb, int
 	*isgn, int *m, int *n, complex *a, int *lda, complex *b,
-	int *ldb, complex *c__, int *ldc, float *scale, int *info,
-	ftnlen trana_len, ftnlen tranb_len)
+	int *ldb, complex *c__, int *ldc, float *scale, int *info)
 {
     /* System generated locals */
     int a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2,

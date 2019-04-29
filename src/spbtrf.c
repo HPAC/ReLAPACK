@@ -31,7 +31,7 @@ void RELAPACK_spbtrf(
         *info = -5;
     if (*info) {
         const int minfo = -*info;
-        LAPACK(xerbla)("SPBTRF", &minfo);
+        LAPACK(xerbla)("SPBTRF", &minfo, 6);
         return;
     }
 
