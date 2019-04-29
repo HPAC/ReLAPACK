@@ -17,7 +17,7 @@
 static doublecomplex c_b1 = {1.,0.};
 static int c__1 = 1;
 
-/** ZHETRF_ROOK_REC2 computes a partial factorization of a complex Hermitian indefinite matrix using the boun ded Bunch-Kaufman ("rook") diagonal pivoting method
+/** ZHETRF_ROOK_REC2 computes a partial factorization of a complex Hermitian indefinite matrix using the bounded Bunch-Kaufman ("rook") diagonal pivoting method
  *
  * This routine is a minor modification of LAPACK's zlahef_rook.
  * It serves as an unblocked kernel in the recursive algorithms.
