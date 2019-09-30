@@ -58,7 +58,7 @@ void z2matgen(const int m, const int n, double *A, double *B) {
 // Each routine x2vecerrr is passed a vector length n and two vectors x and y.
 // It returns the maximum of the element-wise error between these two vectors.
 // This error is the minimum of the absolute difference and the relative
-// differene with respect to y.
+// difference with respect to y.
 
 double i2vecerr(const int n, const int *x, const int *y) {
     double error = 0;
