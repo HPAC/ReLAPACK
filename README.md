@@ -40,7 +40,7 @@ provided by hardware vendors or available as open source (e.g.,
 Testing
 -------
 ReLAPACK's test suite compares its routines numerically with LAPACK's
-counterparts.  To set up the tests (located int `test/`) you need to specify
+counterparts.  To set up the tests (located in `test/`) you need to specify
 link flags for BLAS and LAPACK (version 3.5.0 or newer) in `make.inc`; then
 `make test` runs the tests.  For details on the performed tests, see
 [test/README.md](test/README.md).
